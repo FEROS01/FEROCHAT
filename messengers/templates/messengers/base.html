@@ -1,0 +1,13 @@
+<p><a href="{% url 'messengers:index' %}">FeroChat</a> &nbsp;
+    {% if user.is_authenticated %}
+    Hello, {{user.username}}&nbsp;
+    <a href="{% url 'users:logout' %}">Log Out</a>&nbsp;
+    <a href="{% url 'messengers:messages' %}">Messages</a>&nbsp;
+    {% else %}
+    <a href="{% url 'users:sign_up' %}">Sign Up</a>&nbsp;
+    <a href="{% url 'users:login' %}">Login</a>&nbsp;
+    {% endif %}
+</p>
+
+
+{% block content %}{% endblock content %}

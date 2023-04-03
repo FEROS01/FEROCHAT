@@ -1,0 +1,11 @@
+{% extends "messengers/base.html" %}
+
+{% block content %}
+<form action="{% url 'users:sign_up' %}" method="post">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button type="submit">Sign Up</button>
+    <input type="hidden" name="next" value="{% url 'messengers:index' %}">
+</form>
+
+{% endblock content %}

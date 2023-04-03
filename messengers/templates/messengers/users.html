@@ -1,0 +1,11 @@
+{% extends "messengers/base.html" %}
+
+
+{% block content %}
+<p>People</p>
+<ul>
+    {% for use_r in users %}
+    <li><a href="{%url%}">{{use_r.username}}</a></li>
+    {% endfor %}
+</ul>
+{% endblock content %}

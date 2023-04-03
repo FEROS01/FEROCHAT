@@ -1,0 +1,46 @@
+{% extends 'messengers/base.html' %}
+
+{% block content %}
+<!-- <h3>Sent Messages</h3>
+<ul>
+    {% for sent in sent_messages %}
+    <li>{{sent.text|linebreaks}}</li>
+    {% empty %}
+    <li>No sent messages</li>
+    {% endfor %}
+</ul>
+
+<h3>Received Messages</h3>
+<ul>
+    {% for rec in received_messages %}
+    <li>{{rec.text|linebreaks}}</li>
+    {% empty %}
+    <li>No received messages</li>
+    {% endfor %}
+</ul> -->
+
+<ul>
+    {% for msg in all_messages %}
+    {% if msg.sender == user %}
+    <p>{{msg.date_added|date:'P'}}</p>
+    <li>sent:{{msg.text|linebreaks}}</li>
+    {% else %}
+    <p>{{msg.date_added|date:'P'}}</p>
+    <li>received:{{msg.text|linebreaks}}</li>
+    {% endif %}
+    {% empty %}
+    <li>No messages</li>
+    {% endfor %}
+</ul>
+
+
+
+<form action="{% url 'messengers:view_messages' rec_id  %}" method="post">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button type="submit">Send</button>
+    <input type="hidden" name="next" value="{% url 'messengers:view_messages' rec_id  %}">
+</form>
+
+<!-- <h3>{{error}}</h3> -->
+{% endblock content %}

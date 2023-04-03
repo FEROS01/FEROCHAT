@@ -1,0 +1,15 @@
+{% extends "messengers/base.html" %}
+{% load filters %}
+{% block content %}
+<p>Messages</p>
+<ul>
+    {% for use_r in users %}
+    {% if user.username != use_r.username %}
+    <li><a href="{% url 'messengers:view_messages' use_r.id %}">{{use_r.username}}</a></li>
+    <p>
+        {{user|la_st:use_r|last|default:"Feel free to send a message"|truncatechars:50}}
+    </p>
+    {% endif %}
+    {% endfor %}
+</ul>
+{% endblock content %}
