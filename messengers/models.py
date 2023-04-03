@@ -24,7 +24,7 @@ class Info(models.Model):
     bio = models.TextField(null=True, blank=True, default="")
 
     def __str__(self):
-        return self.about
+        return self.bio
 
 # class ReceivedMessages(models.Model):
 #     text = models.TextField()
