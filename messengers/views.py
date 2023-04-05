@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from .models import Messages, User
+from .models import Messages, User, Friends
 from .form import NewMessage
 
 # Create your views here.
@@ -9,10 +9,24 @@ from .form import NewMessage
 def index(request):
     return render(request, "messengers/index.html")
 
-def user_bio(request,user_id):
-    users = User.objects.get(id=user_id)
+
+# def profile(request, user_id):
+#     user_p = User.objects.get(id=user_id)
+#     context = {"user_p": user_p}
+#     return render(request, "messengers/profile.html", context)
+
+
+def user_bio(request, user_id):
+    user_bio = User.objects.get(id=user_id)
+    context = {"user_bio": user_bio}
+    return render(request, "messengers/user_bio.html", context)
+
+
+def users(request):
+    users = User.objects.all()
     context = {"users": users}
     return render(request, "messengers/users.html", context)
+
 
 def messages(request):
     users = User.objects.all()
@@ -37,5 +51,24 @@ def view_messages(request, rec_id):
             new_message.save()
             return redirect("messengers:view_messages", rec_id=rec_id)
     context = {"all_messages": all_msgs, "form": form,
-               "rec_id": rec_id}
+               "rec_id": rec_id, "rec_user": rec_user}
     return render(request, "messengers/view_messages.html", context)
+# add notification for friend request
+
+
+def send_request(request, rec_id):
+    users = User.objects.all()
+    # new_friend = Friends()
+    sender = request.user
+    receiver = User.objects.get(id=rec_id)
+    # new_friend.save()
+    Friends.objects.create(
+        req_sender=sender, req_receiver=receiver, sent_status=True)
+    context = {"users": users}
+    return render(request, "messengers/users.html", context)
+
+
+def friend_requests(request):
+    fr_requests = Friends.objects.filter(req_receiver=request.user)
+    context = {"fr_requests": fr_requests}
+    return render(request, "messengers/friend_requests.html", context)

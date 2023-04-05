@@ -18,7 +18,7 @@
     <li>No received messages</li>
     {% endfor %}
 </ul> -->
-
+<h3><a href="{% url 'messengers:user_bio' rec_id %}">{{rec_user.username}}</a></h3>
 <ul>
     {% for msg in all_messages %}
     {% if msg.sender == user %}

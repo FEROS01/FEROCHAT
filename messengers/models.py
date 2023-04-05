@@ -26,11 +26,14 @@ class Info(models.Model):
     def __str__(self):
         return self.bio
 
-# class ReceivedMessages(models.Model):
-#     text = models.TextField()
-#     date_added = models.DateTimeField(auto_now_add=True)
-#     receiver = models.ForeignKey(User, on_delete=models.CASCADE)
 
-#     def __str__(self):
-#         return self.text
-# Create your models here.
+class Friends(models.Model):
+    req_sender = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="req_sender")
+    req_receiver = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="req_receiver")
+    status = models.BooleanField(default=False)
+    sent_status = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.req_sender}_To_{self.req_receiver}"

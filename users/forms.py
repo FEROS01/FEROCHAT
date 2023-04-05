@@ -1,11 +1,15 @@
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import get_user_model
-User=get_user_model
+from messengers.models import Info
+from django import forms
 
 
 class NewUserCreationForm(UserCreationForm):
-    about = 5
-
     class Meta(UserCreationForm.Meta):
-        fields = ('username', 'first_name', 'last_name',
-                  'email', 'password_1', 'password_2')
+        fields = ['username', 'first_name', 'last_name',
+                  'email']
+
+
+class InfoForm(forms.ModelForm):
+    class Meta:
+        model = Info
+        fields = ['about', 'bio']

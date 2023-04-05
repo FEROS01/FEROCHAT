@@ -1,7 +1,7 @@
 {% extends "messengers/base.html" %}
 {% load filters %}
 {% block content %}
-<p>Messages</p>
+<h3>Messages</h3>
 <ul>
     {% for use_r in users %}
     {% if user.username != use_r.username %}

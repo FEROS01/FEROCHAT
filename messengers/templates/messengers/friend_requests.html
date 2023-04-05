@@ -1,0 +1,14 @@
+{% extends 'messengers/base.html' %}
+
+{% block content %}
+
+<ul>
+    {% for req in fr_requests %}
+    <li>{{req.req_sender}} sent you a friend request</li>
+    {% empty %}
+    <li>No friend requests</li>
+    {% endfor %}
+</ul>
+
+
+{% endblock content %}
