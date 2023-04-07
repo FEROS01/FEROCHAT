@@ -1,0 +1,13 @@
+{% extends 'messengers/base.html' %}
+
+{% block content %}
+<h2>Friends</h2>
+<ul>
+    {% for friend in friends%}
+    <p></p>
+    <li><a href="{% url 'messengers:user_bio' friend.id %}">{{friend.username}}</a></li>
+    <li>{{friend.info.about}}</li>
+    {% endfor %}
+</ul>
+
+{% endblock content %}

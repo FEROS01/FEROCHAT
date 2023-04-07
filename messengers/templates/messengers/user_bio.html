@@ -1,4 +1,5 @@
 {% extends "messengers/base.html" %}
+{% load filters %}
 
 
 {% block content %}
@@ -8,4 +9,30 @@
 
 <h3>About</h3>
 <p>{{user_bio.info.about|default:"About unavailable"}}</p>
+
+{% if user != user_bio %}
+<h3>Friends</h3>
+<ul>
+    {% for friend in bio_friends %}
+    {% if friend != user %}
+    <p></p>
+    <li><a href="{% url 'messengers:user_bio' friend.id %}">{{friend.username}}</a></li>
+    <li>{{friend.info.about}}</li>
+    {% if friend in user_friends %}
+    <p>{{friend.username}} is a mutual friend</p>
+
+    {% elif user|chec_k:friend %}
+    <li>
+        Your request has been sent - <a href="{% url 'messengers:cancel_request_bio' friend.id user_bio.id %}">Cancel
+            Request</a>
+    </li>
+    {% else %}
+    <li><a href="{% url 'messengers:send_request_bio' friend.id user_bio.id %}">Send Friend request</a></li>
+    {% endif %}
+    {% endif %}
+    {% endfor %}
+</ul>
+{% else %}
+<p> See your <a href="{% url 'messengers:friends' user.id %}">Friends</a></p>
+{% endif %}
 {% endblock content %}

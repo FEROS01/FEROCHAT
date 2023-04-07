@@ -18,7 +18,10 @@ def index(request):
 
 def user_bio(request, user_id):
     user_bio = User.objects.get(id=user_id)
-    context = {"user_bio": user_bio}
+    bio_friends = Friends.get_friends(Friends, user_bio)
+    user_friends = Friends.get_friends(Friends, request.user)
+    context = {"user_bio": user_bio, "bio_friends": bio_friends,
+               "user_friends": user_friends}
     return render(request, "messengers/user_bio.html", context)
 
 # check if users are friends
@@ -60,25 +63,35 @@ def view_messages(request, rec_id):
 
 
 def send_request(request, rec_id):
-    users = User.objects.exclude(id=request.user.id)
     sender = request.user
     receiver = User.objects.get(id=rec_id)
     if sender not in Friends.requests(Friends):
         Friends.objects.create(
             req_sender=sender, req_receiver=receiver, sent_status=True)
-    friends = Friends.get_friends(Friends, request.user)
-    context = {"users": users, "friends": friends}
-    return render(request, "messengers/users.html", context)
+    return users(request)
 
 
-def cancel_request(request, rec_id):
-    users = User.objects.exclude(id=request.user.id)
+def send_request_bio(request, rec_id, bio_id):
+    sender = request.user
+    receiver = User.objects.get(id=rec_id)
+    if sender not in Friends.requests(Friends):
+        Friends.objects.create(
+            req_sender=sender, req_receiver=receiver, sent_status=True)
+    return user_bio(request, bio_id)
+
+
+def cancel_request_bio(request, rec_id, bio_id):
     sender = request.user
     receiver = User.objects.get(id=rec_id)
     Friends.objects.get(req_sender=sender, req_receiver=receiver).delete()
-    friends = Friends.get_friends(Friends, request.user)
-    context = {"users": users, "friends": friends}
-    return render(request, "messengers/users.html", context)
+    return user_bio(request, bio_id)
+
+
+def cancel_request(request, rec_id):
+    sender = request.user
+    receiver = User.objects.get(id=rec_id)
+    Friends.objects.get(req_sender=sender, req_receiver=receiver).delete()
+    return users(request)
 
 
 def friend_requests(request):
@@ -98,3 +111,10 @@ def accept_request(request, sen_id):
     fr_requests = Friends.objects.filter(req_receiver=receiver, status=False)
     context = {"fr_requests": fr_requests}
     return render(request, "messengers/friend_requests.html", context)
+
+
+def friends(request, user_id):
+    user = User.objects.get(id=user_id)
+    friends = Friends.get_friends(Friends, user)
+    context = {"friends": friends}
+    return render(request, "messengers/friends.html", context)

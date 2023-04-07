@@ -1,8 +1,7 @@
 {% extends 'messengers/base.html' %}
 
 {% block content %}
-
-<h3><a href="{% url 'messengers:user_bio' rec_id %}">{{rec_user.username}}</a></h3>
+<h2><a href="{% url 'messengers:user_bio' rec_id %}">{{rec_user.username}}</a></h2>
 <ul>
     {% for msg in all_messages %}
     {% if msg.sender == user %}
@@ -26,5 +25,4 @@
     <input type="hidden" name="next" value="{% url 'messengers:view_messages' rec_id  %}">
 </form>
 
-<!-- <h3>{{error}}</h3> -->
 {% endblock content %}

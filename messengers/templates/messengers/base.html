@@ -6,6 +6,7 @@
     <a href="{% url 'messengers:users' %}">People</a>&nbsp;
     <a href="{% url 'messengers:user_bio' user.id %}">Profile</a>&nbsp;
     <a href="{% url 'messengers:friend_requests'%}">Friend Requests</a>&nbsp;
+    <a href="{% url 'messengers:friends' user.id%}">Friends</a>&nbsp;
     {% else %}
     <a href="{% url 'users:sign_up' %}">Sign Up</a>&nbsp;
     <a href="{% url 'users:login' %}">Login</a>&nbsp;

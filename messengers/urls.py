@@ -14,6 +14,11 @@ urlpatterns = [
     path("send_request/<int:rec_id>", views.send_request, name="send_request"),
     path("cancel_request/<int:rec_id>",
          views.cancel_request, name="cancel_request"),
+    path("send_request_bio/<int:rec_id>/<int:bio_id>",
+         views.send_request_bio, name="send_request_bio"),
+    path("cancel_request_bio/<int:rec_id>/<int:bio_id>",
+         views.cancel_request_bio, name="cancel_request_bio"),
     path("accept_request/<int:sen_id>",
          views.accept_request, name="accept_request"),
+    path("friends/<int:user_id>", views.friends, name="friends"),
 ]

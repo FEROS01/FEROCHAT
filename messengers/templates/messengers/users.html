@@ -2,12 +2,13 @@
 {% load filters %}
 
 {% block content %}
-<p>People</p>
+<h2>People</h2>
 <ul>
     {% for use_r in users %}
-    {% if use_r not in friends %}
+    <p></p>
     <li><a href="{%url 'messengers:user_bio' use_r.id%}">{{use_r.username}}</a></li>
     <li>{{use_r.info.about}}</li>
+    {% if use_r not in friends %}
     {% if user|chec_k:use_r %}
     <li>
         Your request has been sent - <a href="{%url 'messengers:cancel_request' use_r.id %}">Cancel Request</a>
@@ -15,7 +16,8 @@
     {% else %}
     <li><a href="{%url 'messengers:send_request' use_r.id%}">Send Friend request</a></li>
     {% endif %}
-    <p></p>
+    {%else%}
+    <p>You are friends</p>
     {% endif %}
     {% endfor %}
 </ul>

@@ -1,20 +1,18 @@
 {% extends "messengers/base.html" %}
 {% load filters %}
 {% block content %}
-<h3>Messages</h3>
+<h2>Messages</h2>
 <ul>
-    {% for use_r in users %}
-    {% if use_r in friends %}
+    {% for use_r in friends %}
     <li><a href="{% url 'messengers:view_messages' use_r.id %}">{{use_r.username}}</a></li>
     <p>
         {{user|la_st:use_r|last|default:"Feel free to send a message"|truncatechars:50}}
     </p>
-    {% endif %}
     {% empty %}
-    <li>
+    <p>
         Make friends in the <a href="{% url 'messengers:users' %}">People</a> section, and be able to share messages
         with them.
-    </li>
+    </p>
     {% endfor %}
 </ul>
 {% endblock content %}
