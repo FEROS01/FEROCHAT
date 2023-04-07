@@ -5,11 +5,13 @@
 <p>People</p>
 <ul>
     {% for use_r in users %}
-    {% if user.username != use_r.username %}
+    {% if use_r not in friends %}
     <li><a href="{%url 'messengers:user_bio' use_r.id%}">{{use_r.username}}</a></li>
     <li>{{use_r.info.about}}</li>
     {% if user|chec_k:use_r %}
-    <li>Your request has been sent</li>
+    <li>
+        Your request has been sent - <a href="{%url 'messengers:cancel_request' use_r.id %}">Cancel Request</a>
+    </li>
     {% else %}
     <li><a href="{%url 'messengers:send_request' use_r.id%}">Send Friend request</a></li>
     {% endif %}

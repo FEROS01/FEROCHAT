@@ -12,4 +12,8 @@ urlpatterns = [
     # path("profile/<int:user_id>", views.profile, name="profile"),
     path("friend_requests/", views.friend_requests, name="friend_requests"),
     path("send_request/<int:rec_id>", views.send_request, name="send_request"),
+    path("cancel_request/<int:rec_id>",
+         views.cancel_request, name="cancel_request"),
+    path("accept_request/<int:sen_id>",
+         views.accept_request, name="accept_request"),
 ]

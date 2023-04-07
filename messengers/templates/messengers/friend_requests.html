@@ -5,6 +5,7 @@
 <ul>
     {% for req in fr_requests %}
     <li>{{req.req_sender}} sent you a friend request</li>
+    <a href="{%url 'messengers:accept_request' req.req_sender.id%}">Accept</a>
     {% empty %}
     <li>No friend requests</li>
     {% endfor %}

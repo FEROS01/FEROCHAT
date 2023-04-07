@@ -1,23 +1,7 @@
 {% extends 'messengers/base.html' %}
 
 {% block content %}
-<!-- <h3>Sent Messages</h3>
-<ul>
-    {% for sent in sent_messages %}
-    <li>{{sent.text|linebreaks}}</li>
-    {% empty %}
-    <li>No sent messages</li>
-    {% endfor %}
-</ul>
 
-<h3>Received Messages</h3>
-<ul>
-    {% for rec in received_messages %}
-    <li>{{rec.text|linebreaks}}</li>
-    {% empty %}
-    <li>No received messages</li>
-    {% endfor %}
-</ul> -->
 <h3><a href="{% url 'messengers:user_bio' rec_id %}">{{rec_user.username}}</a></h3>
 <ul>
     {% for msg in all_messages %}

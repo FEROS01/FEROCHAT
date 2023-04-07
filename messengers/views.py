@@ -21,16 +21,20 @@ def user_bio(request, user_id):
     context = {"user_bio": user_bio}
     return render(request, "messengers/user_bio.html", context)
 
+# check if users are friends
+
 
 def users(request):
-    users = User.objects.all()
-    context = {"users": users}
+    users = User.objects.exclude(id=request.user.id)
+    friends = Friends.get_friends(Friends, request.user)
+    context = {"users": users, "friends": friends}
     return render(request, "messengers/users.html", context)
 
 
 def messages(request):
-    users = User.objects.all()
-    context = {"users": users}
+    users = User.objects.exclude(id=request.user.id)
+    friends = Friends.get_friends(Friends, request.user)
+    context = {"users": users, "friends": friends}
     return render(request, "messengers/messages.html", context)
 
 
@@ -53,22 +57,44 @@ def view_messages(request, rec_id):
     context = {"all_messages": all_msgs, "form": form,
                "rec_id": rec_id, "rec_user": rec_user}
     return render(request, "messengers/view_messages.html", context)
-# add notification for friend request
 
 
 def send_request(request, rec_id):
-    users = User.objects.all()
-    # new_friend = Friends()
+    users = User.objects.exclude(id=request.user.id)
     sender = request.user
     receiver = User.objects.get(id=rec_id)
-    # new_friend.save()
-    Friends.objects.create(
-        req_sender=sender, req_receiver=receiver, sent_status=True)
-    context = {"users": users}
+    if sender not in Friends.requests(Friends):
+        Friends.objects.create(
+            req_sender=sender, req_receiver=receiver, sent_status=True)
+    friends = Friends.get_friends(Friends, request.user)
+    context = {"users": users, "friends": friends}
+    return render(request, "messengers/users.html", context)
+
+
+def cancel_request(request, rec_id):
+    users = User.objects.exclude(id=request.user.id)
+    sender = request.user
+    receiver = User.objects.get(id=rec_id)
+    Friends.objects.get(req_sender=sender, req_receiver=receiver).delete()
+    friends = Friends.get_friends(Friends, request.user)
+    context = {"users": users, "friends": friends}
     return render(request, "messengers/users.html", context)
 
 
 def friend_requests(request):
-    fr_requests = Friends.objects.filter(req_receiver=request.user)
+    fr_requests = Friends.objects.filter(
+        req_receiver=request.user, status=False)
+    context = {"fr_requests": fr_requests}
+    return render(request, "messengers/friend_requests.html", context)
+
+
+def accept_request(request, sen_id):
+    sender = User.objects.get(id=sen_id)
+    receiver = request.user
+    accepted = Friends.objects.get(req_sender=sender, req_receiver=receiver)
+    accepted.status = True
+    accepted.sent_status = False
+    accepted.save()
+    fr_requests = Friends.objects.filter(req_receiver=receiver, status=False)
     context = {"fr_requests": fr_requests}
     return render(request, "messengers/friend_requests.html", context)
