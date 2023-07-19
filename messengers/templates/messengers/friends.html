@@ -1,13 +1,73 @@
 {% extends 'messengers/base.html' %}
 
 {% block content %}
-<h2>Friends</h2>
-<ul>
-    {% for friend in friends%}
-    <p></p>
-    <li><a href="{% url 'messengers:user_bio' friend.id %}">{{friend.username}}</a></li>
-    <li>{{friend.info.about}}</li>
-    {% endfor %}
-</ul>
+<div class="friends">
 
+    <div class="people">
+        <div class="bar">
+            <span>Friends</span>
+            <form action="{% url 'messengers:friends' user.id %}" method="post">
+                {% csrf_token %}
+                {{form.as_div}}
+                <button type="submit">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                        <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                        <path
+                            d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" />
+                    </svg>
+                </button>
+                {% if searched %}
+                <a title="cancel" href="{% url 'messengers:friends' user.id %}">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+                        <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                        <path
+                            d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" />
+                    </svg>
+                </a>
+                {% endif %}
+                <input type="hidden" name="next" value="{% url 'messengers:friends' %">
+            </form>
+        </div>
+        <div class="pro_space"></div>
+        <ul>
+            {% for friend in friends%}
+            <li>
+                {% if friend.info.prof_pics %}
+                <a title="{{friend.username}}'s Picture" id="prof" href="{{friend.info.prof_pics.url}}">
+                    <img src="{{friend.info.prof_pics.url}}" alt="Profile">
+                </a>
+                {% else %}
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                    <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                    <path
+                        d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z" />
+                </svg>
+                {% endif %}
+                <p class="name">
+                    <a title="{{friend.username}}'s profile"
+                        href="{% url 'messengers:user_bio' friend.id %}">{{friend.username}}</a>
+                </p>
+                <p>{{friend.last_name}} {{friend.first_name}}</p>
+                <p>{{friend.info.about}}</p>
+                <section class="fo_r">
+                    <a title="Unfriend" href="{% url 'messengers:unfriend' user.id friend.id %}">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
+                            <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                            <path
+                                d="M96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3zM471 143c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z" />
+                        </svg>
+                    </a>
+                </section>
+                {% empty %}
+                <div class="no_cont">
+                    Make friends in the <a href="{% url 'messengers:users' %}">People</a> section, and be able to
+                    share
+                    messages
+                    with them.
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
 {% endblock content %}

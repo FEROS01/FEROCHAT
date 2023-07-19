@@ -1,18 +1,132 @@
 {% extends "messengers/base.html" %}
 {% load filters %}
+{% load static %}
+
 {% block content %}
-<h2>Messages</h2>
-<ul>
-    {% for use_r in friends %}
-    <li><a href="{% url 'messengers:view_messages' use_r.id %}">{{use_r.username}}</a></li>
-    <p>
-        {{user|la_st:use_r|last|default:"Feel free to send a message"|truncatechars:50}}
-    </p>
-    {% empty %}
-    <p>
-        Make friends in the <a href="{% url 'messengers:users' %}">People</a> section, and be able to share messages
-        with them.
-    </p>
-    {% endfor %}
-</ul>
+<div class="messages">
+    <div class="bar">
+        <span>Messages</span>
+        <form action="{% url 'messengers:messages' %}" method="post">
+            {% csrf_token %}
+            {{form.as_div}}
+            <button type="submit">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                    <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                    <path
+                        d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" />
+                </svg>
+            </button>
+            {% if searched %}
+            <a title="cancel" href="{% url 'messengers:messages' %}">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+                    <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                    <path
+                        d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" />
+                </svg>
+            </a>
+            {% endif %}
+            <input type="hidden" name="next" value="{% url 'messengers:messages' %}">
+        </form>
+    </div>
+
+
+    {% if not searched %}
+
+
+    <ul>
+        {% for use_r in friends %}
+
+        <li>
+            <div class="message">
+                {% if user|unread:use_r %}
+                <section id="unread">{{user|unread:use_r}}</section>
+                {% endif %}
+                {% if use_r.info.prof_pics %}
+                <a id="prof" href="{{use_r.info.prof_pics.url}}">
+                    <img src="{{use_r.info.prof_pics.url}}" alt="Profile">
+                </a>
+                {% else %}
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                    <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                    <path
+                        d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z" />
+                </svg>
+                {% endif %}
+                <a href="{% url 'messengers:view_messages' use_r.id %}#unread">
+                    <section>{{use_r.username}}</section>
+                    <p>
+                        {{user|la_st:use_r|last|first|default:"Feel free to send a message"|truncatechars:30}}
+                        <strong>{{user|la_st:use_r|last|last|date:'P'|default:""}}</strong>
+                    </p>
+                </a>
+            </div>
+        </li>
+        {% empty %}
+        <section class="no_cont">
+            Make friends in the <a href="{% url 'messengers:users' %}">People</a> section, and be able to share
+            messages
+            with them.
+        </section>
+        {% endfor %}
+    </ul>
+
+
+    {% else %}
+
+
+    <ul>
+        {% for msg in message_s %}
+        {% if msg.sender == user %}
+        <li>
+            <div class="message">
+                {% if msg.receiver.info.prof_pics %}
+                <a id="prof" href="{{msg.receiver.info.prof_pics.url}}">
+                    <img src="{{msg.receiver.info.prof_pics.url}}" alt="Profile">
+                </a>
+                {% else %}
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                    <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                    <path
+                        d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z" />
+                </svg>
+                {% endif %}
+                <a href="{% url 'messengers:view_messages' msg.receiver.id %}#{{msg.id}}">
+                    <section>{{msg.receiver.username}}</section>
+                    <p>
+                        You: {{msg.text}}<strong>{{user|la_st:msg.receiver|last|last|date:'P'|default:""}}</strong>
+                    </p>
+                </a>
+            </div>
+        </li>
+        {% else %}
+        <li>
+            <div class="message">
+                {% if msg.sender.info.prof_pics %}
+                <a id="prof" href="{{msg.sender.info.prof_pics.url}}">
+                    <img src="{{msg.sender.info.prof_pics.url}}" alt="Profile">
+                </a>
+                {% else %}
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                    <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                    <path
+                        d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z" />
+                </svg>
+                {% endif %}
+                <a href="{% url 'messengers:view_messages' msg.sender.id %}#{{msg.id}}">
+                    <section>{{msg.sender.username}}</section>
+                    <p>
+                        {{msg.text}}<strong>{{user|la_st:msg.sender|last|last|date:'P'|default:""}}</strong>
+                    </p>
+                </a>
+            </div>
+        </li>
+        {% endif %}
+        {% empty %}
+        <section class="no_cont">
+            Message not found
+        </section>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</div>
 {% endblock content %}

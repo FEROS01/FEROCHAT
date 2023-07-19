@@ -9,8 +9,11 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-
 from pathlib import Path
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,8 +23,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-28vk4n7drdbq1ib2oi+*^er5q#8=5m=^r&d6^+^!=cm332y*t5'
-
+SECRET_KEY = os.environ.get(
+    "SECRET_KEY", 'django-insecure-28vk4n7drdbq1ib2oi+*^er5q#8=5m=^r&d6^+^!=cm332y*t5')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -33,12 +36,14 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'messengers',
     'users',
+    'settings',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
 ]
 
 MIDDLEWARE = [
@@ -107,7 +112,9 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Africa/Lagos'
+# TIME_ZONE = 'UTC'
+# TIME_ZONE = 'datetime.datetime.now'
 
 USE_I18N = True
 
@@ -118,8 +125,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [
+    BASE_DIR/"static",
+    BASE_DIR/"media"
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Media files
+MEDIA_ROOT = BASE_DIR/"media"
+MEDIA_URL = "media/"

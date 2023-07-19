@@ -1,0 +1,107 @@
+{% extends 'messengers/base.html' %}
+{% block content %}
+<div class="edit_profile">
+    <div class="bar"> edit profile </div>
+    <div class="pro_space"></div>
+    <div class="edit_pass">
+        <div class="form_card">
+            <form method="post" enctype="multipart/form-data" action="{% url 'settings:edit_prof' %}">
+                {% csrf_token %}
+                <div class="profile_picture">
+                    {% if user.info.prof_pics %}
+                    <a href="{{user.info.prof_pics.url}}">
+                        <img src="{{user.info.prof_pics}}" alt="Profile">
+                    </a>
+                    <div class="clear">
+                        <p>Clear:</p>
+                        <input type="checkbox" name="clear" id="prof_pics-clear_id">
+                    </div>
+                    {% else %}
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                        <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                        <path
+                            d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z" />
+                    </svg>
+                    {% endif %}
+                    <input type="file" name="prof_pics" accept="image/*" id="id_prof_pics">
+                    <div class="error">
+                        <ul>
+                            {% for error in info_form.prof_pics.errors %}
+                            <li>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                    <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                    <path
+                                        d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" />
+                                </svg>
+                                {{error}}
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <ul>
+                    {{form.non_field_errors}}
+                    {% for field in prof_form %}
+                    <div class="field">
+                        {{field.label_tag}}
+                        {{field}}
+                        {% if field.help_text %}
+                        <div class="help_text">
+                            <ul>
+                                <li>{{field.help_text}}</li>
+                            </ul>
+                        </div>
+                        <div class="error">
+                            <ul>
+                                {% for error in field.errors %}
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                        <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                        <path
+                                            d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" />
+                                    </svg>
+                                    {{error}}
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                    {% for field in info_form %}
+                    {% if field.name != "prof_pics" %}
+                    <div class="field">
+                        {{field.label_tag}}
+                        {{field}}
+                        {% if field.help_text %}
+                        <div class="help_text">
+                            <ul>
+                                <li>{{field.help_text}}</li>
+                            </ul>
+                        </div>
+                        <div class="error">
+                            <ul>
+                                {% for error in field.errors %}
+                                <li>
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                        <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                        <path
+                                            d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" />
+                                    </svg>
+                                    {{error}}
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+                <button class="submit">Confirm</button>
+                <input type="hidden" name="next" value="{% url 'settings:setting' %}">
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}
