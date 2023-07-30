@@ -70,41 +70,65 @@ def messages(request):
     return render(request, "messengers/messages.html", context)
 
 
+def _update_unread_messages(request, rec_msgs, unread_id, count, searched):
+    no_unread_msgs = rec_msgs.filter(read=False).count()
+    request.user.info.unread_messages -= no_unread_msgs
+    request.user.info.save()
+    for msg in rec_msgs:
+        if msg.read == False and count == 0:
+            count += 1
+            unread_id = msg.id
+            print(unread_id)
+    rec_msgs.update(read=True)
+    for mesg in rec_msgs:
+        mesg.save()
+    searched = False
+    print("DONE")
+    return searched, unread_id
+
+
+def _send_message(request, form, rec_user):
+    new_message = form.save(commit=False)
+    new_message.sender, new_message.receiver = request.user, rec_user
+    new_message.read = False
+    new_message.save()
+    rec_user.info.unread_messages += 1
+    rec_user.info.save()
+
+
 def view_messages(request, rec_id):
-    searched = True
     rec_user = User.objects.get(id=rec_id)
     sent_msgs = Messages.objects.filter(
         sender=request.user, receiver=rec_user)
     rec_msgs = Messages.objects.filter(
         sender=rec_user, receiver=request.user)
     all_msgs = (sent_msgs | rec_msgs).order_by("date_added")
-    count = 0
-    unread_id = None
+    unread_id, searched = None, True
+    old_errors, count = [], 0
+
     if request.method != "POST":
-        no_unread_msgs = rec_msgs.filter(read=False).count()
-        request.user.info.unread_messages -= no_unread_msgs
-        request.user.info.save()
-        for msg in rec_msgs:
-            if msg.read == False and count == 0:
-                count += 1
-                unread_id = msg.id
-        rec_msgs.update(read=True)
-        for mesg in rec_msgs:
-            mesg.save()
-        searched = False
+        searched, unread_id = _update_unread_messages(
+            request, rec_msgs, unread_id, count, searched)
         form = NewMessage()
         search_form = SearchMessages()
     elif "next" in request.POST:
-        form = NewMessage(request.POST, request.FILES)
+        files = request.FILES.getlist('media')
         search_form = SearchMessages()
-        if form.is_valid():
-            new_message = form.save(commit=False)
-            new_message.sender, new_message.receiver = request.user, rec_user
-            new_message.read = False
-            rec_user.info.unread_messages += 1
-            rec_user.info.save()
-            new_message.save()
-            return redirect("messengers:view_messages", rec_id=rec_id)
+        if not files or len(files) == 1:
+            form = NewMessage(request.POST, request.FILES)
+            if form.is_valid():
+                _send_message(request, form, rec_user)
+                return redirect("messengers:view_messages", rec_id=rec_id)
+            old_errors.append(form.errors["media"])
+        else:
+            for file in files:
+                request.FILES["media"] = file
+                form = NewMessage(request.POST, request.FILES)
+                if form.is_valid():
+                    _send_message(request, form, rec_user)
+                else:
+                    if form.errors["media"] not in old_errors:
+                        old_errors.append(form.errors["media"])
     else:
         form = NewMessage()
         search_form = SearchMessages(request.POST)
@@ -113,14 +137,19 @@ def view_messages(request, rec_id):
             all_msgs = _search(search_mesg, all_msgs)
     context = {
         "all_messages": all_msgs, "form": form, "search_form": search_form, "searched": searched, "rec_id": rec_id, "rec_user": rec_user,
-        "unread_id": unread_id,
+        "unread_id": unread_id, "old_errors": old_errors
     }
     return render(request, "messengers/view_messages.html", context)
 
 
 def delete_message(request, msg_id, rec_id):
     try:
-        Messages.objects.get(id=msg_id).delete()
+        message = Messages.objects.get(id=msg_id)
+        rec_user = User.objects.get(id=rec_id)
+        if not message.read:
+            rec_user.info.unread_messages -= 1
+            rec_user.info.save()
+        message.delete()
         return view_messages(request, rec_id)
     except:
         return view_messages(request, rec_id)
@@ -191,6 +220,18 @@ def decline_request(request, sen_id):
     return notifications(request)
 
 
+def _search_friends(c_friends, searched, form, friends):
+    searched = True
+    data = form.cleaned_data
+    for friend in c_friends:
+        search = data["search"].lower()
+        name = [friend.username.lower().startswith(search), friend.last_name.lower(
+        ).startswith(search), friend.first_name.lower().startswith(search)]
+        if not any(name):
+            friends.remove(friend)
+    return searched
+
+
 def friends(request, user_id):
     user = User.objects.get(id=user_id)
     friends = Friends.get_friends(Friends, user)
@@ -201,14 +242,7 @@ def friends(request, user_id):
     else:
         form = Search(data=request.POST)
         if form.is_valid():
-            searched = True
-            data = form.cleaned_data
-            for friend in c_friends:
-                search = data["search"].lower()
-                name = [friend.username.lower().startswith(search), friend.last_name.lower(
-                ).startswith(search), friend.first_name.lower().startswith(search)]
-                if not any(name):
-                    friends.remove(friend)
+            searched = _search_friends(c_friends, searched, form, friends)
     context = {"friends": friends, "searched": searched, "form": form}
     return render(request, "messengers/friends.html", context)
 
@@ -222,3 +256,15 @@ def unfriend(request, user_id, friend_id):
         Friends.objects.get(
             req_sender=request.user, req_receiver=friend).delete()
     return friends(request, user_id)
+
+
+def view_media(request, rec_id):
+    receiver = User.objects.get(id=rec_id)
+    messages1 = Messages.objects.filter(
+        sender=request.user, receiver=receiver)
+    messages2 = Messages.objects.filter(
+        sender=receiver, receiver=request.user)
+    messages = (messages1 | messages2).order_by("-date_added")
+    media_msgs = [message for message in messages if message.media]
+    context = {"media_mesgs": media_msgs, "rec_id": rec_id}
+    return render(request, "messengers/view_media.html", context)

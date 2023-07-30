@@ -22,7 +22,6 @@
                             </li>
                             {% endfor %}
                         </ul>
-                        <!-- {{field.errors}} -->
                     </div>
                     {{field.label_tag}}
                     {{field}}
@@ -30,7 +29,6 @@
                 </div>
                 {% endfor %}
             </ul>
-            <!-- {{form.as_div}} -->
             <button type="submit">Confirm</button>
             <input type="hidden" name="next" value="{% url 'settings:setting' %}">
         </form>

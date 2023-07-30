@@ -15,12 +15,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.contrib.auth.views import PasswordResetDoneView, PasswordResetCompleteView
 from django.conf.urls.static import static
 from . import settings
 
 urlpatterns = [
+    path('users/password-reset-complete/', PasswordResetCompleteView.as_view(
+        template_name='registration/password_reset_complete.html'), name='password_reset_complete'),
+    path('users/password_reset/done/', PasswordResetDoneView.as_view(
+        template_name='registration/password_reset_done.html'), name='password_reset_done'),
     path('admin/', admin.site.urls),
     path('users/', include('users.urls')),
     path('settings/', include('settings.urls')),
     path('', include('messengers.urls')),
+
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

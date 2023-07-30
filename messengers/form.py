@@ -1,8 +1,6 @@
 from django import forms
 from django.forms import Textarea, TextInput, FileInput
 from django.db import models
-
-
 from .models import Messages
 
 
@@ -14,7 +12,8 @@ class NewMessage(forms.ModelForm):
         widgets = {
             'text': Textarea(attrs={'placeholder': "message"}),
             "media": FileInput(attrs={
-                'accept': ".png,.jpeg,.jpg,.mp4,.mp3,.pdf"
+                'accept': ".png,.jpeg,.jpg,.mp4,.mp3,.pdf",
+                'multiple': True
             })
         }
 

@@ -25,10 +25,12 @@
                 </div>
                 {% endfor %}
             </ul>
-            <!-- {{form}} -->
             <button type="submit">
                 <p>Login</p>
             </button>
+            <a id="forgot" href="{% url 'users:password_reset' %}">
+                Forgot password?
+            </a>
             <input type="hidden" name="next" value="{% url 'messengers:index' %}">
         </form>
     </div>

@@ -1,4 +1,5 @@
 from django.db import models
+from django import forms
 from django.contrib.auth.models import User
 from datetime import datetime
 from messenger import settings
@@ -14,7 +15,7 @@ Media = {"image": image, "video": video, "audio": audio, "document": document}
 
 media_extensions = image+video+document+audio
 media_ext_val = FileExtensionValidator(
-    media_extensions, "Unsupported File format")
+    media_extensions, "Unsupported File format", code="Invalid format")
 
 
 def user_directory_media(instance, filename):
@@ -25,9 +26,11 @@ def user_directory_media(instance, filename):
 
 def file_size_val(file):
     size = round(file.size/1_048_576, 2)
-    allowed_size = 15
+    file_name = file.name[0:15]+"...." if len(file.name) > 15 else file.name
+    allowed_size = 10
     if size > allowed_size:
-        raise ValidationError(f"File must be less than {allowed_size}MB")
+        raise ValidationError(
+            f"{file_name} is greater than {allowed_size}MB", code="Invalid file size")
 
 
 def file_type_validator(file):
@@ -36,10 +39,12 @@ def file_type_validator(file):
     accept += ["application/pdf",
                "application/json", "text/plain", "text/csv", "audio/mpeg"]
     extension = file.url.split(".")[-1]
+    file_name = file.name[0:15]+"...." if len(file.name) > 15 else file.name
     if extension not in audio:
         file_mime_type = magic.from_buffer(file.read(1024), mime=True)
         if file_mime_type not in accept:
-            raise ValidationError(f"Unsupported file type '{file_mime_type}'")
+            raise ValidationError(
+                f" {file_name} is an unsupported file type '{file_mime_type}'", code="Invalid Format")
 
 
 class Messages(models.Model):
@@ -54,7 +59,7 @@ class Messages(models.Model):
         User, on_delete=models.CASCADE, related_name="receiver")
 
     def __str__(self):
-        return self.text if self.text else ""
+        return self.text if self.text else self.media.name
 
     def delete(self):
         self.media.delete()
@@ -87,11 +92,11 @@ class Info(models.Model):
     about = models.CharField(max_length=100, blank=True, default="")
     bio = models.CharField(max_length=200, blank=True, default="")
     prof_pics = models.ImageField(
-        upload_to=user_directory_path, null=True, blank=True, validators=[validate_image_file_extension, image_type_validator, profile_val])
+        upload_to=user_directory_path, null=True, blank=True, validators=[validate_image_file_extension, image_type_validator, file_size_val, profile_val])
     unread_messages = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.bio if self.bio else ""
+        return self.bio if self.bio else f"{self.user.username}'s Info"
 
 
 class Friends(models.Model):
@@ -163,3 +168,38 @@ class Friends(models.Model):
             return lis_t
         lis_t.remove(exclude)
         return lis_t
+
+
+def group_directory_path(instance, filename):
+    return f"{instance.name.upper()}/Profile/{filename}"
+
+
+class Group(models.Model):
+    name = models.CharField(max_length=15)
+    description = models.CharField(blank=True, max_length=100)
+    creator = models.ForeignKey(User, on_delete=models.CASCADE)
+    date_created = models.DateTimeField(auto_now_add=True)
+    admins = models.ManyToManyField(
+        User, related_name="admins")
+    prof_pics = models.ImageField(
+        upload_to=group_directory_path, null=True, blank=True)
+    members = models.ManyToManyField(
+        User,
+        through="Membership",
+        through_fields=("group", "member"),
+        related_name="members"
+    )
+
+    def __str__(self):
+        return self.name
+
+
+class Membership(models.Model):
+    group = models.ForeignKey(Group, on_delete=models.CASCADE)
+    member = models.ForeignKey(User, on_delete=models.CASCADE)
+    date_joined = models.DateTimeField(auto_now_add=True)
+    inviter = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="inviter")
+
+    def __str__(self):
+        return f"{self.group.name}_{self.user.username}"

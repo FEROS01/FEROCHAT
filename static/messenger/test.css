@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Electrolize&display=swap');
 
 @keyframes title_bounce {
     0% {
@@ -66,6 +67,7 @@
 }
 
 * {
+    transition: all 0.3s;
     padding: 0;
     margin: 0;
     box-sizing: border-box;
@@ -99,6 +101,7 @@ body {
 
 
 ::-webkit-scrollbar {
+    height: 0.4rem;
     width: 0.4rem;
 }
 
@@ -115,7 +118,7 @@ body {
 
 ::-webkit-scrollbar-thumb {
     border-radius: 100vh;
-    transition: all 0.5s;
+
     background: var(--default_color);
 }
 
@@ -143,7 +146,7 @@ body {
 }
 
 .no_cont a {
-    transition: all 0.5s;
+
     text-decoration: none;
     color: rgb(200, 50, 50);
     color: var(--default_color);
@@ -207,7 +210,7 @@ body {
     background-color: white;
     width: 100%;
     position: fixed;
-    transition: all 0.5s;
+
     border-bottom: 1.5px solid lightgray;
     color: rgb(200, 50, 50);
     color: var(--default_color);
@@ -239,7 +242,7 @@ nav .logo {
     color: rgb(200, 50, 50);
     color: var(--default_color);
     font-weight: 800;
-    transition: all 0.5s;
+
     animation: title_bounce 2s;
     animation-timing-function: ease-in;
 }
@@ -275,7 +278,7 @@ nav svg {
     height: 20px;
     width: 20px;
     fill: rgb(200, 50, 50);
-    transition: all 0.3s;
+
 }
 
 nav svg:hover {
@@ -285,7 +288,7 @@ nav svg:hover {
 }
 
 nav ul a {
-    transition: all 0.3s;
+
     font-size: 0.8rem;
     color: var(--default_color);
     text-decoration: none;
@@ -356,7 +359,7 @@ nav .log {
     font-weight: 900;
     color: rgb(200, 50, 50);
     color: var(--default_color);
-    transition: all 0.5s;
+
     animation: title_bounce 2s ease-in 0s 1 normal forwards;
 }
 
@@ -420,7 +423,7 @@ nav .log {
 
 .messages .message {
     font-size: 1.1rem;
-    transition: all 0.5s;
+
     border-top-right-radius: 5px;
     border-top-left-radius: 5px;
     padding: 8px 0px;
@@ -533,7 +536,7 @@ nav .log {
     fill: rgb(188, 186, 186);
     width: 18px;
     height: 18px;
-    transition: all 0.3s;
+
 }
 
 .messages form svg:hover,
@@ -549,7 +552,7 @@ nav .log {
 .view_mesg #search_form .search {
     width: 100px;
     resize: none;
-    transition: all 0.5s;
+
     height: 25px;
     padding: 0.5rem;
     border: 1.5px solid rgb(200, 50, 50);
@@ -568,10 +571,16 @@ nav .log {
 
 
 .view_mesg {
+    -ms-grid-columns: 1fr 40px;
+    display: -ms-grid;
     width: 100vw;
 }
 
+
+
 .view_mesg #scroll_down {
+    z-index: 1;
+    -ms-grid-column-align: end;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -581,17 +590,35 @@ nav .log {
     border-radius: 50%;
     float: right;
     margin-right: 1rem;
+    position: fixed;
     position: sticky;
-    top: 45vh;
+    position: -webkit-sticky;
+    top: 50vh;
 }
 
-.view_mesg #scroll_down svg {
+.view_mesg #search_form {
+    margin-left: 5px;
+}
+
+.view_mesg #scroll_down svg,
+.view_mesg #media_files {
     fill: #656464;
     width: 20px;
     height: 20px;
 }
 
-.view_mesg #scroll_down svg:active {
+
+.view_mesg #media_files:hover {
+    width: 22px;
+    height: 22px;
+}
+
+.view_mesg .bar :nth-child(3) {
+    margin-left: auto;
+}
+
+.view_mesg #scroll_down svg:active,
+.view_mesg #media_files:active {
     fill: rgb(160, 158, 158);
 }
 
@@ -608,7 +635,7 @@ nav .log {
 }
 
 .view_mesg a {
-    transition: all 0.5s;
+
     text-decoration: none;
     color: rgb(200, 50, 50);
     color: var(--default_color);
@@ -625,8 +652,7 @@ nav .log {
 .view_mesg .bar {
     padding: 0 0 0 1rem;
     height: 70px;
-    display: -ms-grid;
-    display: grid;
+    display: inline-flex;
     -ms-grid-rows: auto;
     grid-template-rows: auto;
     -ms-grid-columns: 60px auto auto;
@@ -634,21 +660,11 @@ nav .log {
     align-items: center;
 }
 
-.view_mesg .bar #a1 {
-    grid-column: auto;
-    -ms-grid-column: 1;
-    display: -ms-inline-grid;
-}
 
-.view_mesg .bar #a2 {
-    grid-column: auto;
-    -ms-grid-column: 2;
-    -ms-grid-row-align: center;
-    display: -ms-inline-grid;
-}
 
 .view_mesg .bar img,
 .view_mesg .bar svg {
+    margin-right: 3px;
     fill: rgb(173, 172, 172);
     width: 50px;
     height: 50px;
@@ -670,7 +686,7 @@ nav .log {
 }
 
 .view_mesg ul svg {
-    transition: all 0.3s;
+
     width: 15px;
     height: 15px;
     fill: rgb(200, 50, 50);
@@ -738,21 +754,11 @@ nav .log {
     border-radius: 10px;
 }
 
-/*.sent,
-.received {
-    transition: all 0.5s;
-    padding: 0.3rem;
-    border-radius: 5px;
-    width: fit-content;
-    margin-bottom: 10px;
-    font-size: 0.9rem;
-    overflow: hidden;
-    /* animation: enlarge 2s; */
 .sent,
 .received {
     display: inline-flex;
     flex-direction: column;
-    transition: all 0.5s;
+
     padding: 0.3rem;
     border-radius: 5px;
     width: fit-content;
@@ -849,6 +855,7 @@ nav .log {
 }
 
 .view_mesg .errorlist {
+    margin-top: 0px;
     padding: 0;
     align-items: center;
     display: flex;
@@ -857,6 +864,7 @@ nav .log {
 
 .view_mesg .errorlist li {
     width: auto;
+    text-align: center;
     padding-bottom: 3px;
     font-size: 0.8rem;
     list-style: circle;
@@ -870,16 +878,76 @@ nav .log {
     bottom: 0px;
     margin-top: 2vh;
     width: 100%;
-    display: grid;
-    grid-template-columns: 60% auto auto;
     padding-right: 1rem;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.view_mesg #msg_form .text {
+    border-left: 2px solid rgb(101, 100, 100);
+    height: 34px;
+    border-top-right-radius: 0px;
+    margin-left: auto;
+    grid-column: 1;
+    width: 100%;
+}
+
+.view_mesg #msg_form #folder {
+    margin-left: 6px;
+    fill: #656464;
+    padding-right: 2px;
+    border-right: 2px solid rgb(101, 100, 100);
+    border-top-left-radius: 0px;
+    border-left: none;
+    height: 34px;
+    -ms-grid-row: 1;
+    -ms-grid-column: 2;
+    grid-row: 1;
+    grid-column: 2;
+}
+
+.view_mesg #msg_form button {
+    -ms-grid-column: 3;
+    -ms-grid-row: 1;
+    -ms-grid-row-align: center;
+    grid-column: 3;
+    grid-row: 1;
+    border-radius: 5px;
+    border: none;
+    background: none;
+    align-self: center;
+    width: 25px;
+    height: 25px;
+    margin-left: 1vw;
+}
+
+.view_mesg #msg_form #id_media {
+    z-index: 2;
+    height: 20px;
+    width: 20px;
+    -ms-grid-column: 2;
+    -ms-grid-row-align: center;
+    /* margin-left: auto; */
+    grid-row: 1;
+    -ms-grid-row: 1;
+    grid-column: 2;
+    opacity: 0;
+}
+
+
+
+.view_mesg .in_form {
+    display: grid;
+    display: -ms-grid;
+    grid-template-columns: 60vw auto auto;
+    -ms-grid-columns: 60vw 1fr 1fr;
     align-items: center;
     justify-content: flex-end;
 }
 
 
 .view_mesg #msg_form textarea {
-    transition: all 0.5s;
+
     border: none;
     border-radius: 20px;
     background-color: #eeeeee;
@@ -895,52 +963,9 @@ nav .log {
     outline: none;
 }
 
-
-.view_mesg #msg_form div {
-    border-left: 2px solid rgb(101 100 100);
-    height: 34px;
-    border-top-right-radius: 0px;
-    margin-left: auto;
-    grid-column: 1;
-    width: 100%;
-}
-
-.view_mesg #msg_form #folder {
-    margin-left: 6px;
-    fill: #656464;
-    padding-right: 2px;
-    border-right: 2px solid rgb(101 100 100);
-    border-top-left-radius: 0px;
-    border-left: none;
-    height: 34px;
-    grid-row: 1;
-    grid-column: 2;
-}
-
-.view_mesg #msg_form #id_media {
-    z-index: 2;
-    height: 20px;
-    width: 20px;
-    grid-row: 1;
-    grid-column: 2;
-    opacity: 0;
-}
-
-.view_mesg #msg_form button {
-    grid-column: 3;
-    grid-row: 1;
-    border-radius: 5px;
-    border: none;
-    background: none;
-    align-self: center;
-    width: 25px;
-    height: 25px;
-    margin-left: 1vw;
-}
-
 .view_mesg #msg_form svg {
     cursor: pointer;
-    transition: all 0.5s;
+
     width: 20px;
     height: 20px;
     fill: rgb(200, 50, 50);
@@ -956,6 +981,176 @@ nav .log {
     margin-top: 133px;
     display: flex;
     height: 40px;
+}
+
+.view_mesg #bottom {
+    display: -ms-inline-grid;
+    grid-row: auto;
+    grid-column: auto;
+    -ms-grid-row: 2;
+    -ms-grid-column: 2;
+}
+
+
+
+/* VIEW_MEDIA */
+
+.view_media #arrow {
+
+    margin-right: 5px;
+    width: 20px;
+    height: 20px;
+    fill: rgb(173, 172, 172);
+}
+
+.view_media #arrow:hover {
+    width: 22px;
+    height: 22px;
+}
+
+.view_media #arrow:active {
+    fill: rgb(111, 111, 111);
+}
+
+.view_media .bar {
+    display: flex;
+    align-items: center;
+}
+
+.view_media .images,
+.view_media .videos,
+.view_media .audios,
+.view_media .documents {
+    margin-left: 1rem;
+    margin-bottom: 1rem;
+    align-items: center;
+    display: flex;
+    overflow-y: hidden;
+    overflow-x: scroll;
+    height: 200px;
+}
+
+
+.view_media .title {
+    color: rgb(200, 50, 50);
+    transform: rotate(180deg);
+    -ms-writing-mode: tb-lr;
+    writing-mode: vertical-lr;
+    font-size: 1.5rem;
+    font-weight: 100;
+    text-transform: uppercase;
+}
+
+.view_media ul {
+    display: inline-flex;
+}
+
+.view_media ul::before {
+    content: "";
+    width: 30px;
+}
+
+.view_media .img_card,
+.view_media .video_card,
+.view_media .audio_card,
+.view_media .doc_card {
+    padding: 0px;
+
+    margin-right: 0.7rem;
+    height: 180px;
+    border-radius: 10px;
+    color: white;
+    background-color: black;
+    display: inline-block;
+    font-size: 0.7rem;
+    box-shadow: 10px 0px 5px -6px lightgray;
+}
+
+
+.view_media .img_card:hover,
+.view_media .video_card:hover,
+.view_media .audio_card:hover,
+.view_media .doc_card:hover {
+    padding: 5px;
+    cursor: pointer;
+}
+
+.view_media #img {
+    text-decoration: none;
+    display: inline-flex;
+    color: white;
+}
+
+.view_media #thumbnail {
+
+    width: 100px;
+    height: 100px;
+    fill: rgb(226, 226, 226);
+    fill: rgb(111 111 111 / 15%);
+}
+
+
+.view_media audio {
+    margin-inline: 10px;
+    display: block;
+    height: 30px;
+    width: 250px;
+}
+
+.view_media .card_bottom {
+    padding-left: 5px;
+    align-items: center;
+    /* height: 30px; */
+    display: flex;
+}
+
+
+.view_media #eye_link {
+    margin-left: auto;
+}
+
+.view_media #eye {
+    margin: 5px 5px 0 0;
+    width: 20px;
+    height: 20px;
+    fill: white;
+}
+
+.view_media #eye:hover {
+    width: 22px;
+    height: 22px;
+}
+
+.view_media #eye:active {
+    fill: rgb(160, 158, 158);
+}
+
+.view_media .img p {
+    padding: 5px;
+    font-family: "Electrolize", sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    color: #6f6f6f;
+}
+
+.view_media img,
+.view_media .img,
+.view_media video {
+
+    text-align: center;
+    background-color: white;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 140px;
+    border-radius: 5px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+.view_media .img:hover {
+    background-color: rgb(238, 238, 238);
 }
 
 /* LOGOUT */
@@ -993,7 +1188,7 @@ nav .log {
 }
 
 .people form .search {
-    transition: all 0.5s;
+
     width: 100px;
     height: 25px;
     padding: 0.5rem;
@@ -1060,7 +1255,7 @@ nav .log {
 }
 
 .people a {
-    transition: all 0.5s;
+
     text-decoration: none;
     color: rgb(200, 50, 50);
 
@@ -1076,6 +1271,7 @@ nav .log {
 
 .people .for,
 .people .fo_r {
+    position: relative;
     z-index: 2;
 }
 
@@ -1091,12 +1287,17 @@ nav .log {
 
 .people .fo_r a {
     margin-left: auto;
+    z-index: 1;
+}
+
+.people .for a {
+    z-index: 1;
 }
 
 .people .fo_r svg,
 .people .for svg {
     fill: rgb(200, 50, 50);
-    transition: all 0.3s;
+
     width: 18px;
     height: 18px;
 }
@@ -1123,7 +1324,7 @@ nav .log {
     fill: rgb(188, 186, 186);
     width: 18px;
     height: 18px;
-    transition: all 0.3s;
+
 }
 
 .people form svg:hover {
@@ -1143,7 +1344,7 @@ nav .log {
     grid-column: auto;
     -ms-grid-row: 1;
     display: -ms-inline-grid;
-    transition: all 0.5s;
+
     font-size: 1.1rem;
 }
 
@@ -1190,7 +1391,7 @@ nav .log {
 }
 
 .profile .bar svg {
-    transition: all 0.3s;
+
     fill: rgb(173, 172, 172);
     height: 20px;
     width: 20px;
@@ -1250,7 +1451,7 @@ nav .log {
 .profile .email a {
     color: rgb(117, 117, 117);
     text-decoration: none;
-    transition: all 0.5s;
+
 }
 
 .profile .email a:hover {
@@ -1307,7 +1508,7 @@ nav .log {
     font-size: 0.8rem;
     color: rgb(117, 117, 117);
     font-weight: 400;
-    transition: all 0.5s;
+
 }
 
 .profile .bar p a:hover {
@@ -1332,7 +1533,7 @@ nav .log {
 }
 
 .fri_req li {
-    transition: all 0.5s;
+
     list-style: none;
 }
 
@@ -1343,29 +1544,40 @@ nav .log {
 
 .fri_req #prof,
 .fri_req .request img {
+    -ms-grid-row-span: 5;
+    -ms-grid-row-align: center;
     margin-right: 1rem;
-    grid-row: 1 / span 4;
+    grid-column: auto;
+    -ms-grid-column: 1;
+    -ms-grid-row: 1;
+    display: -ms-inline-grid;
+    grid-row: 1 /span 4;
     width: 50px;
     height: 50px;
     border-radius: 50%;
     fill: rgb(173, 172, 172);
 }
 
+
 .fri_req .request {
     align-items: center;
     display: grid;
+    display: -ms-grid;
     grid-template-columns: auto auto;
+    -ms-grid-columns: auto auto;
     grid-template-rows: auto auto auto auto;
+    -ms-grid-rows: auto auto auto auto;
     height: 100px;
     border-bottom: 1.5px solid lightgray;
     padding-bottom: 1rem;
 }
 
+
 .fri_req .request p a {
     position: relative;
     padding: 9px 90vw 59px 0px;
     z-index: 1;
-    transition: all 0.5s;
+
     text-decoration: none;
     font-weight: 300;
     font-size: 1.1rem;
@@ -1378,16 +1590,26 @@ nav .log {
 }
 
 .fri_req .request p {
+    grid-row: auto;
+    grid-column: auto;
+    -ms-grid-row: 1;
+    -ms-grid-column: 2;
     padding: 0.5rem 0rem;
     font-weight: 300;
     font-size: 0.8rem;
     color: rgb(117, 117, 117);
 }
 
+
 .fri_req .butns {
+    grid-row: auto;
+    grid-column: auto;
+    -ms-grid-row: 3;
+    -ms-grid-column: 2;
     display: flex;
     z-index: 2;
 }
+
 
 .fri_req .request svg {
     fill: white;
@@ -1396,13 +1618,14 @@ nav .log {
 }
 
 .fri_req .request button {
+    z-index: 1;
     padding: 2px 12px;
     border-radius: 5px;
     color: white;
 }
 
 .fri_req .request .accept {
-    transition: all 0.2s;
+
     border: 1px solid rgb(55, 205, 205);
     background-color: rgb(55, 205, 205);
 }
@@ -1418,7 +1641,7 @@ nav .log {
 
 .fri_req .request .decline {
     margin-left: 20px;
-    transition: all 0.2s;
+
     border: 1px solid rgb(200, 50, 50);
     background-color: rgb(200, 50, 50);
 }
@@ -1478,7 +1701,7 @@ nav .log {
 }
 
 .settings svg {
-    transition: all 0.3s;
+
     width: 20px;
     height: 20px;
     fill: rgb(138, 138, 138);
@@ -1628,6 +1851,8 @@ nav .log {
 }
 
 .login form {
+    flex-direction: column;
+    display: flex;
     width: 80%;
 }
 
@@ -1648,7 +1873,7 @@ nav .log {
 .login button,
 .edit_pass button {
     padding: 4px;
-    transition: all 0.3s;
+
     color: white;
     background-color: rgb(55, 205, 205);
     /* background: none; */
@@ -1683,7 +1908,7 @@ nav .log {
 .edit_pass input {
     padding: 4px;
     border-radius: 5px;
-    transition: all 0.3s;
+
     height: 30px;
     color: rgb(111, 111, 111);
     background: none;
@@ -1704,4 +1929,89 @@ nav .log {
     list-style: circle;
     font-size: 0.9rem;
     color: rgb(138, 138, 138);
+}
+
+.login #forgot {
+    padding-top: 10px;
+    color: rgb(200, 50, 50);
+    font-size: 0.8rem;
+    margin-left: auto;
+}
+
+.login #forgot:hover {
+    font-size: 0.9rem;
+}
+
+.login #forgot:active {
+    color: rgb(50, 200, 200);
+}
+
+/* PASSWORD RESET */
+.pass_reset {
+    align-items: center;
+    justify-content: center;
+    /* width: 100%; */
+    display: flex;
+    height: 91vh;
+}
+
+.pass_reset .help {
+    text-align: center;
+    font-size: 0.8rem;
+    color: rgb(138, 138, 138);
+}
+
+.pass_reset #mini {
+    font-size: 0.8rem;
+    padding-top: 1.5rem;
+    color: rgb(138, 138, 138);
+}
+
+.pass_reset .check svg {
+    width: 30px;
+    height: 30px;
+    fill: green;
+}
+
+.pass_reset #login {
+
+    color: rgb(200, 50, 50);
+}
+
+.pass_reset #login:hover {
+    font-size: 0.85rem;
+}
+
+.pass_reset #login:hover {
+    color: rgb(50, 200, 200);
+}
+
+.pass_reset .butns {
+    display: flex;
+}
+
+.pass_reset #cancel {
+    margin-left: auto;
+    border: 1.5px solid rgb(200, 50, 50);
+    padding: 4px;
+    color: rgb(200, 50, 50);
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.pass_reset #cancel:hover {
+    border: 2px solid rgb(200, 50, 50);
+    padding: 4px;
+    color: rgb(200, 50, 50);
+}
+
+.pass_reset #cancel:active {
+    background-color: rgb(226, 226, 226);
+}
+
+.pass_reset .title {
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: rgb(200, 50, 50);
 }

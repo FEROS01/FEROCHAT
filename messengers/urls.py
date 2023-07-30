@@ -7,6 +7,7 @@ urlpatterns = [
     path("", views.index, name="index"),
     path("messages/", views.messages, name="messages"),
     path("view_messages/<int:rec_id>", views.view_messages, name="view_messages"),
+    path("view_media/<int:rec_id>", views.view_media, name="view_media"),
     path("users/", views.users, name="users"),
     path("user_bio/<int:user_id>", views.user_bio, name="user_bio"),
     path("notifications/", views.notifications, name="notifications"),

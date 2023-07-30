@@ -41,5 +41,4 @@ def m_type(val):
 
 @register.filter(name="nam_e")
 def name(val):
-    # print(val.split("/"))
     return val.split("/")[3].split(".")
