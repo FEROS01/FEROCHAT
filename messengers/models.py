@@ -48,15 +48,18 @@ def file_type_validator(file):
 
 
 class Messages(models.Model):
-    read = models.BooleanField(default=True)
+    read = models.BooleanField(default=False)
+    read_by = models.ManyToManyField(User, blank=True)
     media = models.FileField(
         upload_to=user_directory_media, null=True, blank=True, validators=[media_ext_val, file_size_val, file_type_validator])
     text = models.TextField(blank=True)
-    date_added = models.DateTimeField(auto_now_add=True)
+    date_sent = models.DateTimeField(auto_now_add=True)
     sender = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="sender")
     receiver = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="receiver")
+        User, on_delete=models.CASCADE, related_name="receiver", null=True, blank=True)
+    grp_receiver = models.ForeignKey(
+        "Group", on_delete=models.CASCADE, related_name="grp_receiver", null=True, blank=True)
 
     def __str__(self):
         return self.text if self.text else self.media.name
@@ -119,25 +122,29 @@ class Friends(models.Model):
         except:
             return False
 
-    def _last_message(x, user):
-        sent_msg = x.sender.filter(receiver=user)
-        rec_msg = x.receiver.filter(sender=user)
-        if sent_msg and rec_msg:
-            sent_date = sent_msg.latest("date_added").date_added
-            rec_date = rec_msg.latest("date_added").date_added
-            return max([sent_date, rec_date])
-        elif sent_msg:
-            return sent_msg.latest("date_added").date_added
-        elif rec_msg:
-            return rec_msg.latest("date_added").date_added
+    def _message_date(x, user):
+        if x.__class__.__name__ == "User":
+            sent_msg = x.sender.filter(receiver=user)
+            rec_msg = x.receiver.filter(sender=user)
+            if sent_msg and rec_msg:
+                sent_date = sent_msg.latest("date_sent").date_sent
+                rec_date = rec_msg.latest("date_sent").date_sent
+                return max([sent_date, rec_date])
+            elif sent_msg:
+                return sent_msg.latest("date_sent").date_sent
+            elif rec_msg:
+                return rec_msg.latest("date_sent").date_sent
+            else:
+                try:
+                    return x.req_sender.filter(req_receiver=user)[0].friend_date
+                except:
+                    return x.req_receiver.filter(req_sender=user)[0].friend_date
+
         else:
-            try:
-                return x.req_sender.filter(req_receiver=user)[0].friend_date
-            except:
-                return x.req_receiver.filter(req_sender=user)[0].friend_date
-        # sent_msg = x.sender.latest('date_added').date_added
-        # rec_msg = x.receiver.latest('date_added').date_added
-        # return max([sent_msg, rec_msg])
+            grp_rec_msg = x.grp_receiver.filter(sender=user)
+            if grp_rec_msg:
+                return grp_rec_msg.latest("date_sent").date_sent
+            return user.membership_set.get(group=x).date_joined
 
     def _get_all_friends(self, user):
         friends = self.objects.all()
@@ -153,9 +160,10 @@ class Friends(models.Model):
         return user_friends
 
     def get_m_friends(self, user, exclude=False):
-        user_friends = self._get_all_friends(self, user)
+        groups = [group for group in user.members.all()]
+        user_friends = self._get_all_friends(self, user)+groups
         lis_t = sorted(
-            user_friends, key=lambda x: self._last_message(x, user), reverse=True)
+            user_friends, key=lambda x: self._message_date(x, user), reverse=True)
         if not exclude or exclude not in lis_t:
             return lis_t
         lis_t.remove(exclude)
@@ -182,7 +190,8 @@ class Group(models.Model):
     admins = models.ManyToManyField(
         User, related_name="admins")
     prof_pics = models.ImageField(
-        upload_to=group_directory_path, null=True, blank=True)
+        upload_to=group_directory_path, null=True, blank=True,
+        validators=[validate_image_file_extension, image_type_validator, file_size_val, profile_val])
     members = models.ManyToManyField(
         User,
         through="Membership",
@@ -202,4 +211,10 @@ class Membership(models.Model):
         User, on_delete=models.CASCADE, related_name="inviter")
 
     def __str__(self):
-        return f"{self.group.name}_{self.user.username}"
+        return f"{self.group.name}_{self.member.username}"
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['group', 'member'], name="unique_membership")
+        ]

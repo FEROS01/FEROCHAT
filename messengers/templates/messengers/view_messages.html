@@ -6,6 +6,8 @@
 {% block content %}
 <div class="view_mesg">
     <div class="bar">
+        {% if type == "User" %}
+
         {% if rec_user.info.prof_pics %}
         <a href="{{rec_user.info.prof_pics.url}}">
             <img src="{{rec_user.info.prof_pics.url}}" alt="Profile">
@@ -20,6 +22,28 @@
         <a title="{{rec_user.username}}'s profile" href="{% url 'messengers:user_bio' rec_id %}">
             {{rec_user.username}}
         </a>
+
+        {% else %}
+
+        {% if rec_user.prof_pics %}
+        <a href="{{rec_user.prof_pics.url}}">
+            <img src="{{rec_user.prof_pics.url}}" alt="Profile">
+        </a>
+        {% else %}
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+            <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+            <path
+                d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z" />
+        </svg>
+        {% endif %}
+        <div class="group_info">
+            <a title="{{rec_user.name}}'s profile" href="{% url 'messengers:user_bio' rec_id %}">
+                {{rec_user.name}}
+            </a>
+            <p class="members">{{members|truncatewords:5}}</p>
+        </div>
+
+        {% endif %}
         <a title="Media Files" href="{% url 'messengers:view_media' rec_id %}">
             <svg id="media_files" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
                 <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
@@ -27,7 +51,7 @@
                     d="M256 0H576c35.3 0 64 28.7 64 64V288c0 35.3-28.7 64-64 64H256c-35.3 0-64-28.7-64-64V64c0-35.3 28.7-64 64-64zM476 106.7C471.5 100 464 96 456 96s-15.5 4-20 10.7l-56 84L362.7 169c-4.6-5.7-11.5-9-18.7-9s-14.2 3.3-18.7 9l-64 80c-5.8 7.2-6.9 17.1-2.9 25.4s12.4 13.6 21.6 13.6h80 48H552c8.9 0 17-4.9 21.2-12.7s3.7-17.3-1.2-24.6l-96-144zM336 96a32 32 0 1 0 -64 0 32 32 0 1 0 64 0zM64 128h96V384v32c0 17.7 14.3 32 32 32H320c17.7 0 32-14.3 32-32V384H512v64c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V192c0-35.3 28.7-64 64-64zm8 64c-8.8 0-16 7.2-16 16v16c0 8.8 7.2 16 16 16H88c8.8 0 16-7.2 16-16V208c0-8.8-7.2-16-16-16H72zm0 104c-8.8 0-16 7.2-16 16v16c0 8.8 7.2 16 16 16H88c8.8 0 16-7.2 16-16V312c0-8.8-7.2-16-16-16H72zm0 104c-8.8 0-16 7.2-16 16v16c0 8.8 7.2 16 16 16H88c8.8 0 16-7.2 16-16V416c0-8.8-7.2-16-16-16H72zm336 16v16c0 8.8 7.2 16 16 16h16c8.8 0 16-7.2 16-16V416c0-8.8-7.2-16-16-16H424c-8.8 0-16 7.2-16 16z" />
             </svg>
         </a>
-        <form id="search_form" action="{% url 'messengers:view_messages' rec_id %}#bottom" method="post">
+        <form id="search_form" action="{% url 'messengers:view_messages' rec_id type %}#bottom" method="post">
             {% csrf_token %}
             {{search_form.as_div}}
             <button type="submit">
@@ -38,7 +62,7 @@
                 </svg>
             </button>
             {% if searched %}
-            <a title="cancel" href="{% url 'messengers:view_messages' rec_id %}">
+            <a title="cancel" href="{% url 'messengers:view_messages' rec_id type %}">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
                     <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
                     <path
@@ -46,30 +70,34 @@
                 </svg>
             </a>
             {% endif %}
-            <input type="hidden" name="next1" value="{% url 'messengers:view_messages' rec_id %}">
+            <input type="hidden" name="next1" value="{% url 'messengers:view_messages' rec_id type %}">
         </form>
     </div>
-    <a title="Bottom" id="scroll_down" href="{% url 'messengers:view_messages' rec_id  %}#bottom">
+    <a title="Bottom" id="scroll_down" href="{% url 'messengers:view_messages' rec_id type %}#bottom">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
             <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
             <path
                 d="M246.6 470.6c-12.5 12.5-32.8 12.5-45.3 0l-160-160c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L224 402.7 361.4 265.4c12.5-12.5 32.8-12.5 45.3 0s12.5 32.8 0 45.3l-160 160zm160-352l-160 160c-12.5 12.5-32.8 12.5-45.3 0l-160-160c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L224 210.7 361.4 73.4c12.5-12.5 32.8-12.5 45.3 0s12.5 32.8 0 45.3z" />
         </svg>
     </a>
+
+
     <ul>
         {% for msg in all_messages %}
+
+
         <a id="find" name="{{msg.id}}"></a>
         {% if unread_id and msg.id == unread_id %}
         <a id="find" name="unread"></a>
         <section class="unread">Unread Messages</section>
         {% endif %}
-        {% ifchanged msg.date_added.day %}
-        <p class="day">{{msg.date_added|naturalday:'l, j F'}}</p>
+        {% ifchanged msg.date_sent.day %}
+        <p class="day">{{msg.date_sent|naturalday:'l, j F'}}</p>
         {% endifchanged %}
         {% if msg.sender == user %}
+
         <li class="right">
             <div class="sent">
-                <section class="date">{{msg.date_added|date:'P'}}</section>
                 {% if msg.media %}
                 <div class="media">
                     {% if msg|m_type == "image" %}
@@ -98,10 +126,10 @@
                 </div>
                 {% endif %}
                 <p>{{msg.text|linebreaks|urlize}}</p>
-
+                <section class="date">{{msg.date_sent|date:'P'}}</section>
                 <section class="del">
-                    {{msg.date_added|naturaltime}}
-                    <a title="delete" href="{% url 'messengers:delete_message' msg.id rec_id %}">
+                    {{msg.date_sent|naturaltime}}
+                    <a title="delete" href="{% url 'messengers:delete_message' msg.id rec_id type %}">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
                             <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
                             <path
@@ -111,10 +139,12 @@
                 </section>
             </div>
         </li>
+
         {% else %}
+
         <li class="left">
             <div class="received">
-                <p class="date">{{msg.date_added|date:'P'}}</p>
+                {% if type == "Group" %}<p class="sender_name">{{msg.sender}}</p>{% endif %}
                 {% if msg.media %}
                 <div class="media">
                     {% if msg|m_type == "image" %}
@@ -142,15 +172,19 @@
                     {% endif %}
                 </div>
                 {% endif %}
-
                 <p>{{msg.text|linebreaks|urlize}}</p>
-                <section class="del">{{msg.date_added|naturaltime}}
+                <p class="date">{{msg.date_sent|date:'P'}}</p>
+                <section class="del">{{msg.date_sent|naturaltime}}
                 </section>
             </div>
         </li>
+
         {% endif %}
 
+
         {% endfor %}
+
+
         {% if not all_messages and not searched %}
         <section class="no_cont">
             Welcome, Feel free to send a message
@@ -171,7 +205,7 @@
         {% endfor %}
         {% endif %}
     </div>
-    <form id="msg_form" enctype="multipart/form-data" action="{% url 'messengers:view_messages' rec_id  %}#bottom"
+    <form id="msg_form" enctype="multipart/form-data" action="{% url 'messengers:view_messages' rec_id type %}#bottom"
         method="post">
         {% csrf_token %}
         <div class="in_form">
@@ -191,7 +225,7 @@
                         d="M498.1 5.6c10.1 7 15.4 19.1 13.5 31.2l-64 416c-1.5 9.7-7.4 18.2-16 23s-18.9 5.4-28 1.6L284 427.7l-68.5 74.1c-8.9 9.7-22.9 12.9-35.2 8.1S160 493.2 160 480V396.4c0-4 1.5-7.8 4.2-10.7L331.8 202.8c5.8-6.3 5.6-16-.4-22s-15.7-6.4-22-.7L106 360.8 17.7 316.6C7.1 311.3 .3 300.7 0 288.9s5.9-22.8 16.1-28.7l448-256c10.7-6.1 23.9-5.5 34 1.4z" />
                 </svg>
             </button>
-            <input type="hidden" name="next" value="{% url 'messengers:view_messages' rec_id  %}">
+            <input type="hidden" name="next" value="{% url 'messengers:view_messages' rec_id type %}">
         </div>
     </form>
     <a id="bottom" name="bottom"></a>

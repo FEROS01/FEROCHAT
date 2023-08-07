@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
+from django.db.models import F
 from django.contrib.auth.models import User
 from django.contrib import messages as Msg
-from .models import Messages, User, Friends
+from .models import Messages, Friends, Group, Info
 from .form import NewMessage, Search, SearchMessages
 from datetime import datetime
 
@@ -56,7 +57,11 @@ def messages(request):
     searched = False
     msgs = Messages.objects.filter(
         sender=request.user) | Messages.objects.filter(receiver=request.user)
-    msgs = msgs.order_by("-date_added")
+    groups = request.user.members.all()
+    for group in groups:
+        grp_msgs = group.grp_receiver.all()
+        msgs = msgs | grp_msgs
+    msgs = msgs.order_by("-date_sent")
     if request.method != "POST":
         form = SearchMessages()
     else:
@@ -70,45 +75,73 @@ def messages(request):
     return render(request, "messengers/messages.html", context)
 
 
-def _update_unread_messages(request, rec_msgs, unread_id, count, searched):
-    no_unread_msgs = rec_msgs.filter(read=False).count()
-    request.user.info.unread_messages -= no_unread_msgs
-    request.user.info.save()
-    for msg in rec_msgs:
-        if msg.read == False and count == 0:
-            count += 1
-            unread_id = msg.id
-            print(unread_id)
-    rec_msgs.update(read=True)
-    for mesg in rec_msgs:
-        mesg.save()
+def _update_unread_messages(request, rec_msgs, grp_msgs, unread_id, count, searched, _type):
     searched = False
-    print("DONE")
+    if _type == "User":
+        filtrd_rec_msgs = rec_msgs.filter(read=False)
+        no_unread_msgs = filtrd_rec_msgs.count()
+        request.user.info.unread_messages -= no_unread_msgs
+        request.user.info.save()
+        unread_id = filtrd_rec_msgs.first().id if no_unread_msgs else None
+        rec_msgs.update(read=True)
+    else:
+        filtrd_grp_rec_msgs = grp_msgs.exclude(read_by__id=request.user.id)
+        no_unread_msgs = filtrd_grp_rec_msgs.count()
+        request.user.info.unread_messages -= no_unread_msgs
+        request.user.info.save()
+        unread_id = filtrd_grp_rec_msgs.first().id if no_unread_msgs else None
+        for mesg in grp_msgs:
+            mesg.read_by.add(request.user)
+            mesg.save()
     return searched, unread_id
 
 
-def _send_message(request, form, rec_user):
-    new_message = form.save(commit=False)
-    new_message.sender, new_message.receiver = request.user, rec_user
-    new_message.read = False
-    new_message.save()
-    rec_user.info.unread_messages += 1
-    rec_user.info.save()
+def _send_message(request, form, rec_user, _type):
+    if _type == "User":
+        new_message = form.save(commit=False)
+        new_message.sender, new_message.receiver = request.user, rec_user
+        new_message.save()
+        rec_user.info.unread_messages += 1
+        rec_user.info.save()
+    else:
+        new_message = form.save(commit=False)
+        new_message.sender, new_message.grp_receiver, new_message.read = request.user, rec_user, True
+        new_message.save()
+        g_members = rec_user.members.all()
+        Info.objects.exclude(user=request.user).filter(user__in=g_members).update(
+            unread_messages=F("unread_messages")+1)
+        new_message.read_by.add(request.user)
 
 
-def view_messages(request, rec_id):
-    rec_user = User.objects.get(id=rec_id)
-    sent_msgs = Messages.objects.filter(
-        sender=request.user, receiver=rec_user)
-    rec_msgs = Messages.objects.filter(
-        sender=rec_user, receiver=request.user)
-    all_msgs = (sent_msgs | rec_msgs).order_by("date_added")
+def view_messages(request, rec_id, _type):
     unread_id, searched = None, True
     old_errors, count = [], 0
+    sent_msgs = Messages.objects.none()
+    rec_msgs = Messages.objects.none()
+    grp_msgs = Messages.objects.none()
+    grp_members = ""
+    if _type == "User":
+        rec_user = User.objects.get(id=rec_id)
+        sent_msgs = Messages.objects.filter(
+            sender=request.user, receiver=rec_user)
+        rec_msgs = Messages.objects.filter(
+            sender=rec_user, receiver=request.user)
+        all_msgs = (sent_msgs | rec_msgs).order_by("date_sent")
+    else:
+        rec_user = Group.objects.get(id=rec_id)
+        grp_msgs = rec_user.grp_receiver.all()
+        members = rec_user.members.all().exclude(
+            username=request.user.username).order_by("-username")
+        friends = Friends.get_friends(Friends, request.user)
+        for member in members:
+            if member in friends:
+                grp_members = f"{member.username} "+grp_members
+            else:
+                grp_members += f"{member.username} "
 
     if request.method != "POST":
         searched, unread_id = _update_unread_messages(
-            request, rec_msgs, unread_id, count, searched)
+            request, rec_msgs, grp_msgs, unread_id, count, searched, _type)
         form = NewMessage()
         search_form = SearchMessages()
     elif "next" in request.POST:
@@ -117,15 +150,15 @@ def view_messages(request, rec_id):
         if not files or len(files) == 1:
             form = NewMessage(request.POST, request.FILES)
             if form.is_valid():
-                _send_message(request, form, rec_user)
-                return redirect("messengers:view_messages", rec_id=rec_id)
+                _send_message(request, form, rec_user, _type)
+                return redirect("messengers:view_messages", rec_id=rec_id, _type=_type)
             old_errors.append(form.errors["media"])
         else:
             for file in files:
                 request.FILES["media"] = file
                 form = NewMessage(request.POST, request.FILES)
                 if form.is_valid():
-                    _send_message(request, form, rec_user)
+                    _send_message(request, form, rec_user, _type)
                 else:
                     if form.errors["media"] not in old_errors:
                         old_errors.append(form.errors["media"])
@@ -134,25 +167,28 @@ def view_messages(request, rec_id):
         search_form = SearchMessages(request.POST)
         if search_form.is_valid():
             search_mesg = search_form.cleaned_data["search"].lower()
+            all_msgs = all_msgs if _type == "User" else grp_msgs
             all_msgs = _search(search_mesg, all_msgs)
+    all_msgs = all_msgs if _type == "User" else grp_msgs
     context = {
         "all_messages": all_msgs, "form": form, "search_form": search_form, "searched": searched, "rec_id": rec_id, "rec_user": rec_user,
-        "unread_id": unread_id, "old_errors": old_errors
+        "unread_id": unread_id, "old_errors": old_errors, "type": _type, "members": grp_members
     }
     return render(request, "messengers/view_messages.html", context)
 
 
-def delete_message(request, msg_id, rec_id):
+def delete_message(request, msg_id, rec_id, _type):
     try:
         message = Messages.objects.get(id=msg_id)
-        rec_user = User.objects.get(id=rec_id)
-        if not message.read:
-            rec_user.info.unread_messages -= 1
-            rec_user.info.save()
+        if _type == "User":
+            rec_user = User.objects.get(id=rec_id)
+            if not message.read:
+                rec_user.info.unread_messages -= 1
+                rec_user.info.save()
         message.delete()
-        return view_messages(request, rec_id)
+        return view_messages(request, rec_id, _type)
     except:
-        return view_messages(request, rec_id)
+        return view_messages(request, rec_id, _type)
 
 
 def send_request(request, rec_id):
@@ -264,7 +300,7 @@ def view_media(request, rec_id):
         sender=request.user, receiver=receiver)
     messages2 = Messages.objects.filter(
         sender=receiver, receiver=request.user)
-    messages = (messages1 | messages2).order_by("-date_added")
+    messages = (messages1 | messages2).order_by("-date_sent")
     media_msgs = [message for message in messages if message.media]
     context = {"media_mesgs": media_msgs, "rec_id": rec_id}
     return render(request, "messengers/view_media.html", context)

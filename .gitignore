@@ -38,6 +38,8 @@ lib/
 lib64/ 
 parts/ 
 sdist/ 
+SVGs
+SVGs/
 var/ 
 wheels/ 
 *.egg-info/ 

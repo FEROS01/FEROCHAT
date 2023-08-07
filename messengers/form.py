@@ -7,7 +7,7 @@ from .models import Messages
 class NewMessage(forms.ModelForm):
     class Meta:
         model = Messages
-        exclude = ["date_added", "receiver", "sender"]
+        exclude = ["date_sent", "receiver", "sender"]
         labels = {'text': "", 'media': ""}
         widgets = {
             'text': Textarea(attrs={'placeholder': "message"}),

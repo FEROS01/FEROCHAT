@@ -290,6 +290,7 @@ nav svg:hover {
 nav ul a {
 
     font-size: 0.8rem;
+    color: rgb(200, 50, 50);
     color: var(--default_color);
     text-decoration: none;
 }
@@ -596,6 +597,12 @@ nav .log {
     top: 50vh;
 }
 
+.view_mesg .members {
+    color: darkgrey;
+    font-size: 0.8rem;
+    text-transform: none;
+}
+
 .view_mesg #search_form {
     margin-left: 5px;
 }
@@ -678,7 +685,7 @@ nav .log {
 }
 
 .view_mesg ul {
-    margin-top: 60px;
+    margin-top: 30px;
     padding: 1rem;
     display: flex;
     overflow-x: hidden;
@@ -778,19 +785,16 @@ nav .log {
 }
 
 .sent {
-    border: 1px solid rgb(238, 238, 238);
-    color: black;
-    background-color: rgb(238, 238, 238);
+    border: 1px solid rgb(55, 205, 205);
+    color: white;
+    background-color: rgb(55, 205, 205);
     margin-left: auto;
 }
 
 .sent:hover {
-    border: 3px solid rgb(214, 213, 213);
     cursor: pointer;
-    background-color: rgb(214, 213, 213);
-    /* background-color: rgb(200, 198, 198); */
-    /* filter: brightness(0.95); */
-    /* display: flex; */
+    background-color: rgb(30, 180, 180);
+    border: 3px solid rgb(30, 180, 180);
 }
 
 .sent:hover .del,
@@ -798,7 +802,9 @@ nav .log {
     display: flex;
 }
 
-.sent .date {
+.sent .date,
+.received .date {
+    margin-left: auto;
     font-size: 0.8em;
     font-weight: 300;
 }
@@ -818,15 +824,15 @@ nav .log {
 }
 
 .received {
-    border: 1px solid rgb(55, 205, 205);
-    color: white;
-    background-color: rgb(55, 205, 205);
+    border: 1px solid rgb(238, 238, 238);
+    color: black;
+    background-color: rgb(238, 238, 238);
 }
 
 .received:hover {
+    border: 3px solid rgb(214, 213, 213);
     cursor: pointer;
-    background-color: rgb(30, 180, 180);
-    border: 3px solid rgb(30, 180, 180);
+    background-color: rgb(214, 213, 213);
 }
 
 .received p a:hover {
@@ -834,10 +840,6 @@ nav .log {
     /* color: darkgray; */
 }
 
-.received .date {
-    font-size: 0.7em;
-    font-weight: 300;
-}
 
 .view_mesg #find {
     width: 20px;
@@ -1384,112 +1386,17 @@ nav .log {
 /* PROFILE */
 
 .profile .bar {
+    color: white;
+    position: absolute;
     border: none;
     background: none;
-    padding-left: 1rem;
-    background-image: linear-gradient(to right, white, transparent);
 }
 
 .profile .bar svg {
-
-    fill: rgb(173, 172, 172);
+    fill: white;
+    /* fill: rgb(173, 172, 172); */
     height: 20px;
     width: 20px;
-}
-
-
-.profile .bar svg:hover {
-    fill: rgb(117, 117, 117);
-    height: 22px;
-    width: 22px;
-}
-
-.profile .bar #edit {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    background-color: white;
-}
-
-.pro_space {
-    width: 100%;
-    height: 79px;
-}
-
-.profile h4 {
-    width: fit-content;
-    color: rgb(200, 50, 50);
-    border-bottom: 1.5px solid lightgray;
-}
-
-.profile .pri_info p,
-.profile .sec_info p {
-    padding-top: 10px;
-    color: rgb(117, 117, 117);
-}
-
-.profile .pri_info {
-    padding-left: 1rem;
-    padding-right: 1rem;
-}
-
-.profile .email {
-    height: 60px;
-    display: inline-block;
-}
-
-.profile .L_name,
-.profile .F_name {
-    height: 60px;
-    margin: 0rem 20% 2rem 0rem;
-    display: inline-block;
-}
-
-.profile .email a {
-    color: rgb(117, 117, 117);
-    text-decoration: none;
-
-}
-
-.profile .email a:hover {
-    color: rgb(49, 49, 49);
-    text-decoration: underline;
-}
-
-.profile .sec_info {
-    margin: 1rem;
-}
-
-.profile .background {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 1rem;
-    border-bottom-right-radius: 80px;
-    border-bottom-left-radius: 80px;
-    background-color: #dcdada;
-    background-position: center;
-    height: 300px;
-    width: 100%;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-
-.profile .background a,
-.profile .background section {
-    border-bottom-right-radius: 80px;
-    border-bottom-left-radius: 80px;
-    width: inherit;
-    height: inherit;
-}
-
-.profile .background svg {
-    width: 50%;
-    height: 50%;
-    fill: rgb(173, 172, 172);
 }
 
 .profile .bar p {
@@ -1498,7 +1405,9 @@ nav .log {
     width: 97%;
     display: flex;
     font-size: 0.8rem;
-    color: rgb(117, 117, 117);
+    color: rgb(200, 50, 50);
+    color: var(--default_color);
+    /* color: rgb(111, 111, 111); */
     font-weight: 400;
 }
 
@@ -1516,13 +1425,179 @@ nav .log {
     color: rgb(73, 73, 73);
 }
 
-.profile .people {
+.profile .bar svg:hover {
+    fill: rgb(173, 172, 172);
+    height: 22px;
+    width: 22px;
+}
+
+.profile .bar #edit {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+}
+
+.profile .bar #edit:hover {
+    width: 32px;
+    height: 32px;
+}
+
+.profile .scale {
+    background-color: #060606;
+    width: 100%;
+    position: absolute;
+    opacity: 0.7;
+    height: 30vh;
+}
+
+.pro_space {
+    width: 100%;
+    height: 79px;
+}
+
+.profile .background,
+.profile .cl_profile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+    background-position: center;
+    background-color: #7a7878;
+    height: 30vh;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.profile .background a,
+.profile .background section {
+    border-bottom-right-radius: 80px;
+    border-bottom-left-radius: 80px;
+    width: inherit;
+    height: inherit;
+}
+
+.profile .background svg {
+    width: 50%;
+    height: 50%;
+    fill: rgb(205 204 204);
+}
+
+.profile h4 {
+    display: inline-flex;
+    font-size: 0.9rem;
+    color: rgb(200, 50, 50);
+    border-bottom: 1.5px dashed lightgray;
+}
+
+.profile .prof_card {
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    bottom: 95px;
+}
+
+.profile .cl_profile {
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    background-color: #f5f6f6;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.profile .cl_profile svg {
+    fill: rgb(200, 50, 50);
+    width: 70%;
+    height: 70%;
+}
+
+.profile .info {
     margin-left: 1rem;
     margin-right: 1rem;
+    justify-content: space-between;
+    display: flex;
+    position: relative;
+    bottom: 120px;
+    flex-wrap: wrap;
+}
+
+.profile .info>* {
+    flex-basis: 325px;
+    margin: 1rem;
+    border-radius: 5px;
+    padding: 0.5rem;
+    box-shadow: 0px 0px 6px 0px darkgray;
+}
+
+.profile .info>*>* {
+    margin-bottom: 1rem;
+}
+
+.profile .pri_info p,
+.profile .sec_info p {
+    padding-top: 0.4rem;
+    font-size: 0.8rem;
+    color: rgb(117, 117, 117);
+}
+
+
+.profile .email {
+    /* height: 60px; */
+    display: inline-block;
+}
+
+
+.profile .email a {
+    color: rgb(117, 117, 117);
+    text-decoration: none;
+
+}
+
+.profile .email a:hover {
+    color: rgb(49, 49, 49);
+    text-decoration: underline;
+}
+
+.profile .sec_info {
+    grid-row: auto;
+    /* margin: 1rem; */
+}
+
+
+
+.profile .people {
+    justify-content: space-between;
+    /* gap: 10vw; */
+    position: relative;
+    top: -100px;
+    display: flex;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    flex-wrap: wrap;
+    /* flex-flow: wrap; */
+}
+
+.profile .people>* {
+    flex-basis: 325px;
+    padding: 0.2rem;
 }
 
 .profile .people ul {
-    margin: 0px;
+    margin: 1rem 0 0 0;
+}
+
+.profile .people li {
+    padding: 5px;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+    border: none;
+    box-shadow: 0px 0px 6px 0px darkgray;
 }
 
 

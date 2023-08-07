@@ -1,0 +1,1 @@
+document.getElementsByClassName("sender_name")[0].setAttribute("style", `color :rgb(${a + 90},${a + 90},${a + 90})`)

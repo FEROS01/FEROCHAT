@@ -6,7 +6,8 @@ app_name = "messengers"
 urlpatterns = [
     path("", views.index, name="index"),
     path("messages/", views.messages, name="messages"),
-    path("view_messages/<int:rec_id>", views.view_messages, name="view_messages"),
+    path("view_messages/<int:rec_id>/<str:_type>",
+         views.view_messages, name="view_messages"),
     path("view_media/<int:rec_id>", views.view_media, name="view_media"),
     path("users/", views.users, name="users"),
     path("user_bio/<int:user_id>", views.user_bio, name="user_bio"),
@@ -23,7 +24,7 @@ urlpatterns = [
     path("friends/<int:user_id>", views.friends, name="friends"),
     path("decline_request/<int:sen_id>",
          views.decline_request, name="decline_request"),
-    path("delete_message/<int:msg_id>/<int:rec_id>",
+    path("delete_message/<int:msg_id>/<int:rec_id>/<str:_type>",
          views.delete_message, name="delete_message"),
     path("unfriend/<int:user_id>/<int:friend_id>",
          views.unfriend, name="unfriend"),
