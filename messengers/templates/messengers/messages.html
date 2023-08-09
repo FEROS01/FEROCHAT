@@ -1,6 +1,8 @@
 {% extends "messengers/base.html" %}
 {% load filters %}
+{% load humanize %}
 {% load static %}
+
 
 {% block content %}
 <div class="messages">
@@ -56,10 +58,15 @@
                 {% endif %}
                 <a href="{% url 'messengers:view_messages' use_r.id 'User' %}#unread">
                     <section>{{use_r.username}}</section>
-                    <p>
-                        {{user|la_st:use_r|last|first|default:"Feel free to send a message"|truncatechars:30}}
-                        <strong>{{user|la_st:use_r|last|last|date:'P'|default:""}}</strong>
-                    </p>
+                    <div class="time">
+                        <p>
+                            {{user|la_st:use_r|last|first|default:"Feel free to send a message"|truncatechars:30}}
+                        </p>
+                        <section>
+                            <p><strong>{{user|la_st:use_r|last|last|naturalday:'j/n/y'|default:""}}</strong></p>
+                            <p><strong>{{user|la_st:use_r|last|last|date:'P'|default:""}}</strong></p>
+                        </section>
+                    </div>
                 </a>
 
                 {% else %}
@@ -77,10 +84,15 @@
                 {% endif %}
                 <a href="{% url 'messengers:view_messages' use_r.id 'Group' %}#unread">
                     <section>{{use_r.name}}</section>
-                    <p>
-                        {{user|la_st:use_r|last|first|default:"Feel free to send a message"|truncatechars:30}}
-                        <strong>{{user|la_st:use_r|last|last|date:'P'|default:""}}</strong>
-                    </p>
+                    <div class="time">
+                        <p>
+                            {{user|la_st:use_r|last|first|default:"Feel free to send a message"|truncatechars:30}}
+                        </p>
+                        <section>
+                            <p><strong>{{user|la_st:use_r|last|last|naturalday:'j/n/y'|default:""}}</strong></p>
+                            <p><strong>{{user|la_st:use_r|last|last|date:'P'|default:""}}</strong></p>
+                        </section>
+                    </div>
                 </a>
                 {% endif %}
             </div>
@@ -121,8 +133,18 @@
                 <a href="{% url 'messengers:view_messages' msg.grp_receiver.id 'Group' %}#{{msg.id}}">
                     <section>{{msg.grp_receiver.username}}</section>
                     <p>
-                        You: {{msg.text}}<strong>{{user|la_st:msg.grp_receiver|last|last|date:'P'|default:""}}</strong>
+                        <strong></strong>
                     </p>
+                    <div class="time">
+                        <p>
+                            You: {{msg.text}}
+                        </p>
+                        <section>
+                            <p><strong>{{user|la_st:msg.grp_receiver|last|last|naturalday:'j/n/y'|default:""}}</strong>
+                            </p>
+                            <p><strong>{{user|la_st:msg.grp_receiver|last|last|date:'P'|default:""}}</strong></p>
+                        </section>
+                    </div>
                 </a>
 
                 {% else %}
@@ -140,9 +162,15 @@
                 {% endif %}
                 <a href="{% url 'messengers:view_messages' msg.receiver.id 'User' %}#{{msg.id}}">
                     <section>{{msg.receiver.username}}</section>
-                    <p>
-                        You: {{msg.text}}<strong>{{user|la_st:msg.receiver|last|last|date:'P'|default:""}}</strong>
-                    </p>
+                    <div class="time">
+                        <p>
+                            You: {{msg.text}}
+                        </p>
+                        <section>
+                            <p><strong>{{user|la_st:msg.receiver|last|last|naturalday:'j/n/y'|default:""}}</strong></p>
+                            <p><strong>{{user|la_st:msg.receiver|last|last|date:'P'|default:""}}</strong></p>
+                        </section>
+                    </div>
                 </a>
 
                 {% endif %}
@@ -170,10 +198,16 @@
                 {% endif %}
                 <a href="{% url 'messengers:view_messages' msg.grp_receiver.id 'Group' %}#{{msg.id}}">
                     <section>{{msg.grp_receiver.name}}</section>
-                    <p>
-                        {{msg.sender.username}}:
-                        {{msg.text}}<strong>{{user|la_st:msg.grp_receiver|last|last|date:'P'|default:""}}</strong>
-                    </p>
+                    <div class="time">
+                        <p>
+                            {{msg.sender.username}}: {{msg.text}}
+                        </p>
+                        <section>
+                            <p><strong>{{user|la_st:msg.grp_receiver|last|last|naturalday:'j/n/y'|default:""}}</strong>
+                            </p>
+                            <p><strong>{{user|la_st:msg.grp_receiver|last|last|date:'P'|default:""}}</strong></p>
+                        </section>
+                    </div>
                 </a>
 
                 {% else %}
@@ -191,9 +225,16 @@
                 {% endif %}
                 <a href="{% url 'messengers:view_messages' msg.sender.id 'User' %}#{{msg.id}}">
                     <section>{{msg.sender.username}}</section>
-                    <p>
-                        {{msg.text}}<strong>{{user|la_st:msg.sender|last|last|date:'P'|default:""}}</strong>
-                    </p>
+
+                    <div class="time">
+                        <p>
+                            {{msg.text}}
+                        </p>
+                        <section>
+                            <p><strong>{{user|la_st:msg.sender|last|last|naturalday:'j/n/y'|default:""}}</strong></p>
+                            <p><strong>{{user|la_st:msg.sender|last|last|date:'P'|default:""}}</strong></p>
+                        </section>
+                    </div>
                 </a>
             </div>
         </li>

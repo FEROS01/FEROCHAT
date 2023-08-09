@@ -37,7 +37,7 @@
                     <img src="{{friend.info.prof_pics.url}}" alt="Profile">
                 </a>
                 {% else %}
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                <svg id="prof" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
                     <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
                     <path
                         d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z" />
@@ -45,10 +45,12 @@
                 {% endif %}
                 <p class="name">
                     <a title="{{friend.username}}'s profile"
-                        href="{% url 'messengers:user_bio' friend.id %}">{{friend.username}}</a>
+                        href="{% url 'messengers:user_bio' friend.id 'User' %}">{{friend.username}}</a>
                 </p>
-                <p>{{friend.last_name}} {{friend.first_name}}</p>
-                <p>{{friend.info.about}}</p>
+                <div id="a2">
+                    <p>{{friend.last_name}} {{friend.first_name}}</p>
+                    <p>{{friend.info.about}}</p>
+                </div>
                 <section class="fo_r">
                     <a title="Unfriend" href="{% url 'messengers:unfriend' user.id friend.id %}">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">

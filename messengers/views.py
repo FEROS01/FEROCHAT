@@ -13,17 +13,39 @@ def index(request):
     return render(request, "messengers/index.html")
 
 
-def user_bio(request, user_id):
-    user_bio = User.objects.get(id=user_id)
-    bio_friends = Friends.get_friends(Friends, user_bio, exclude=request.user)
+def user_bio(request, user_id, _type):
     user_friends = Friends.get_friends(Friends, request.user)
-    context = {"user_bio": user_bio, "bio_friends": bio_friends,
-               "user_friends": user_friends}
+    if _type == "User":
+        user_bio = User.objects.get(id=user_id)
+        bio_friends = Friends.get_friends(
+            Friends, user_bio, exclude=request.user)
+        mutual_friends = bio_friends.intersection(user_friends)
+        other_friends = bio_friends.difference(user_friends)
+        context = {
+            "user_bio": user_bio, "bio_friends": bio_friends,
+            "user_friends": user_friends, "mutual_friends": mutual_friends, "other_friends": other_friends, "type": _type
+        }
+    else:
+        group_bio = Group.objects.get(id=user_id)
+        all_members = group_bio.members.all()
+        no_members = all_members.count()
+        admins2 = group_bio.admins.all()
+        admins = admins2.order_by("-date_joined")
+        j_members = all_members.difference(admins2)
+        frnd_members = j_members.intersection(user_friends)
+        friend_members = sorted(list(j_members.intersection(
+            user_friends)), key=lambda x: x.username)
+        other_members = sorted(list(j_members.difference(
+            frnd_members)), key=lambda x: x.username)
+        members = friend_members+other_members
+        context = {
+            "user_bio": group_bio, "members": members, "no_members": no_members, "type": _type, "admins": admins, "user_friends": user_friends
+        }
     return render(request, "messengers/user_bio.html", context)
 
 
 def users(request):
-    users = User.objects.exclude(id=request.user.id)
+    users = User.objects.all()
     friends = Friends.get_friends(Friends, request.user)
     searched = False
     if request.method != "POST":
@@ -194,30 +216,32 @@ def delete_message(request, msg_id, rec_id, _type):
 def send_request(request, rec_id):
     sender = request.user
     receiver = User.objects.get(id=rec_id)
-    if not Friends.check_request(Friends, sender, receiver):
+    check_request = Friends.check_request(Friends, sender, receiver)
+    if sender != receiver and not check_request:
         Friends.objects.create(
             req_sender=sender, req_receiver=receiver, sent_status=True)
         Msg.success(request, "Friend request sent!")
     return users(request)
 
 
-def send_request_bio(request, rec_id, bio_id):
+def send_request_bio(request, rec_id, bio_id, _type):
     sender = request.user
     receiver = User.objects.get(id=rec_id)
-    if not Friends.check_request(Friends, sender, receiver):
+    check_request = Friends.check_request(Friends, sender, receiver)
+    if sender != receiver and not check_request:
         Friends.objects.create(
             req_sender=sender, req_receiver=receiver, sent_status=True)
         Msg.success(request, "Friend request sent!")
-    return user_bio(request, bio_id)
+    return user_bio(request, bio_id, _type)
 
 
-def cancel_request_bio(request, rec_id, bio_id):
+def cancel_request_bio(request, rec_id, bio_id, _type):
     sender = request.user
     receiver = User.objects.get(id=rec_id)
     if Friends.check_request(Friends, sender, receiver):
         Friends.objects.get(req_sender=sender, req_receiver=receiver).delete()
         Msg.success(request, "Friend request canceled!")
-    return user_bio(request, bio_id)
+    return user_bio(request, bio_id, _type)
 
 
 def cancel_request(request, rec_id):
@@ -264,21 +288,22 @@ def _search_friends(c_friends, searched, form, friends):
         name = [friend.username.lower().startswith(search), friend.last_name.lower(
         ).startswith(search), friend.first_name.lower().startswith(search)]
         if not any(name):
-            friends.remove(friend)
-    return searched
+            friends = friends.exclude(username=friend.username)
+    return searched, friends
 
 
 def friends(request, user_id):
     user = User.objects.get(id=user_id)
     friends = Friends.get_friends(Friends, user)
-    c_friends = friends[0:]
+    c_friends = list(friends)
     searched = False
     if request.method != "POST":
         form = Search()
     else:
         form = Search(data=request.POST)
         if form.is_valid():
-            searched = _search_friends(c_friends, searched, form, friends)
+            searched, friends = _search_friends(
+                c_friends, searched, form, friends)
     context = {"friends": friends, "searched": searched, "form": form}
     return render(request, "messengers/friends.html", context)
 

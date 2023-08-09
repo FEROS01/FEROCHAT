@@ -423,12 +423,10 @@ nav .log {
 }
 
 .messages .message {
+    margin-bottom: 1rem;
+    border-radius: 5px;
+    box-shadow: 0px 0px 6px 0px darkgray;
     font-size: 1.1rem;
-
-    border-top-right-radius: 5px;
-    border-top-left-radius: 5px;
-    padding: 8px 0px;
-    border-bottom: 1.5px solid lightgray;
     display: grid;
     display: -ms-grid;
     -ms-grid-columns: 60px 1fr;
@@ -438,7 +436,7 @@ nav .log {
     width: 100%;
     color: rgb(200, 50, 50);
     color: var(--default_color);
-    height: 4rem;
+    padding: 10px;
 }
 
 .messages #unread {
@@ -457,10 +455,9 @@ nav .log {
 
 .messages .message:hover {
     background-image: linear-gradient(to right, rgb(238, 238, 238), white);
-    /* background-color: rgb(238, 238, 238); */
-    height: 4.5rem;
     cursor: pointer;
     font-weight: 500;
+    padding: 13px;
     font-size: 1.2rem;
 }
 
@@ -496,19 +493,25 @@ nav .log {
     color: rgb(200, 50, 50);
 }
 
-.messages p {
-    padding-top: 1rem;
-    /* padding-top: 0.4rem; */
-    -ms-grid-row: 2;
-    grid-row: auto;
-    -ms-grid-row-align: end;
-    font-size: 0.7rem;
-    color: black;
-    /* margin-top: 1.5vh; */
+
+.message .time section {
+    margin-left: auto;
+    /* float: right; */
 }
 
-.message strong {
-    float: right;
+.message .time {
+    display: flex;
+    color: black;
+    font-size: 0.7rem;
+    font-weight: 200;
+    margin-top: 1rem;
+}
+
+.message .time section p {
+    padding-top: 1px;
+    text-align: center;
+    color: black;
+
 }
 
 .messages .bar {
@@ -1209,15 +1212,19 @@ nav .log {
 }
 
 .people li {
+    padding: 1rem;
+    align-content: center;
     display: -ms-grid;
     display: grid;
     -ms-grid-columns: 60px 1fr;
     grid-template-columns: 60px auto;
-    -ms-grid-rows: auto auto auto auto auto;
+    -ms-grid-rows: 2fr 2fr 3fr;
     grid-template-rows: auto auto auto auto auto;
     align-items: center;
     height: 100px;
-    border-bottom: 1.5px solid lightgray;
+    border-radius: 5px;
+    box-shadow: 0px 0px 8px 0px darkgray;
+    margin-bottom: 1rem;
     list-style: none;
     padding-bottom: 1rem;
     font-size: 0.8rem;
@@ -1359,7 +1366,6 @@ nav .log {
 }
 
 .people .name a {
-    padding: 15px 90vw 54px 0px;
     position: relative;
     z-index: 1;
 }
@@ -1407,7 +1413,6 @@ nav .log {
     font-size: 0.8rem;
     color: rgb(200, 50, 50);
     color: var(--default_color);
-    /* color: rgb(111, 111, 111); */
     font-weight: 400;
 }
 
@@ -1518,9 +1523,7 @@ nav .log {
 }
 
 .profile .info {
-    margin-left: 1rem;
-    margin-right: 1rem;
-    justify-content: space-between;
+    justify-content: space-around;
     display: flex;
     position: relative;
     bottom: 120px;
@@ -1528,7 +1531,7 @@ nav .log {
 }
 
 .profile .info>* {
-    flex-basis: 325px;
+    flex-basis: 400px;
     margin: 1rem;
     border-radius: 5px;
     padding: 0.5rem;
@@ -1566,24 +1569,24 @@ nav .log {
 
 .profile .sec_info {
     grid-row: auto;
-    /* margin: 1rem; */
 }
 
 
 
 .profile .people {
-    justify-content: space-between;
-    /* gap: 10vw; */
+    justify-content: space-around;
     position: relative;
     top: -100px;
     display: flex;
-    margin-left: 2rem;
-    margin-right: 2rem;
     flex-wrap: wrap;
-    /* flex-flow: wrap; */
+}
+
+.profile .people #green {
+    color: green;
 }
 
 .profile .people>* {
+    margin: 1rem;
     flex-basis: 325px;
     padding: 0.2rem;
 }
@@ -1593,11 +1596,21 @@ nav .log {
 }
 
 .profile .people li {
+    -ms-grid-rows: auto auto auto auto auto;
+    height: auto;
     padding: 5px;
     border-radius: 5px;
     margin-bottom: 1rem;
     border: none;
     box-shadow: 0px 0px 6px 0px darkgray;
+}
+
+.profile .people .creator {
+    box-shadow: 0px 0px 6px 0px green;
+}
+
+.profile .people #a2 {
+    display: block;
 }
 
 
@@ -1740,6 +1753,14 @@ nav .log {
 
 .friends .people ul {
     margin-top: 0px;
+}
+
+.friends .people li {
+    -ms-grid-rows: 30% 60% 0%;
+}
+
+.friends .people #a2 {
+    display: block;
 }
 
 

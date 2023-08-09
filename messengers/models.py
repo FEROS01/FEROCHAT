@@ -170,12 +170,22 @@ class Friends(models.Model):
         return lis_t
 
     def get_friends(self, user, exclude=False):
-        user_friends = self._get_all_friends(self, user)
-        lis_t = sorted(user_friends, key=lambda x: x.username)
-        if not exclude or exclude not in lis_t:
-            return lis_t
-        lis_t.remove(exclude)
-        return lis_t
+        friendships = self.objects.all()
+        user_friends1 = friendships.filter(req_sender=user)
+        user_friends2 = friendships.filter(req_receiver=user)
+        friendships = (user_friends1 | user_friends2).filter(status=True)
+        # user_friends = self._get_all_friends(self, user)
+        # lis_t = sorted(friends, key=lambda x: x.username)
+        # lis_t = friends.exclude(req_sender=user).exclude(req_receiver=user)
+        lis_t = User.objects.filter(
+            req_sender__in=friendships, req_sender__req_receiver=user).distinct()
+        list_2 = User.objects.filter(
+            req_receiver__in=friendships, req_receiver__req_sender=user).distinct()
+        friends = lis_t | list_2
+        if not exclude or exclude not in friends:
+            return friends
+        # lis_t.remove(exclude)
+        return friends.exclude(username=exclude.username)
 
 
 def group_directory_path(instance, filename):
