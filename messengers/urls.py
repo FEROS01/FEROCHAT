@@ -8,7 +8,8 @@ urlpatterns = [
     path("messages/", views.messages, name="messages"),
     path("view_messages/<int:rec_id>/<str:_type>",
          views.view_messages, name="view_messages"),
-    path("view_media/<int:rec_id>", views.view_media, name="view_media"),
+    path("view_media/<int:rec_id>/<str:_type>",
+         views.view_media, name="view_media"),
     path("users/", views.users, name="users"),
     path("user_bio/<int:user_id>/<str:_type>", views.user_bio, name="user_bio"),
     path("notifications/", views.notifications, name="notifications"),
@@ -28,4 +29,5 @@ urlpatterns = [
          views.delete_message, name="delete_message"),
     path("unfriend/<int:user_id>/<int:friend_id>",
          views.unfriend, name="unfriend"),
+
 ]

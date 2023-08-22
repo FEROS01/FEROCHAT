@@ -60,11 +60,11 @@
                     <section>{{use_r.username}}</section>
                     <div class="time">
                         <p>
-                            {{user|la_st:use_r|last|first|default:"Feel free to send a message"|truncatechars:30}}
+                            {{user|la_st:use_r|first|first|default:"Feel free to send a message"|truncatechars:30}}
                         </p>
                         <section>
-                            <p><strong>{{user|la_st:use_r|last|last|naturalday:'j/n/y'|default:""}}</strong></p>
-                            <p><strong>{{user|la_st:use_r|last|last|date:'P'|default:""}}</strong></p>
+                            <p><strong>{{user|la_st:use_r|first|last|naturalday:'d/m/y'|default:""}}</strong></p>
+                            <p><strong>{{user|la_st:use_r|first|last|date:'P'|default:""}}</strong></p>
                         </section>
                     </div>
                 </a>
@@ -86,11 +86,11 @@
                     <section>{{use_r.name}}</section>
                     <div class="time">
                         <p>
-                            {{user|la_st:use_r|last|first|default:"Feel free to send a message"|truncatechars:30}}
+                            {{user|la_st:use_r|first|first|default:"Feel free to send a message"|truncatechars:30}}
                         </p>
                         <section>
-                            <p><strong>{{user|la_st:use_r|last|last|naturalday:'j/n/y'|default:""}}</strong></p>
-                            <p><strong>{{user|la_st:use_r|last|last|date:'P'|default:""}}</strong></p>
+                            <p><strong>{{user|la_st:use_r|first|last|naturalday:'d/m/y'|default:""}}</strong></p>
+                            <p><strong>{{user|la_st:use_r|first|last|date:'P'|default:""}}</strong></p>
                         </section>
                     </div>
                 </a>
@@ -140,9 +140,9 @@
                             You: {{msg.text}}
                         </p>
                         <section>
-                            <p><strong>{{user|la_st:msg.grp_receiver|last|last|naturalday:'j/n/y'|default:""}}</strong>
+                            <p><strong>{{user|la_st:msg.grp_receiver|last|naturalday:'d/m/y'|default:""}}</strong>
                             </p>
-                            <p><strong>{{user|la_st:msg.grp_receiver|last|last|date:'P'|default:""}}</strong></p>
+                            <p><strong>{{user|la_st:msg.grp_receiver|last|date:'P'|default:""}}</strong></p>
                         </section>
                     </div>
                 </a>
@@ -167,8 +167,8 @@
                             You: {{msg.text}}
                         </p>
                         <section>
-                            <p><strong>{{user|la_st:msg.receiver|last|last|naturalday:'j/n/y'|default:""}}</strong></p>
-                            <p><strong>{{user|la_st:msg.receiver|last|last|date:'P'|default:""}}</strong></p>
+                            <p><strong>{{user|la_st:msg.receiver|last|naturalday:'d/m/y'|default:""}}</strong></p>
+                            <p><strong>{{user|la_st:msg.receiver|last|date:'P'|default:""}}</strong></p>
                         </section>
                     </div>
                 </a>
@@ -203,9 +203,9 @@
                             {{msg.sender.username}}: {{msg.text}}
                         </p>
                         <section>
-                            <p><strong>{{user|la_st:msg.grp_receiver|last|last|naturalday:'j/n/y'|default:""}}</strong>
+                            <p><strong>{{user|la_st:msg.grp_receiver|last|naturalday:'d/m/y'|default:""}}</strong>
                             </p>
-                            <p><strong>{{user|la_st:msg.grp_receiver|last|last|date:'P'|default:""}}</strong></p>
+                            <p><strong>{{user|la_st:msg.grp_receiver|last|date:'P'|default:""}}</strong></p>
                         </section>
                     </div>
                 </a>
@@ -231,8 +231,8 @@
                             {{msg.text}}
                         </p>
                         <section>
-                            <p><strong>{{user|la_st:msg.sender|last|last|naturalday:'j/n/y'|default:""}}</strong></p>
-                            <p><strong>{{user|la_st:msg.sender|last|last|date:'P'|default:""}}</strong></p>
+                            <p><strong>{{user|la_st:msg.sender|last|naturalday:'d/m/y'|default:""}}</strong></p>
+                            <p><strong>{{user|la_st:msg.sender|last|date:'P'|default:""}}</strong></p>
                         </section>
                     </div>
                 </a>

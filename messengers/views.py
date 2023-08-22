@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect
-from django.db.models import F
+from django.db.models import F, Q
 from django.contrib.auth.models import User
 from django.contrib import messages as Msg
-from .models import Messages, Friends, Group, Info
+from .models import Messages, Friends, Group, Info, Membership
 from .form import NewMessage, Search, SearchMessages
 from datetime import datetime
-
+from messenger.settings import TIME_ZONE
+import pytz
+timezone = pytz.timezone(TIME_ZONE)
 # Create your views here.
 
 
@@ -30,7 +32,9 @@ def user_bio(request, user_id, _type):
         all_members = group_bio.members.all()
         no_members = all_members.count()
         admins2 = group_bio.admins.all()
-        admins = admins2.order_by("-date_joined")
+        memberships = Membership.objects.filter(
+            group=group_bio).order_by("-date_joined")
+        admins_memberships = memberships.filter(member__in=admins2)
         j_members = all_members.difference(admins2)
         frnd_members = j_members.intersection(user_friends)
         friend_members = sorted(list(j_members.intersection(
@@ -39,7 +43,7 @@ def user_bio(request, user_id, _type):
             frnd_members)), key=lambda x: x.username)
         members = friend_members+other_members
         context = {
-            "user_bio": group_bio, "members": members, "no_members": no_members, "type": _type, "admins": admins, "user_friends": user_friends
+            "user_bio": group_bio, "members": members, "no_members": no_members, "type": _type, "admins": admins2, "admins_mem": admins_memberships, "user_friends": user_friends, "creator": group_bio.creator
         }
     return render(request, "messengers/user_bio.html", context)
 
@@ -79,18 +83,21 @@ def messages(request):
     searched = False
     msgs = Messages.objects.filter(
         sender=request.user) | Messages.objects.filter(receiver=request.user)
-    groups = request.user.members.all()
-    for group in groups:
-        grp_msgs = group.grp_receiver.all()
-        msgs = msgs | grp_msgs
-    msgs = msgs.order_by("-date_sent")
+    groups = []
+
     if request.method != "POST":
         form = SearchMessages()
     else:
+
         form = SearchMessages(data=request.POST)
         if form.is_valid():
             searched = True
             data = form.cleaned_data["search"].lower()
+            groups = request.user.members.all()
+            for group in groups:
+                grp_msgs = group.grp_receiver.all()
+                msgs = msgs | grp_msgs
+            msgs = msgs.order_by("-date_sent")
             msgs = _search(data, msgs)
     context = {"friends": friends, "form": form,
                "message_s": msgs, "searched": searched}
@@ -221,6 +228,10 @@ def send_request(request, rec_id):
         Friends.objects.create(
             req_sender=sender, req_receiver=receiver, sent_status=True)
         Msg.success(request, "Friend request sent!")
+        request.user.info.notifications += 1
+        receiver.info.notifications += 1
+        receiver.info.save()
+        request.user.info.save()
     return users(request)
 
 
@@ -231,6 +242,10 @@ def send_request_bio(request, rec_id, bio_id, _type):
     if sender != receiver and not check_request:
         Friends.objects.create(
             req_sender=sender, req_receiver=receiver, sent_status=True)
+        request.user.info.notifications += 1
+        receiver.info.notifications += 1
+        receiver.info.save()
+        request.user.info.save()
         Msg.success(request, "Friend request sent!")
     return user_bio(request, bio_id, _type)
 
@@ -239,7 +254,8 @@ def cancel_request_bio(request, rec_id, bio_id, _type):
     sender = request.user
     receiver = User.objects.get(id=rec_id)
     if Friends.check_request(Friends, sender, receiver):
-        Friends.objects.get(req_sender=sender, req_receiver=receiver).delete()
+        Friends.objects.filter(req_sender=sender, req_receiver=receiver,
+                               sent_status=True).update(sent_status=False, friend_date=datetime.now(tz=timezone))
         Msg.success(request, "Friend request canceled!")
     return user_bio(request, bio_id, _type)
 
@@ -248,14 +264,19 @@ def cancel_request(request, rec_id):
     sender = request.user
     receiver = User.objects.get(id=rec_id)
     if Friends.check_request(Friends, sender, receiver):
-        Friends.objects.get(req_sender=sender, req_receiver=receiver).delete()
+        Friends.objects.filter(req_sender=sender, req_receiver=receiver,
+                               sent_status=True).update(sent_status=False, friend_date=datetime.now(tz=timezone))
         Msg.success(request, "Friend request canceled!")
     return users(request)
 
 
 def notifications(request):
     fr_requests = Friends.objects.filter(
-        req_receiver=request.user, status=False)
+        Q(req_receiver=request.user) |
+        Q(req_sender=request.user)
+    ).order_by("-friend_date")
+    request.user.info.notifications = 0
+    request.user.info.save()
     context = {"fr_requests": fr_requests}
     return render(request, "messengers/notifications.html", context)
 
@@ -263,10 +284,13 @@ def notifications(request):
 def accept_request(request, sen_id):
     sender = User.objects.get(id=sen_id)
     receiver = request.user
-    accepted = Friends.objects.get(req_sender=sender, req_receiver=receiver)
-    accepted.status = True
-    accepted.sent_status = False
-    accepted.save()
+    accepted = Friends.objects.filter(
+        req_sender=sender, req_receiver=receiver, sent_status=True)
+    if accepted.exists():
+        accepted.update(status=True, sent_status=False,
+                        friend_date=datetime.now(tz=timezone))
+    sender.info.notifications += 1
+    sender.info.save()
     Msg.success(request, "Friend request accepted!")
     return notifications(request)
 
@@ -275,8 +299,11 @@ def decline_request(request, sen_id):
     sender = User.objects.get(id=sen_id)
     receiver = request.user
     if Friends.check_request(Friends, sender, receiver):
-        Friends.objects.get(req_sender=sender, req_receiver=receiver).delete()
+        Friends.objects.filter(req_sender=sender, req_receiver=receiver, sent_status=True).update(
+            sent_status=False, rejected=True, friend_date=datetime.now(tz=timezone))
         Msg.success(request, "Friend request declined!")
+        sender.info.notifications += 1
+        sender.info.save()
     return notifications(request)
 
 
@@ -310,22 +337,40 @@ def friends(request, user_id):
 
 def unfriend(request, user_id, friend_id):
     friend = User.objects.get(id=friend_id)
-    try:
-        Friends.objects.get(
-            req_sender=friend, req_receiver=request.user).delete()
-    except:
-        Friends.objects.get(
-            req_sender=request.user, req_receiver=friend).delete()
+    Friends.objects.filter(
+        Q(req_sender=friend, req_receiver=request.user, status=True) |
+        Q(req_sender=request.user, req_receiver=friend, status=True)
+    ).delete()
+    # try:
+    #     Friends.objects.get(
+    #         req_sender=friend, req_receiver=request.user).delete()
+    # except:
+    #     Friends.objects.get(
+    #         req_sender=request.user, req_receiver=friend).delete()
     return friends(request, user_id)
 
 
-def view_media(request, rec_id):
-    receiver = User.objects.get(id=rec_id)
-    messages1 = Messages.objects.filter(
-        sender=request.user, receiver=receiver)
-    messages2 = Messages.objects.filter(
-        sender=receiver, receiver=request.user)
-    messages = (messages1 | messages2).order_by("-date_sent")
-    media_msgs = [message for message in messages if message.media]
-    context = {"media_mesgs": media_msgs, "rec_id": rec_id}
+def view_media(request, rec_id, _type):
+    if _type == "User":
+        receiver = User.objects.get(id=rec_id)
+        # messages1 = Messages.objects.filter(
+        #     sender=request.user, receiver=receiver)
+        # messages2 = Messages.objects.filter(
+        #     sender=receiver, receiver=request.user)
+        messages = Messages.objects.filter(
+            Q(sender=request.user, receiver=receiver) |
+            Q(sender=receiver, receiver=request.user)
+        ).order_by("-date_sent")
+        print(messages)
+        # messages = (messages1 | messages2).order_by("-date_sent")
+        media_msgs = messages.exclude(
+            Q(media__isnull=True) | Q(media__exact=""))
+        print(media_msgs)
+        # media_msgs = [message for message in messages if message.media]
+    else:
+        grp = Group.objects.get(id=rec_id)
+        messages = grp.grp_receiver.all()
+        media_msgs = messages.exclude(
+            Q(media__isnull=True) | Q(media__exact=""))
+    context = {"media_mesgs": media_msgs, "rec_id": rec_id, "type": _type}
     return render(request, "messengers/view_media.html", context)

@@ -7,19 +7,34 @@ register = template.Library()
 
 @register.filter(name="la_st")
 def last_message(val, arg):
-    if arg.__class__.__name__ == "User":
+    instance = arg.__class__.__name__
+    if instance == "User":
         sent = val.sender.filter(receiver=arg)
         rec = val.receiver.filter(sender=arg)
-        all = (sent | rec).order_by("date_sent")
+        all = (sent | rec)
+        if not all:
+            return [""]
+        else:
+            last = all.latest("date_sent")
     else:
         all = arg.grp_receiver.all()
-    li = []
-    for al in all:
-        if al.media and not al.text:
-            li.append([al.media_type(), al.date_sent])
+        if not all:
+            return [""]
         else:
-            li.append([al.text, al.date_sent])
-    return li if li else [""]
+            last = all.latest("date_sent")
+
+    li = []
+    if last.media and not last.text:
+        if instance == "Group":
+            li.append([f"{last.sender}: {last.media_type()}", last.date_sent])
+        else:
+            li.append([last.media_type(), last.date_sent])
+    else:
+        if instance == "Group":
+            li.append([f"{last.sender}: {last.text}", last.date_sent])
+        else:
+            li.append([last.text, last.date_sent])
+    return li
 
 
 @register.filter()
@@ -37,10 +52,13 @@ def unread(val, arg):
 
 @register.filter(name="chec_k")
 def if_sent(val, arg):
-    try:
-        return Friends.objects.filter(req_sender=val, req_receiver=arg)[0].sent_status
-    except:
-        return False
+    requests = Friends.objects.filter(
+        req_sender=val, req_receiver=arg, sent_status=True)
+    return requests.exists()
+    # try:
+    #     return Friends.objects.filter(req_sender=val, req_receiver=arg)[0].sent_status
+    # except:
+    #     return False
 
 
 @register.filter(name="m_type")
@@ -56,3 +74,13 @@ def name(val):
 @register.filter(name="check_instance")
 def check_instance(val):
     return val.__class__.__name__ == "User"
+
+
+@register.filter()
+def status(val, arg):
+    if val == arg.creator:
+        return "Creator"
+    elif val in arg.admins.all():
+        return "Admin"
+    else:
+        return "Member"

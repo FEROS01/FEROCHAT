@@ -1,11 +1,9 @@
 from django.db import models
-from django import forms
 from django.contrib.auth.models import User
-from datetime import datetime
-from messenger import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import FileExtensionValidator, validate_image_file_extension
 import magic
+
 
 image = ["gif", "png", "jpeg", "jpg", "webp", "avif", "apng"]
 video = ["mp4", "webm", "ogv"]
@@ -69,10 +67,12 @@ class Messages(models.Model):
         super().delete()
 
     def media_type(self):
-        extension = self.media.url.split(".")[-1]
-        media_type = [typ_e for typ_e,
-                      ext in Media.items() if extension in ext]
-        return media_type[0]
+        if self.media:
+            extension = self.media.url.split(".")[-1]
+            media_type = [typ_e for typ_e,
+                          ext in Media.items() if extension in ext]
+            return media_type[0]
+        return False
 
 
 def user_directory_path(instance, filename):
@@ -97,6 +97,7 @@ class Info(models.Model):
     prof_pics = models.ImageField(
         upload_to=user_directory_path, null=True, blank=True, validators=[validate_image_file_extension, image_type_validator, file_size_val, profile_val])
     unread_messages = models.IntegerField(default=0)
+    notifications = models.IntegerField(default=0)
 
     def __str__(self):
         return self.bio if self.bio else f"{self.user.username}'s Info"
@@ -109,6 +110,7 @@ class Friends(models.Model):
         User, on_delete=models.CASCADE, related_name="req_receiver")
     status = models.BooleanField(default=False)
     sent_status = models.BooleanField(default=False)
+    rejected = models.BooleanField(default=False)
     date_added = models.DateTimeField(auto_now_add=True)
     friend_date = models.DateTimeField(auto_now=True)
 
@@ -116,11 +118,11 @@ class Friends(models.Model):
         return f"{self.req_sender}_To_{self.req_receiver}"
 
     def check_request(self, sender, receiver):
-        try:
-            self.objects.get(req_sender=sender, req_receiver=receiver)
-            return True
-        except:
-            return False
+        requests = self.objects.filter(
+            models.Q(req_sender=sender, req_receiver=receiver, sent_status=True) |
+            models.Q(req_sender=sender, req_receiver=receiver, status=True)
+        )
+        return requests.exists()
 
     def _message_date(x, user):
         if x.__class__.__name__ == "User":
@@ -141,7 +143,7 @@ class Friends(models.Model):
                     return x.req_receiver.filter(req_sender=user)[0].friend_date
 
         else:
-            grp_rec_msg = x.grp_receiver.filter(sender=user)
+            grp_rec_msg = x.grp_receiver.all()
             if grp_rec_msg:
                 return grp_rec_msg.latest("date_sent").date_sent
             return user.membership_set.get(group=x).date_joined

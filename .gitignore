@@ -64,6 +64,8 @@ coverage.xml
 *.cover 
 .hypothesis/ 
 
+# vscode
+.vscode
 
 # pyenv 
 .python-version 

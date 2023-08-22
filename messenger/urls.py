@@ -25,6 +25,7 @@ urlpatterns = [
     path('users/password_reset/done/', PasswordResetDoneView.as_view(
         template_name='registration/password_reset_done.html'), name='password_reset_done'),
     path('admin/', admin.site.urls),
+    path('groups/', include('Groups.urls')),
     path('users/', include('users.urls')),
     path('settings/', include('settings.urls')),
     path('', include('messengers.urls')),

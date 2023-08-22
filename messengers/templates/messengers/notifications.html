@@ -1,4 +1,5 @@
 {% extends 'messengers/base.html' %}
+{% load filters %}
 
 {% block content %}
 <div class="fri_req">
@@ -19,30 +20,94 @@
                         d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z" />
                 </svg>
                 {% endif %}
-                <p>
-                    <a href="{% url 'messengers:user_bio' req.req_sender.id %}">{{req.req_sender}}</a> sent you a friend
-                    request
-                </p>
-                <div class="butns">
-                    <button class="accept">
-                        <a href="{%url 'messengers:accept_request' req.req_sender.id%}">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-                                <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
-                                <path
-                                    d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z" />
-                            </svg>
-                        </a>
-                    </button>
-                    <button class="decline">
-                        <a href="{%url 'messengers:decline_request' req.req_sender.id%}">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                                <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
-                                <path
-                                    d="M367.2 412.5L99.5 144.8C77.1 176.1 64 214.5 64 256c0 106 86 192 192 192c41.5 0 79.9-13.1 111.2-35.5zm45.3-45.3C434.9 335.9 448 297.5 448 256c0-106-86-192-192-192c-41.5 0-79.9 13.1-111.2 35.5L412.5 367.2zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256z" />
-                            </svg>
-                        </a>
-                    </button>
+                {% if req.req_sender == user %}
+
+                <div class="sent">
+                    {% if req.sent_status %}
+                    <section id="p">
+                        <p>{{req.req_receiver.username}} has received your friend request</p>
+                        <p>{{req.date_added}}</p>
+                    </section>
+                    <a title="Cancel Request" href="{%url 'messengers:cancel_request' req.req_receiver.id %}">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                            <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                            <path
+                                d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z" />
+                        </svg>
+                    </a>
+                    {% elif req.rejected %}
+                    <section id="p">
+                        <p>{{req.req_receiver.username}} rejected your friend request</p>
+                        <p>{{req.friend_date}}</p>
+                    </section>
+                    {% elif req.status %}
+                    <section id="p">
+                        <p>{{req.req_receiver.username}} accepted your friend request</p>
+                        <p>{{req.friend_date}}</p>
+                    </section>
+                    {% else %}
+                    <section id="p">
+                        <p>Friend request to {{req.req_receiver}} was canceled </p>
+                        <p>{{req.friend_date}}</p>
+                        {% endif %}
                 </div>
+
+                {% elif req.req_sender != user %}
+                <div class="received">
+                    {% if req.status %}
+                    <section id="p">
+                        <a href="{% url 'messengers:user_bio' req.req_sender.id 'User' %}">{{req.req_sender}}</a>
+                        <p>sent you a friend request</p>
+                        <p>{{req.friend_date}}</p>
+                    </section>
+                    <section id="green">
+                        <p>Accepted</p>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                            <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                            <path
+                                d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z" />
+                        </svg>
+                    </section>
+                    {% elif req.sent_status %}
+                    <section id="p">
+                        <a href="{% url 'messengers:user_bio' req.req_sender.id 'User' %}">{{req.req_sender}}</a>
+                        <p>sent you a friend request</p>
+                        <p>{{req.date_added}}</p>
+                    </section>
+                    <div class="butns">
+                        <button class="accept">
+                            <a href="{%url 'messengers:accept_request' req.req_sender.id%}">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                    <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                    <path
+                                        d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z" />
+                                </svg>
+                            </a>
+                        </button>
+                        <button class="decline">
+                            <a href="{%url 'messengers:decline_request' req.req_sender.id%}">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                    <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                    <path
+                                        d="M367.2 412.5L99.5 144.8C77.1 176.1 64 214.5 64 256c0 106 86 192 192 192c41.5 0 79.9-13.1 111.2-35.5zm45.3-45.3C434.9 335.9 448 297.5 448 256c0-106-86-192-192-192c-41.5 0-79.9 13.1-111.2 35.5L412.5 367.2zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256z" />
+                                </svg>
+                            </a>
+                        </button>
+                    </div>
+                    {% elif req.rejected %}
+                    <section id="p">
+                        <p>You rejected friend request from {{req.req_sender}}</p>
+                        <p>{{req.friend_date}}</p>
+                    </section>
+                    {% else %}
+                    <section id="p">
+                        <p>Friend request to you was canceled by {{req.req_sender}}</p>
+                        <p>{{req.friend_date}}</p>
+                    </section>
+                    {% endif %}
+                </div>
+
+                {% endif %}
             </div>
         </li>
         {% empty %}
