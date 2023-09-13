@@ -28,8 +28,9 @@
         </form>
 
     </div>
+    <div class="pro_space"></div>
     <ul>
-        {% for use_r in users|dictsort:"username" %}
+        {% for use_r in users %}
 
         <li>
             {% if use_r.info.prof_pics %}
@@ -44,7 +45,7 @@
             </svg>
             {% endif %}
             <p class="name"><a title="{{use_r.username}}'s profile"
-                    href="{% url 'messengers:user_bio' use_r.id 'User' %}">{{use_r.username}}</a></p>
+                    href="{% url 'messengers:user_bio' use_r.id %}">{{use_r.username}}</a></p>
             <p id="a2">{{use_r.last_name}} {{use_r.first_name}}</p>
             {% if use_r not in friends %}
             {% if user|chec_k:use_r %}
@@ -64,7 +65,7 @@
             <p class="for"></p>
             {% else %}
             <p class="for">
-                <a title="Send Friend Request" href="{%url 'messengers:send_request' use_r.id%}">
+                <a title="Send Friend Request" href="{%url 'messengers:send_request' use_r.id %}">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
                         <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
                         <path

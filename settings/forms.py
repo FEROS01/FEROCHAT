@@ -1,5 +1,6 @@
-from messengers.models import User, Info
 from django.forms import ModelForm, EmailInput, EmailField
+
+from messengers.models import User, Info
 
 
 class ProfileForm(ModelForm):

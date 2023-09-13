@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
-from .forms import NewUserCreationForm
 from django.contrib import messages
 
+from .forms import NewUserCreationForm
+
+
 # Create your views here.
-# Save the info model with any new user
 
 
 def sign_up(request):

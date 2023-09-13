@@ -7,7 +7,7 @@
 {% block content %}
 <div class="view_media">
     <div class="bar">
-        <a title="Return to messages" href="{% url 'messengers:view_messages' rec_id 'User' %}#bottom">
+        <a title="Return to messages" href="{% url 'messengers:view_messages' rec_id 'Group' %}#bottom">
             <svg id="arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
                 <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
                 <path
@@ -29,7 +29,7 @@
                 <div class="card_bottom">
                     <p>{{media.media.size|filesizeformat}}</p>
                     <a id="eye_link" title="View in message"
-                        href="{% url 'messengers:view_messages' rec_id 'User' %}#{{media.id}}">
+                        href="{% url 'messengers:view_messages' rec_id 'Group' %}#{{media.id}}">
                         <svg id="eye" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
                             <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
                             <path
@@ -58,7 +58,7 @@
                 <div class="card_bottom">
                     <p>{{media.media.size|filesizeformat}}</p>
                     <a id="eye_link" title="View in message"
-                        href="{% url 'messengers:view_messages' rec_id 'User' %}#{{media.id}}">
+                        href="{% url 'messengers:view_messages' rec_id 'Group' %}#{{media.id}}">
                         <svg id="eye" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
                             <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
                             <path
@@ -94,7 +94,7 @@
                 <div class="card_bottom">
                     <p>{{media.media.size|filesizeformat}}</p>
                     <a id="eye_link" title="View in message"
-                        href="{% url 'messengers:view_messages' rec_id 'User' %}#{{media.id}}">
+                        href="{% url 'messengers:view_messages' rec_id 'Group' %}#{{media.id}}">
                         <svg id="eye" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
                             <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
                             <path
@@ -133,7 +133,7 @@
                 <div class="card_bottom">
                     <p>{{media.media.size|filesizeformat}}</p>
                     <a id="eye_link" title="View in message"
-                        href="{% url 'messengers:view_messages' rec_id 'User' %}#{{media.id}}">
+                        href="{% url 'messengers:view_messages' rec_id 'Group' %}#{{media.id}}">
                         <svg id="eye" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
                             <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
                             <path

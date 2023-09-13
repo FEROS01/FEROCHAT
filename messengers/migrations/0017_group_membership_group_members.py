@@ -4,6 +4,7 @@ from django.conf import settings
 from django.db import migrations, models
 import django.db.models.deletion
 import messengers.models
+import Groups.models
 
 
 class Migration(migrations.Migration):
@@ -17,28 +18,37 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Group',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.BigAutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=15)),
                 ('description', models.CharField(blank=True, max_length=100)),
                 ('date_created', models.DateTimeField(auto_now_add=True)),
-                ('prof_pics', models.ImageField(blank=True, null=True, upload_to=messengers.models.group_directory_path)),
-                ('admins', models.ManyToManyField(related_name='admins', to=settings.AUTH_USER_MODEL)),
-                ('creator', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('prof_pics', models.ImageField(blank=True, null=True,
+                 upload_to=Groups.models.group_directory_path)),
+                ('admins', models.ManyToManyField(
+                    related_name='admins', to=settings.AUTH_USER_MODEL)),
+                ('creator', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),
         migrations.CreateModel(
             name='Membership',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.BigAutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
                 ('date_joined', models.DateTimeField(auto_now_add=True)),
-                ('group', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='messengers.group')),
-                ('inviter', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='inviter', to=settings.AUTH_USER_MODEL)),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('group', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE, to='messengers.group')),
+                ('inviter', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE,
+                 related_name='inviter', to=settings.AUTH_USER_MODEL)),
+                ('user', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),
         migrations.AddField(
             model_name='group',
             name='members',
-            field=models.ManyToManyField(related_name='members', through='messengers.Membership', to=settings.AUTH_USER_MODEL),
+            field=models.ManyToManyField(
+                related_name='members', through='messengers.Membership', to=settings.AUTH_USER_MODEL),
         ),
     ]

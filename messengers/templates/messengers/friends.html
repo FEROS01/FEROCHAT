@@ -25,12 +25,12 @@
                     </svg>
                 </a>
                 {% endif %}
-                <input type="hidden" name="next" value="{% url 'messengers:friends' %">
+                <input type="hidden" name="next" value="{% url 'messengers:friends' user.id %}">
             </form>
         </div>
         <div class="pro_space"></div>
         <ul>
-            {% for friend in friends%}
+            {% for friend in friends %}
             <li>
                 {% if friend.info.prof_pics %}
                 <a title="{{friend.username}}'s Picture" id="prof" href="{{friend.info.prof_pics.url}}">
@@ -45,7 +45,7 @@
                 {% endif %}
                 <p class="name">
                     <a title="{{friend.username}}'s profile"
-                        href="{% url 'messengers:user_bio' friend.id 'User' %}">{{friend.username}}</a>
+                        href="{% url 'messengers:user_bio' friend.id %}">{{friend.username}}</a>
                 </p>
                 <div id="a2">
                     <p>{{friend.last_name}} {{friend.first_name}}</p>

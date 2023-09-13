@@ -1,13 +1,17 @@
-from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
+from django.shortcuts import render, redirect
 from django.contrib import messages
+
 from settings.forms import ProfileForm, InfoForm
 
 
+@login_required
 def settings(request):
     return render(request, "settings/setting.html")
 
 
+@login_required
 def edit_prof(request):
     info = request.user.info
     if request.method != "POST":
@@ -21,11 +25,12 @@ def edit_prof(request):
             prof_form.save()
             info_form.save()
             messages.success(request, "Profile updated")
-            return redirect("settings:setting")
+            return redirect("messengers:user_bio", user_id=request.user.id)
     context = {"prof_form": prof_form, "info_form": info_form}
     return render(request, "settings/edit_prof.html", context)
 
 
+@login_required
 def edit_pass(request):
     if request.method != "POST":
         form = PasswordChangeForm(request.user)

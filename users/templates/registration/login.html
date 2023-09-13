@@ -31,7 +31,9 @@
             <a id="forgot" href="{% url 'users:password_reset' %}">
                 Forgot password?
             </a>
-            <input type="hidden" name="next" value="{% url 'messengers:index' %}">
+            {% if request.GET.next %}
+            <input type="hidden" name="next" value="{{next}}">
+            {% endif %}
         </form>
     </div>
 </div>

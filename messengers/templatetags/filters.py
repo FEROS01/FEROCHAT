@@ -1,8 +1,19 @@
 from django import template
 from messengers.models import Friends
 from messengers.models import Messages
+from messengers.helpers import Media
 
 register = template.Library()
+
+
+@register.filter(name="type")
+def media_type(val):
+    if val:
+        extension = val.split(".")[-1]
+        media_type = [typ_e for typ_e,
+                      ext in Media.items() if extension in ext]
+        return media_type[0]
+    return ''
 
 
 @register.filter(name="la_st")

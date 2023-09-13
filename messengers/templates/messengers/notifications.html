@@ -1,12 +1,23 @@
 {% extends 'messengers/base.html' %}
 {% load filters %}
+{% load humanize %}
 
 {% block content %}
 <div class="fri_req">
+
     <div class="bar">Notifications</div>
     <div class="pro_space"></div>
     <ul>
         {% for req in fr_requests %}
+        {% ifchanged req.friend_date.year %}
+        <h2 id="year">{{req.friend_date.year}}</h2>
+        {% endifchanged %}
+        {% ifchanged req.friend_date.day %}
+        <h3>
+            {{req.friend_date|naturalday:"F d"}}
+        </h3>
+        {% endifchanged %}
+
         <li>
             <div class="request">
                 {% if req.req_sender.info.prof_pics %}
@@ -26,7 +37,7 @@
                     {% if req.sent_status %}
                     <section id="p">
                         <p>{{req.req_receiver.username}} has received your friend request</p>
-                        <p>{{req.date_added}}</p>
+                        <p>{{req.date_added|date:'P'}}&nbsp;{{req.date_added|naturaltime}}</p>
                     </section>
                     <a title="Cancel Request" href="{%url 'messengers:cancel_request' req.req_receiver.id %}">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -38,17 +49,17 @@
                     {% elif req.rejected %}
                     <section id="p">
                         <p>{{req.req_receiver.username}} rejected your friend request</p>
-                        <p>{{req.friend_date}}</p>
+                        <p>{{req.friend_date|date:'P'}}&nbsp;{{req.friend_date|naturaltime}}</p>
                     </section>
                     {% elif req.status %}
                     <section id="p">
                         <p>{{req.req_receiver.username}} accepted your friend request</p>
-                        <p>{{req.friend_date}}</p>
+                        <p>{{req.friend_date|date:'P'}}&nbsp;{{req.friend_date|naturaltime}}</p>
                     </section>
                     {% else %}
                     <section id="p">
                         <p>Friend request to {{req.req_receiver}} was canceled </p>
-                        <p>{{req.friend_date}}</p>
+                        <p>{{req.friend_date|date:'P'}}&nbsp;{{req.friend_date|naturaltime}}</p>
                         {% endif %}
                 </div>
 
@@ -56,9 +67,9 @@
                 <div class="received">
                     {% if req.status %}
                     <section id="p">
-                        <a href="{% url 'messengers:user_bio' req.req_sender.id 'User' %}">{{req.req_sender}}</a>
+                        <a href="{% url 'messengers:user_bio' req.req_sender.id %}">{{req.req_sender}}</a>
                         <p>sent you a friend request</p>
-                        <p>{{req.friend_date}}</p>
+                        <p>{{req.friend_date|date:'P'}}&nbsp;{{req.friend_date|naturaltime}}</p>
                     </section>
                     <section id="green">
                         <p>Accepted</p>
@@ -70,9 +81,9 @@
                     </section>
                     {% elif req.sent_status %}
                     <section id="p">
-                        <a href="{% url 'messengers:user_bio' req.req_sender.id 'User' %}">{{req.req_sender}}</a>
+                        <a href="{% url 'messengers:user_bio' req.req_sender.id %}">{{req.req_sender}}</a>
                         <p>sent you a friend request</p>
-                        <p>{{req.date_added}}</p>
+                        <p>{{req.date_added|date:'P'}}&nbsp;{{req.date_added|naturaltime}}</p>
                     </section>
                     <div class="butns">
                         <button class="accept">
@@ -97,12 +108,12 @@
                     {% elif req.rejected %}
                     <section id="p">
                         <p>You rejected friend request from {{req.req_sender}}</p>
-                        <p>{{req.friend_date}}</p>
+                        <p>{{req.friend_date|date:'P'}}&nbsp;{{req.friend_date|naturaltime}}</p>
                     </section>
                     {% else %}
                     <section id="p">
                         <p>Friend request to you was canceled by {{req.req_sender}}</p>
-                        <p>{{req.friend_date}}</p>
+                        <p>{{req.friend_date|date:'P'}}&nbsp;{{req.friend_date|naturaltime}}</p>
                     </section>
                     {% endif %}
                 </div>

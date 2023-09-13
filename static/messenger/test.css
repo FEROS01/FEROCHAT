@@ -67,7 +67,7 @@
 }
 
 * {
-    transition: all 0.3s;
+    /* transition: all 0.3s; */
     padding: 0;
     margin: 0;
     box-sizing: border-box;
@@ -90,6 +90,7 @@ html {
     overflow-y: scroll;
     scroll-behavior: smooth;
     overflow-x: hidden;
+    transition: none;
 }
 
 
@@ -97,6 +98,7 @@ body {
     background-color: white;
     display: flex;
     flex-direction: column;
+    transition: none;
 }
 
 
@@ -134,11 +136,13 @@ body {
 }
 
 .block {
+    transition: none;
     display: flex;
     flex-direction: column;
 }
 
 .no_cont {
+    text-align: center;
     display: flex;
     justify-content: center;
     height: 80vh;
@@ -155,32 +159,47 @@ body {
 
 .no_cont a:hover {
     font-size: 18px;
-    filter: invert(0.7);
+    color: rgb(55, 205, 205);
 }
 
-.popup .success {
-    padding: 0px 2px;
-    height: 30px;
+.popup .success,
+.popup .error {
+    margin: 0.5rem;
+    padding: 1rem;
     color: white;
     border-radius: 5px;
-    list-style: none;
     display: flex;
     align-items: center;
     width: fit-content;
     list-style: none;
-    /* background-color: rgb(91, 233, 78); */
-    background-color: rgb(173, 172, 172);
     animation: vanish1 1s ease 3s;
 }
 
+.popup .success {
+    background-color: #29b1b1;
+}
+
+.popup .error {
+    background-color: rgb(200, 50, 50);
+}
+
+
+.popup svg {
+    fill: white;
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-right: 1rem;
+}
+
 .popup {
+    z-index: 5;
+    top: 50vh;
     height: 51px;
-    position: relative;
+    position: fixed;
     align-self: center;
     font-size: 0.7rem;
     animation: vanish 1s ease 3s;
     animation-fill-mode: forwards;
-
 }
 
 @keyframes vanish {
@@ -190,14 +209,11 @@ body {
 
     to {
         height: 0px;
+        display: none;
     }
 }
 
 @keyframes vanish1 {
-    from {
-        background-color: rgb(173, 172, 172);
-    }
-
     to {
         background-color: white;
     }
@@ -242,7 +258,7 @@ nav .logo {
     color: rgb(200, 50, 50);
     color: var(--default_color);
     font-weight: 800;
-
+    transition: all 0.3s;
     animation: title_bounce 2s;
     animation-timing-function: ease-in;
 }
@@ -415,7 +431,7 @@ nav .log {
 }
 
 .messages ul {
-    margin: 67px 1rem 0rem 1rem;
+    margin: 0px 1rem 0rem 1rem;
 }
 
 .messages li {
@@ -516,8 +532,20 @@ nav .log {
 
 }
 
+.messages .time #svgs svg {
+    fill: rgb(117, 117, 117);
+    width: 16px;
+    height: 16px;
+}
+
+.messages .time #svgs {
+    display: flex;
+}
+
+
 .messages .bar {
     display: flex;
+    align-items: center;
 }
 
 .messages form,
@@ -526,7 +554,22 @@ nav .log {
     text-transform: none;
     font-size: 0.8rem;
     display: flex;
+    margin-left: 5px;
+}
+
+.messages .bar #create_grp {
     margin-left: auto;
+}
+
+.messages #create_grp svg {
+    fill: rgb(200, 50, 50);
+    width: 20px;
+    height: 20px;
+}
+
+.messages #create_grp svg:hover {
+    width: 23px;
+    height: 23px;
 }
 
 .messages form button,
@@ -599,17 +642,18 @@ nav .log {
     position: fixed;
     position: sticky;
     position: -webkit-sticky;
-    top: 50vh;
+    top: 20vh;
 }
 
 .view_mesg .members {
-    color: darkgrey;
+    white-space: nowrap;
+    overflow: hidden;
+    /* position: absolute; */
+    width: 200px;
+    text-overflow: ellipsis;
+    color: rgb(101, 100, 100);
     font-size: 0.8rem;
     text-transform: none;
-}
-
-.view_mesg #search_form {
-    margin-left: 5px;
 }
 
 .view_mesg #scroll_down svg,
@@ -620,7 +664,8 @@ nav .log {
 }
 
 
-.view_mesg #media_files:hover {
+.view_mesg #media_files:hover,
+.view_mesg #scroll_down svg:hover {
     width: 22px;
     height: 22px;
 }
@@ -676,7 +721,7 @@ nav .log {
 
 .view_mesg .bar img,
 .view_mesg .bar svg {
-    margin-right: 3px;
+    margin-right: 10px;
     fill: rgb(173, 172, 172);
     width: 50px;
     height: 50px;
@@ -878,7 +923,8 @@ nav .log {
     color: rgb(200, 50, 50);
 }
 
-.view_mesg #msg_form {
+.view_mesg #msg_form,
+.view_mesg #noReply {
     background-color: white;
     position: fixed;
     padding: 2vh 1rem 1vh 0rem;
@@ -998,6 +1044,18 @@ nav .log {
     -ms-grid-column: 2;
 }
 
+.view_mesg #noReply {
+    justify-content: center;
+    padding-right: 0;
+}
+
+.view_mesg #noReply p {
+    background-color: rgb(113, 113, 113);
+    color: white;
+    font-size: 0.8rem;
+    padding: 5px;
+    border-radius: 5px;
+}
 
 
 /* VIEW_MEDIA */
@@ -1213,7 +1271,7 @@ nav .log {
 }
 
 .people ul {
-    margin: 67px 1rem 0px 1rem;
+    margin: 0px 1rem 0px 1rem;
 }
 
 .people li {
@@ -1413,12 +1471,11 @@ nav .log {
 
 .profile .bar svg {
     fill: white;
-    /* fill: rgb(173, 172, 172); */
     height: 20px;
     width: 20px;
 }
 
-.profile .bar p {
+.profile .bar #username {
     align-items: center;
     text-transform: none;
     width: 97%;
@@ -1429,13 +1486,23 @@ nav .log {
     font-weight: 400;
 }
 
-.profile .bar p a {
-    margin-left: auto;
+.profile .bar #username p {
+    margin-left: 25px;
+}
+
+
+.profile .bar a {
+    display: inline-flex;
+    margin: 10px;
     text-decoration: none;
     font-size: 0.8rem;
     color: rgb(117, 117, 117);
     font-weight: 400;
 
+}
+
+.profile .bar #arrow {
+    margin: 0px;
 }
 
 .profile .bar p a:hover {
@@ -1451,17 +1518,9 @@ nav .log {
 
 .profile .bar #edit {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
+    margin-left: auto;
 }
 
-.profile .bar #edit:hover {
-    width: 32px;
-    height: 32px;
-}
 
 .profile .scale {
     background-color: #060606;
@@ -1507,7 +1566,7 @@ nav .log {
 .profile h4 {
     display: inline-flex;
     font-size: 0.9rem;
-    color: rgb(200, 50, 50);
+    color: darkcyan;
     border-bottom: 1.5px dashed lightgray;
 }
 
@@ -1560,6 +1619,33 @@ nav .log {
     padding-top: 0.4rem;
     font-size: 0.8rem;
     color: rgb(117, 117, 117);
+}
+
+.profile .info .request svg {
+    fill: rgb(200, 50, 50);
+    width: 18px;
+    height: 18px;
+}
+
+.profile .info .request svg:hover {
+    width: 20px;
+    height: 20px;
+}
+
+.profile .info .request section {
+    background-color: rgb(238, 238, 238);
+    padding: 4px;
+    align-items: center;
+    border-radius: 5px;
+    display: flex;
+}
+
+.profile .info .request section p {
+    padding: 0;
+}
+
+.profile .info .request a {
+    margin-left: auto;
 }
 
 .profile .add a {
@@ -1658,8 +1744,19 @@ nav .log {
 
 
 /* FRIEND  REQUESTS */
+
+.fri_req #year {
+    margin: 1rem 0 0.5rem 0;
+}
+
 .fri_req ul {
     padding: 0rem 1rem;
+}
+
+.fri_req ul h3 {
+    color: darkcyan;
+    margin-bottom: 1.5rem;
+    text-align: center;
 }
 
 .fri_req li {
@@ -1699,6 +1796,10 @@ nav .log {
     -ms-grid-columns: auto auto;
     -ms-grid-rows: auto auto auto auto;
     padding: 1rem;
+}
+
+.fri_req .request:hover {
+    box-shadow: 0px 0px 8px 2px darkgray;
 }
 
 
@@ -1847,9 +1948,9 @@ nav .log {
     margin: 0rem 1rem;
 }
 
-.settings .pro_space {
+/* .settings .pro_space {
     height: 50px;
-}
+} */
 
 .settings h3 {
     color: rgb(200, 50, 50);
@@ -1857,11 +1958,19 @@ nav .log {
 }
 
 .settings .edit_prof {
+    padding: 1rem;
+    margin-bottom: 1rem;
     width: 100%;
     height: 80px;
-    border-bottom: 1.5px solid lightgray;
+    border-radius: 5px;
+    box-shadow: 0px 0px 6px 0px darkgrey;
     display: flex;
     align-items: center;
+}
+
+.settings .edit_prof:hover {
+    background-image: linear-gradient(to right, rgb(238, 238, 238), white);
+    box-shadow: 0px 0px 8px 2px darkgrey;
 }
 
 .settings a {
@@ -1961,7 +2070,7 @@ nav .log {
 .edit_pass h3 {
     text-align: center;
     font-size: 2rem;
-    color: darkgrey;
+    color: darkcyan;
 
 }
 
@@ -2074,7 +2183,7 @@ nav .log {
 .login h3 {
     /* margin-left: 30%; */
     text-align: center;
-    color: rgb(200, 50, 50);
+    color: darkcyan;
     margin-bottom: 30px;
     font-weight: 600;
 
@@ -2216,8 +2325,22 @@ nav .log {
 
 .select_mem .form_card {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    /* flex-direction: column; */
     margin: 1rem;
+}
+
+.select_mem h4 {
+    display: inline-flex;
+    color: darkcyan;
+    border-bottom: 2px darkgrey dashed;
+    margin-bottom: 0.5rem;
+}
+
+.select_mem .form_card>* {
+    margin: 1rem;
+    flex-basis: 325px;
 }
 
 .select_mem .field {
@@ -2319,4 +2442,37 @@ nav .log {
 
 .create_group .select_form {
     margin-top: 1rem;
+}
+
+/* PAGE ERROR */
+
+.page_error {
+    height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.page_error .error_card {
+    margin: 1rem;
+    flex-direction: column;
+    align-items: center;
+    display: flex;
+    background-color: rgb(238, 238, 238);
+    border: 1.5px solid lightgray;
+    border-radius: 5px;
+    padding: 1rem;
+    color: darkcyan;
+    text-align: center;
+}
+
+.page_error .error_card svg {
+    width: 30px;
+    height: 30px;
+    fill: rgb(200, 50, 50);
+}
+
+.page_error .error_card p {
+    font-size: 0.8rem;
+    color: rgb(117, 117, 117);
 }

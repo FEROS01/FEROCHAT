@@ -1,9 +1,10 @@
-from django.contrib.auth.forms import UserCreationForm
-from django.forms import PasswordInput
 from django.contrib.auth.forms import PasswordResetForm
-from messengers.models import Info, User
+from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
+from django.forms import PasswordInput
 from django import forms
+
+from messengers.models import Info, User
 
 
 class NewUserCreationForm(UserCreationForm):

@@ -1,5 +1,5 @@
 from django import forms
-from messengers.models import Group, User
+from Groups.models import Group
 
 
 class GroupEditForm(forms.ModelForm):
@@ -10,16 +10,16 @@ class GroupEditForm(forms.ModelForm):
 
 class SelectMemberForm(forms.Form):
     users = forms.MultipleChoiceField(
-        widget=forms.CheckboxSelectMultiple(choices=[]))
+        widget=forms.CheckboxSelectMultiple(choices=[]), required=False)
+    admins = forms.MultipleChoiceField(
+        widget=forms.CheckboxSelectMultiple(choices=[]), required=False)
 
     def __init__(self, *args, **kwargs):
         selected_choices = kwargs.pop("selected_choices")
+        selected_admin_choices = kwargs.pop("selected_admin_choices")
         super().__init__(*args, **kwargs)
         self.fields["users"].choices = selected_choices
-
-
-# users = User.objects.all()
-# CHOICES = [(user.username, user.username) for user in users]
+        self.fields["admins"].choices = selected_admin_choices
 
 
 class GroupCreationForm(forms.ModelForm):

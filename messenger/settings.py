@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'messengers',
     'users',
     'settings',
+    'django_htmx',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -54,6 +55,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_htmx.middleware.HtmxMiddleware',
 ]
 
 ROOT_URLCONF = 'messenger.urls'
@@ -142,3 +144,6 @@ MEDIA_URL = "media/"
 # Email
 EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
 EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
+
+LOGIN_URL = "users:login"
+LOGIN_REDIRECT_URL = "messengers:index"

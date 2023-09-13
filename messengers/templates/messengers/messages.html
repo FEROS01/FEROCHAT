@@ -8,6 +8,13 @@
 <div class="messages">
     <div class="bar">
         <span>Messages</span>
+        <a id="create_grp" title="Create group" href="{% url 'Groups:create_group' %}">
+            <svg xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 640 512"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                <path
+                    d="M72 88a56 56 0 1 1 112 0A56 56 0 1 1 72 88zM64 245.7C54 256.9 48 271.8 48 288s6 31.1 16 42.3V245.7zm144.4-49.3C178.7 222.7 160 261.2 160 304c0 34.3 12 65.8 32 90.5V416c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V389.2C26.2 371.2 0 332.7 0 288c0-61.9 50.1-112 112-112h32c24 0 46.2 7.5 64.4 20.3zM448 416V394.5c20-24.7 32-56.2 32-90.5c0-42.8-18.7-81.3-48.4-107.7C449.8 183.5 472 176 496 176h32c61.9 0 112 50.1 112 112c0 44.7-26.2 83.2-64 101.2V416c0 17.7-14.3 32-32 32H480c-17.7 0-32-14.3-32-32zm8-328a56 56 0 1 1 112 0A56 56 0 1 1 456 88zM576 245.7v84.7c10-11.3 16-26.1 16-42.3s-6-31.1-16-42.3zM320 32a64 64 0 1 1 0 128 64 64 0 1 1 0-128zM240 304c0 16.2 6 31 16 42.3V261.7c-10 11.3-16 26.1-16 42.3zm144-42.3v84.7c10-11.3 16-26.1 16-42.3s-6-31.1-16-42.3zM448 304c0 44.7-26.2 83.2-64 101.2V448c0 17.7-14.3 32-32 32H288c-17.7 0-32-14.3-32-32V405.2c-37.8-18-64-56.5-64-101.2c0-61.9 50.1-112 112-112h32c61.9 0 112 50.1 112 112z" />
+            </svg>
+        </a>
         <form action="{% url 'messengers:messages' %}" method="post">
             {% csrf_token %}
             {{form.as_div}}
@@ -30,6 +37,7 @@
             <input type="hidden" name="next" value="{% url 'messengers:messages' %}">
         </form>
     </div>
+    <div class="pro_space"></div>
 
 
     {% if not searched %}
@@ -43,7 +51,7 @@
                 {% if user|unread:use_r %}
                 <section id="unread">{{user|unread:use_r}}</section>
                 {% endif %}
-                {% if use_r|check_instance %}
+                {% if use_r.model_name == "User" %}
 
                 {% if use_r.info.prof_pics %}
                 <a id="prof" href="{{use_r.info.prof_pics.url}}">
@@ -59,12 +67,39 @@
                 <a href="{% url 'messengers:view_messages' use_r.id 'User' %}#unread">
                     <section>{{use_r.username}}</section>
                     <div class="time">
-                        <p>
-                            {{user|la_st:use_r|first|first|default:"Feel free to send a message"|truncatechars:30}}
-                        </p>
+                        <div id="svgs">
+                            {% if use_r.last_media|type == 'video' %}
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+                                <!--! Font Awesome Pro 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                <path
+                                    d="M0 128C0 92.7 28.7 64 64 64H320c35.3 0 64 28.7 64 64V384c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V128zM559.1 99.8c10.4 5.6 16.9 16.4 16.9 28.2V384c0 11.8-6.5 22.6-16.9 28.2s-23 5-32.9-1.6l-96-64L416 337.1V320 192 174.9l14.2-9.5 96-64c9.8-6.5 22.4-7.2 32.9-1.6z" />
+                            </svg>
+                            {% elif use_r.last_media|type == 'image' %}
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                <!--! Font Awesome Pro 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                <path
+                                    d="M448 80c8.8 0 16 7.2 16 16V415.8l-5-6.5-136-176c-4.5-5.9-11.6-9.3-19-9.3s-14.4 3.4-19 9.3L202 340.7l-30.5-42.7C167 291.7 159.8 288 152 288s-15 3.7-19.5 10.1l-80 112L48 416.3l0-.3V96c0-8.8 7.2-16 16-16H448zM64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm80 192a48 48 0 1 0 0-96 48 48 0 1 0 0 96z" />
+                            </svg>
+                            {% elif use_r.last_media|type == 'document' %}
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+                                <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                <path
+                                    d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM112 256H272c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64H272c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64H272c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16s7.2-16 16-16z" />
+                            </svg>
+                            {% elif use_r.last_media|type == 'audio' %}
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                <!--! Font Awesome Pro 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                <path
+                                    d="M256 80C149.9 80 62.4 159.4 49.6 262c9.4-3.8 19.6-6 30.4-6c26.5 0 48 21.5 48 48V432c0 26.5-21.5 48-48 48c-44.2 0-80-35.8-80-80V384 336 288C0 146.6 114.6 32 256 32s256 114.6 256 256v48 48 16c0 44.2-35.8 80-80 80c-26.5 0-48-21.5-48-48V304c0-26.5 21.5-48 48-48c10.8 0 21 2.1 30.4 6C449.6 159.4 362.1 80 256 80z" />
+                            </svg>
+                            {% else %}
+                            <p>{{use_r.last_text|default:"Feel free to send a message"|truncatechars:30}}
+                            </p>
+                            {% endif %}
+                        </div>
                         <section>
-                            <p><strong>{{user|la_st:use_r|first|last|naturalday:'d/m/y'|default:""}}</strong></p>
-                            <p><strong>{{user|la_st:use_r|first|last|date:'P'|default:""}}</strong></p>
+                            <p><strong>{{use_r.last_date|naturalday:'d/m/y'|default:""}}</strong></p>
+                            <p><strong>{{use_r.last_date|date:'P'|default:""}}</strong></p>
                         </section>
                     </div>
                 </a>
@@ -85,24 +120,58 @@
                 <a href="{% url 'messengers:view_messages' use_r.id 'Group' %}#unread">
                     <section>{{use_r.name}}</section>
                     <div class="time">
-                        <p>
-                            {{user|la_st:use_r|first|first|default:"Feel free to send a message"|truncatechars:30}}
-                        </p>
+                        <div id="svgs">
+                            {% if use_r.last_sender == user.username %}
+                            <p>You:&nbsp;</p>
+                            {% elif use_r.last_text or use_r.last_media %} {{use_r.last_sender}}:&nbsp;
+                            {% endif %}
+
+                            {% if use_r.last_media|type == 'video' %}
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+                                <!--! Font Awesome Pro 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                <path
+                                    d="M0 128C0 92.7 28.7 64 64 64H320c35.3 0 64 28.7 64 64V384c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V128zM559.1 99.8c10.4 5.6 16.9 16.4 16.9 28.2V384c0 11.8-6.5 22.6-16.9 28.2s-23 5-32.9-1.6l-96-64L416 337.1V320 192 174.9l14.2-9.5 96-64c9.8-6.5 22.4-7.2 32.9-1.6z" />
+                            </svg>
+                            {% elif use_r.last_media|type == 'image' %}
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                <!--! Font Awesome Pro 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                <path
+                                    d="M448 80c8.8 0 16 7.2 16 16V415.8l-5-6.5-136-176c-4.5-5.9-11.6-9.3-19-9.3s-14.4 3.4-19 9.3L202 340.7l-30.5-42.7C167 291.7 159.8 288 152 288s-15 3.7-19.5 10.1l-80 112L48 416.3l0-.3V96c0-8.8 7.2-16 16-16H448zM64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm80 192a48 48 0 1 0 0-96 48 48 0 1 0 0 96z" />
+                            </svg>
+                            {% elif use_r.last_media|type == 'document' %}
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+                                <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                <path
+                                    d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM112 256H272c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64H272c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64H272c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16s7.2-16 16-16z" />
+                            </svg>
+                            {% elif use_r.last_media|type == 'audio' %}
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                <!--! Font Awesome Pro 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                <path
+                                    d="M256 80C149.9 80 62.4 159.4 49.6 262c9.4-3.8 19.6-6 30.4-6c26.5 0 48 21.5 48 48V432c0 26.5-21.5 48-48 48c-44.2 0-80-35.8-80-80V384 336 288C0 146.6 114.6 32 256 32s256 114.6 256 256v48 48 16c0 44.2-35.8 80-80 80c-26.5 0-48-21.5-48-48V304c0-26.5 21.5-48 48-48c10.8 0 21 2.1 30.4 6C449.6 159.4 362.1 80 256 80z" />
+                            </svg>
+                            {% else %}
+                            <p>{{use_r.last_text|default:"Feel free to send a message"|truncatechars:30}}
+                            </p>
+                            {% endif %}
+                        </div>
                         <section>
-                            <p><strong>{{user|la_st:use_r|first|last|naturalday:'d/m/y'|default:""}}</strong></p>
-                            <p><strong>{{user|la_st:use_r|first|last|date:'P'|default:""}}</strong></p>
+                            <p><strong>{{use_r.last_date|naturalday:'d/m/y'|default:""}}</strong></p>
+                            <p><strong>{{use_r.last_date|date:'P'|default:""}}</strong></p>
                         </section>
                     </div>
                 </a>
                 {% endif %}
             </div>
         </li>
+
         {% empty %}
         <section class="no_cont">
             Make friends in the <a href="{% url 'messengers:users' %}">People</a> section, and be able to share
             messages
             with them.
         </section>
+
         {% endfor %}
     </ul>
 
@@ -140,9 +209,9 @@
                             You: {{msg.text}}
                         </p>
                         <section>
-                            <p><strong>{{user|la_st:msg.grp_receiver|last|naturalday:'d/m/y'|default:""}}</strong>
+                            <p><strong>{{user|la_st:msg.grp_receiver|first|last|naturalday:'d/m/y'|default:""}}</strong>
                             </p>
-                            <p><strong>{{user|la_st:msg.grp_receiver|last|date:'P'|default:""}}</strong></p>
+                            <p><strong>{{user|la_st:msg.grp_receiver|first|last|date:'P'|default:""}}</strong></p>
                         </section>
                     </div>
                 </a>
@@ -167,8 +236,9 @@
                             You: {{msg.text}}
                         </p>
                         <section>
-                            <p><strong>{{user|la_st:msg.receiver|last|naturalday:'d/m/y'|default:""}}</strong></p>
-                            <p><strong>{{user|la_st:msg.receiver|last|date:'P'|default:""}}</strong></p>
+                            <p><strong>{{user|la_st:msg.receiver|first|last|naturalday:'d/m/y'|default:""}}</strong>
+                            </p>
+                            <p><strong>{{user|la_st:msg.receiver|first|last|date:'P'|default:""}}</strong></p>
                         </section>
                     </div>
                 </a>
@@ -203,9 +273,9 @@
                             {{msg.sender.username}}: {{msg.text}}
                         </p>
                         <section>
-                            <p><strong>{{user|la_st:msg.grp_receiver|last|naturalday:'d/m/y'|default:""}}</strong>
+                            <p><strong>{{user|la_st:msg.grp_receiver|first|last|naturalday:'d/m/y'|default:""}}</strong>
                             </p>
-                            <p><strong>{{user|la_st:msg.grp_receiver|last|date:'P'|default:""}}</strong></p>
+                            <p><strong>{{user|la_st:msg.grp_receiver|first|last|date:'P'|default:""}}</strong></p>
                         </section>
                     </div>
                 </a>
@@ -231,14 +301,15 @@
                             {{msg.text}}
                         </p>
                         <section>
-                            <p><strong>{{user|la_st:msg.sender|last|naturalday:'d/m/y'|default:""}}</strong></p>
-                            <p><strong>{{user|la_st:msg.sender|last|date:'P'|default:""}}</strong></p>
+                            <p><strong>{{user|la_st:msg.sender|first|last|naturalday:'d/m/y'|default:""}}</strong></p>
+                            <p><strong>{{user|la_st:msg.sender|first|last|date:'P'|default:""}}</strong></p>
                         </section>
                     </div>
                 </a>
+                {% endif %}
             </div>
         </li>
-        {% endif %}
+
         {% endif %}
         {% empty %}
         <section class="no_cont">

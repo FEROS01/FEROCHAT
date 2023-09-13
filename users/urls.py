@@ -1,14 +1,11 @@
 """URL for Users"""
-
+from django.contrib.auth.views import PasswordResetView, LoginView
 from django.urls import path, include
-from . import views
-from django.contrib.auth.views import (
-    PasswordResetView,
-    PasswordResetDoneView,
-    PasswordResetConfirmView,
-    PasswordResetCompleteView
-)
+
 from .forms import NewPasswordResetForm
+
+from . import views
+
 
 app_name = "users"
 urlpatterns = [
