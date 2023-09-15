@@ -30,3 +30,9 @@ urlpatterns = [
          views.unfriend, name="unfriend"),
 
 ]
+
+htmx_pattern = [
+    path("more/", views.more, name="more"),
+]
+
+urlpatterns += htmx_pattern

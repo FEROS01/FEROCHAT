@@ -1,34 +1,38 @@
+from typing import Any
 from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.forms import UserCreationForm
-from django.core.exceptions import ValidationError
-from django.forms import PasswordInput
+
+from django.forms import PasswordInput, EmailInput
 from django import forms
 
-from messengers.models import Info, User
+from messengers.models import Info
+
+from .validators import email_exist_validator, email_not_exist_validator
 
 
 class NewUserCreationForm(UserCreationForm):
-    email = forms.EmailField(
-        required=True, help_text="Required. Will be used to reset password if forgotten")
-
     class Meta(UserCreationForm.Meta):
         fields = ['username', 'first_name', 'last_name',
                   'email', "password1", "password2"]
         widgets = {
-            "password2": PasswordInput(attrs={"placeholder": "******", "data-toggle": "password"})
+            "password1": PasswordInput(attrs={"placeholder": "******", "data-toggle": "password"}),
+            "email": EmailInput(attrs={"placeholder": "something@gmail.com"})
 
         }
 
-
-def email_validator(mail):
-    users = User.objects.all()
-    mails = [user.email for user in users if user.email]
-    if mail not in mails:
-        raise ValidationError(f"There is no account with this email account")
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+        email_field = self.fields['email']
+        email_field.required = True
+        email_field.help_text = "Required. Will be used to reset password if forgotten"
+        email_field.validators.append(email_exist_validator)
 
 
 class NewPasswordResetForm(PasswordResetForm):
-    email = forms.EmailField(validators=[email_validator])
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+        email_field = self.fields['email']
+        email_field.validators.append(email_not_exist_validator)
 
 
 class InfoForm(forms.ModelForm):

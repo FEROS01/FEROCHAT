@@ -5,7 +5,7 @@ from django.conf import settings
 import django.core.validators
 from django.db import migrations, models
 import django.db.models.deletion
-import messengers.helpers
+import messengers.validators
 
 
 class Migration(migrations.Migration):
@@ -20,32 +20,42 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Group',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.BigAutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=15)),
                 ('description', models.CharField(blank=True, max_length=100)),
                 ('date_created', models.DateTimeField(auto_now_add=True)),
-                ('prof_pics', models.ImageField(blank=True, null=True, upload_to=Groups.models.group_directory_path, validators=[django.core.validators.validate_image_file_extension, messengers.helpers.image_type_validator, messengers.helpers.file_size_val, django.core.validators.FileExtensionValidator(['gif', 'png', 'jpeg', 'jpg', 'webp', 'avif', 'apng'], 'Unsupported file format. Try a valid image format')])),
-                ('admins', models.ManyToManyField(related_name='admins', to=settings.AUTH_USER_MODEL)),
-                ('creator', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('prof_pics', models.ImageField(blank=True, null=True, upload_to=Groups.models.group_directory_path, validators=[
+                 django.core.validators.validate_image_file_extension, messengers.validators.image_type_validator, messengers.validators.file_size_val, django.core.validators.FileExtensionValidator(['gif', 'png', 'jpeg', 'jpg', 'webp', 'avif', 'apng'], 'Unsupported file format. Try a valid image format')])),
+                ('admins', models.ManyToManyField(
+                    related_name='admins', to=settings.AUTH_USER_MODEL)),
+                ('creator', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),
         migrations.CreateModel(
             name='Membership',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.BigAutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
                 ('date_joined', models.DateTimeField(auto_now_add=True)),
-                ('group', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='Groups.group')),
-                ('inviter', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='inviter', to=settings.AUTH_USER_MODEL)),
-                ('member', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('group', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE, to='Groups.group')),
+                ('inviter', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE,
+                 related_name='inviter', to=settings.AUTH_USER_MODEL)),
+                ('member', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),
         migrations.AddField(
             model_name='group',
             name='members',
-            field=models.ManyToManyField(related_name='members', through='Groups.Membership', to=settings.AUTH_USER_MODEL),
+            field=models.ManyToManyField(
+                related_name='members', through='Groups.Membership', to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddConstraint(
             model_name='membership',
-            constraint=models.UniqueConstraint(fields=('group', 'member'), name='unique_membership'),
+            constraint=models.UniqueConstraint(
+                fields=('group', 'member'), name='unique_membership'),
         ),
     ]

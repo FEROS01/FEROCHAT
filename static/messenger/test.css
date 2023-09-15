@@ -90,7 +90,6 @@ html {
     overflow-y: scroll;
     scroll-behavior: smooth;
     overflow-x: hidden;
-    transition: none;
 }
 
 
@@ -98,7 +97,6 @@ body {
     background-color: white;
     display: flex;
     flex-direction: column;
-    transition: none;
 }
 
 
@@ -120,7 +118,7 @@ body {
 
 ::-webkit-scrollbar-thumb {
     border-radius: 100vh;
-
+    background: rgb(200, 50, 50);
     background: var(--default_color);
 }
 
@@ -130,9 +128,13 @@ body {
     /* background: #555; */
 }
 
+svg {
+    transition: all 0.3s;
+}
+
 .space {
     width: 100%;
-    height: 45px;
+    height: 60px;
 }
 
 .block {
@@ -237,36 +239,110 @@ body {
 
 /* Index */
 
+.more ul li {
+    padding: 3rem 0;
+    list-style: none;
+}
+
+.more ul {
+    position: relative;
+    left: 55vw;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    padding: 0 0 0 1rem;
+    background-color: white;
+    width: 50vw;
+    box-shadow: 0 0 6px 0 darkgray;
+    display: flex;
+    flex-direction: column;
+    animation: slide_in 1s ease forwards;
+}
+
+@keyframes slide_in {
+    to {
+        left: 0;
+    }
+}
+
+.more ul>* {
+    border-bottom: 1px solid lightgray;
+}
+
+.more .top {
+    display: flex;
+    justify-content: end;
+    padding: 1rem 1rem;
+}
+
+.more {
+    height: 100vh;
+    width: 100%;
+    justify-content: end;
+    /* top: 100px; */
+    display: flex;
+    position: fixed;
+    z-index: 10;
+}
+
+.more a {
+    display: flex;
+    gap: 2rem;
+    text-decoration: none;
+    color: black;
+}
+
+.more a:active {
+    color: rgb(138, 138, 138);
+}
+
 nav {
     z-index: 4;
     overflow: hidden;
     box-shadow: 0px 0px 6px grey;
     background-color: white;
     position: fixed;
-    padding-left: 1rem;
+    padding: 0.5rem;
     align-items: center;
     width: 100%;
-    height: 45px;
+    /* height: 45px; */
     color: white;
     display: flex;
+    flex-wrap: wrap;
+}
+
+nav .first {
+    display: flex;
+    align-items: center;
+    flex-basis: 10%;
+}
+
+nav #more {
+    display: none;
+}
+
+nav .second {
+    flex-basis: 60%;
 }
 
 nav .logo {
-    text-decoration: none;
     position: relative;
+
+    /* text-decoration: none;
     font-size: 1.1rem;
     color: rgb(200, 50, 50);
     color: var(--default_color);
-    font-weight: 800;
-    transition: all 0.3s;
+    font-weight: 800; */
+    /* transition: all 0.3s; */
     animation: title_bounce 2s;
     animation-timing-function: ease-in;
 }
 
-nav .logo:hover {
-    color: rgb(55, 205, 205);
-    font-weight: 800;
-    font-size: 19px;
+nav .logo img:hover {
+    width: 45px;
+    height: 45px;
+    opacity: 0.7;
 }
 
 
@@ -279,8 +355,18 @@ nav .greeting {
     /* margin-left: 1em; */
 }
 
+nav .logo img {
+    margin: 0;
+}
+
 nav img {
+    transition: all 0.3s;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
+}
+
+nav .prof_pics img {
     margin: 0rem 0.5rem 0rem 1rem;
 }
 
@@ -290,17 +376,25 @@ nav .prof_pics svg {
 }
 
 
-nav svg {
+
+nav svg,
+.more svg {
+    /* transition: all 0.3s; */
     height: 20px;
     width: 20px;
     fill: rgb(200, 50, 50);
 
 }
 
-nav svg:hover {
+nav svg:hover,
+.more svg:hover {
     fill: rgb(55, 205, 205);
     height: 25px;
     width: 25px;
+}
+
+nav .second {
+    margin-left: auto;
 }
 
 nav ul a {
@@ -320,20 +414,17 @@ nav ul a:hover {
 nav ul {
     margin-right: 1rem;
     margin-left: auto;
-    width: 60%;
+    /* width: 60%; */
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
 nav ul li {
-    display: inline-block;
+    display: inline-flex;
     list-style: none;
 }
 
-nav #mesgs {
-    display: inline-flex;
-}
 
 nav #no {
     border-radius: 50%;
@@ -356,6 +447,39 @@ nav .log {
     justify-content: space-evenly;
 }
 
+@media (max-width: 540px) {
+    .space {
+        height: 110px;
+    }
+
+    nav .first {
+        border-radius: 5px;
+        box-shadow: 0 0 6px 0 darkgrey;
+        margin-bottom: 1rem;
+        padding: 0.5rem 1rem 0.2rem 1rem;
+        flex-basis: 100%;
+    }
+
+    nav #more {
+        display: flex;
+        margin-left: auto;
+    }
+
+    nav #remove {
+        display: none;
+        margin-left: auto;
+    }
+
+
+    nav .second {
+        padding: 0rem 1rem 0 1rem;
+        flex-basis: 100%;
+    }
+
+    nav ul {
+        margin: 0;
+    }
+}
 
 .landing {
     overflow-x: hidden;

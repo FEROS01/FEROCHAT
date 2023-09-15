@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import validate_image_file_extension
 
-from messengers.helpers import image_type_validator, file_size_val, profile_val
+from messengers.validators import image_type_validator, file_size_val, profile_val
 
 
 def group_directory_path(instance, filename):

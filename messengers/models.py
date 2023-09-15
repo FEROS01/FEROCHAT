@@ -6,8 +6,8 @@ from django.core.validators import validate_image_file_extension
 
 from Groups.models import Group
 
-from .helpers import (file_size_val, media_size_val, file_type_validator,
-                      image_type_validator, Media, profile_val, media_ext_val)
+from .validators import (file_size_val, media_size_val, file_type_validator,
+                         image_type_validator, Media, profile_val, media_ext_val)
 
 
 def user_directory_media(instance, filename):

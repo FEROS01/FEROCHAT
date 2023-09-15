@@ -7,6 +7,7 @@ from django.db.models import F, Q
 from django.db.models.functions import Lower
 from django.contrib.auth.models import User
 from django.contrib import messages as Msg
+from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 
 from messenger.settings import TIME_ZONE
@@ -362,3 +363,11 @@ def view_media(request, rec_id):
         return render(request, "messengers/view_media.html", context)
     context = {"error": f"This path '{request.path}' is invalid"}
     return render(request, "messengers/page_error.html", context)
+
+
+@login_required
+def more(request):
+    if request.method == 'GET':
+        return render(request, "messengers_htmx/_more.html", {})
+    else:
+        return HttpResponse('<div class="replace"></div>')

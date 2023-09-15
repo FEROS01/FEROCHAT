@@ -1,7 +1,7 @@
 from django import template
 from messengers.models import Friends
 from messengers.models import Messages
-from messengers.helpers import Media
+from messengers.validators import Media
 
 register = template.Library()
 

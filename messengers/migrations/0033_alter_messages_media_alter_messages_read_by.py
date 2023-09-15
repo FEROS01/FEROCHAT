@@ -3,7 +3,7 @@
 from django.conf import settings
 import django.core.validators
 from django.db import migrations, models
-import messengers.helpers
+import messengers.validators
 import messengers.models
 
 
@@ -18,11 +18,13 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='messages',
             name='media',
-            field=models.FileField(blank=True, null=True, upload_to=messengers.models.user_directory_media, validators=[django.core.validators.FileExtensionValidator(['gif', 'png', 'jpeg', 'jpg', 'webp', 'avif', 'apng', 'mp4', 'webm', 'ogv', 'pdf', 'txt', 'csv', 'json', 'mp3', 'wav', 'oga'], 'Unsupported File format', code='Invalid format'), messengers.helpers.media_size_val, messengers.helpers.file_type_validator]),
+            field=models.FileField(blank=True, null=True, upload_to=messengers.models.user_directory_media, validators=[django.core.validators.FileExtensionValidator(
+                ['gif', 'png', 'jpeg', 'jpg', 'webp', 'avif', 'apng', 'mp4', 'webm', 'ogv', 'pdf', 'txt', 'csv', 'json', 'mp3', 'wav', 'oga'], 'Unsupported File format', code='Invalid format'), messengers.validators.media_size_val, messengers.validators.file_type_validator]),
         ),
         migrations.AlterField(
             model_name='messages',
             name='read_by',
-            field=models.ManyToManyField(blank=True, related_name='read_messages', to=settings.AUTH_USER_MODEL),
+            field=models.ManyToManyField(
+                blank=True, related_name='read_messages', to=settings.AUTH_USER_MODEL),
         ),
     ]
