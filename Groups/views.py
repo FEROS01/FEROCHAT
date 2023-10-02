@@ -1,14 +1,13 @@
 from datetime import datetime
 import pytz
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import F, Q, Case, Value, When
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages as Msg
 
 from messengers.form import Search
-from messengers.views import user_bio
 from messengers.models import Friends
 from messenger.settings import TIME_ZONE
 
@@ -51,47 +50,43 @@ def create_group(request):
 
 
 @login_required
-@group_exists
 @is_admin
 def edit_group(request, grp_id):
-    group = Group.objects.get(id=grp_id)
+    group = get_object_or_404(Group, id=grp_id)
     if request.method != 'POST':
         form = GroupEditForm(instance=group)
     else:
         form = GroupEditForm(request.POST, request.FILES, instance=group)
         if form.is_valid():
             form.save()
+            Msg.success(
+                request, "Group's Profile has been successfully updated")
             return redirect("Groups:group_bio", grp_id=grp_id)
     context = {"form": form, "grp_id": grp_id, "group": group}
     return render(request, "Groups/edit_group.html", context)
 
 
 @login_required
-@group_exists
 @is_admin
 def remove_user(request, user_id, grp_id):
-    user = User.objects.filter(id=user_id)
-    if user.exists():
-        group = Group.objects.get(id=grp_id)
-        creator = group.creator
-        user = user.first()
-        membership = Membership.objects.filter(group=group, member=user)
-        admin = group.admins.filter(id=user.id)
-        if membership.exists() and user != creator:
-            membership.delete()
-            if admin.exists():
-                group.admins.remove(admin.first())
-        return redirect("Groups:group_bio", grp_id=grp_id)
-    context = {"error": "Cannot remove user"}
-    return render(request, "messengers/page_error.html", context)
+    user = get_object_or_404(User, id=user_id)
+    group = get_object_or_404(Group, id=grp_id)
+    creator = group.creator
+    membership = get_object_or_404(Membership, group=group, member=user)
+    admin = group.admins.filter(id=user.id)
+    if user != creator:
+        membership.delete()
+        Msg.success(request, f"{user.username} has been removed from group")
+        if admin.contains(user):
+            group.admins.remove(admin.first())
+    return redirect("Groups:group_bio", grp_id=grp_id)
 
 
 @login_required
-@group_exists
 @is_admin
 def select_member(request, grp_id):
     all = User.objects.all()
-    group = Group.objects.get(id=grp_id)
+    group = get_object_or_404(Group, id=grp_id)
     admins = group.admins.all()
     admins_id = admins.values_list("id", flat=True)
     members = group.members.all()
@@ -128,37 +123,35 @@ def select_member(request, grp_id):
 
 
 @login_required
-@group_exists
 def remove_admin(request, admin_id, grp_id):
-    group = Group.objects.get(id=grp_id)
-    admin = User.objects.filter(id=admin_id)
-    creator = group.creator
-    user_exists = admin.exists()
-    is_admin = admin.first() in group.admins.all() if user_exists else False
-    if user_exists and is_admin and request.user == creator:
-        group.admins.remove(admin.first())
+    group = get_object_or_404(Group, id=grp_id)
+    admin = get_object_or_404(User, id=admin_id)
+    is_creator = request.user == group.creator
+    is_admin = group.admins.contains(admin)
+    if is_admin and is_creator:
+        group.admins.remove(admin)
+        Msg.success(request, f"{admin.username} is now a member")
         return redirect("Groups:group_bio", grp_id=grp_id)
     Msg.error(request, "You cannot remove admins")
     return redirect("Groups:group_bio", grp_id=grp_id)
 
 
 @login_required
-@group_exists
 def exit_group(request, grp_id):
-    group = Group.objects.get(id=grp_id)
+    group = get_object_or_404(Group, id=grp_id)
     member = request.user
 
-    if member in group.members.all():
+    if group.members.contains(member):
         group.members.remove(member)
-    if member in group.admins.all():
+        Msg.success(request, f"You have left {group.name}")
+    if group.admins.contains(member):
         group.admins.remove(member)
     return redirect("messengers:messages")
 
 
 @login_required
-@group_exists
 def group_bio(request, grp_id):
-    group = Group.objects.get(id=grp_id)
+    group = get_object_or_404(Group, id=grp_id)
     user_friends = Friends.get_friends(Friends, request.user)
     user_friends_id = user_friends.values_list("id", flat=True)
     creator = group.creator
@@ -188,48 +181,39 @@ def group_bio(request, grp_id):
 
 @login_required
 def send_request_bio(request, rec_id, bio_id):
-    receiver = User.objects.filter(id=rec_id)
-    if receiver.exists():
-        sender = request.user
-        receiver = receiver.first()
-        check_request = Friends.check_request(Friends, sender, receiver)
-        if sender != receiver and not check_request:
-            Friends.objects.create(
-                req_sender=sender, req_receiver=receiver, sent_status=True)
-            Msg.success(request, "Friend request sent!")
-            sender.info.notifications += 1
-            receiver.info.notifications += 1
-            receiver.info.save()
-            sender.info.save()
-        return redirect("Groups:group_bio", grp_id=bio_id)
-    Msg.error(request, "Cannot send request")
+    receiver = get_object_or_404(User, id=rec_id)
+    sender = request.user
+    check_request = Friends.check_request(Friends, sender, receiver)
+    if sender != receiver and not check_request:
+        Friends.objects.create(
+            req_sender=sender, req_receiver=receiver, sent_status=True)
+        Msg.success(request, "Friend request sent!")
+        sender.info.notifications += 1
+        receiver.info.notifications += 1
+        receiver.info.save()
+        sender.info.save()
     return redirect("Groups:group_bio", grp_id=bio_id)
 
 
 @login_required
 def cancel_request_bio(request, rec_id, bio_id):
-    receiver = User.objects.filter(id=rec_id)
-    if receiver.exists():
-        sender = request.user
-        receiver = receiver.first()
-        if Friends.check_request(Friends, sender, receiver):
-            Friends.objects.filter(req_sender=sender, req_receiver=receiver,
-                                   sent_status=True).update(sent_status=False, friend_date=datetime.now(tz=timezone))
-            Msg.success(request, "Friend request canceled!")
-            sender.info.notifications += 1
-            receiver.info.notifications += 1
-            receiver.info.save()
-            sender.info.save()
-        return redirect("Groups:group_bio", grp_id=bio_id)
-    Msg.error(request, "Cannot cancel request")
+    receiver = get_object_or_404(User, id=rec_id)
+    sender = request.user
+    if Friends.check_request(Friends, sender, receiver):
+        Friends.objects.filter(req_sender=sender, req_receiver=receiver,
+                               sent_status=True).update(sent_status=False, friend_date=datetime.now(tz=timezone))
+        Msg.success(request, "Friend request canceled!")
+        sender.info.notifications += 1
+        receiver.info.notifications += 1
+        receiver.info.save()
+        sender.info.save()
     return redirect("Groups:group_bio", grp_id=bio_id)
 
 
 @login_required
-@group_exists
 def view_media(request, grp_id):
-    group = Group.objects.get(id=grp_id)
-    is_member = request.user in group.members.all()
+    group = get_object_or_404(Group, id=grp_id)
+    is_member = group.members.contains(request.user)
     if is_member:
         messages = group.grp_receiver.all()
         media_msgs = messages.exclude(

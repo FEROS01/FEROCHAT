@@ -6,18 +6,6 @@ from django.shortcuts import render, redirect
 from .models import Group
 
 
-def group_exists(function):
-    @wraps(function)
-    def wrapper(request, *args, **kwargs):
-        grp_id = kwargs.get("grp_id")
-        group = Group.objects.filter(id=grp_id)
-        if group.exists():
-            return function(request, *args, **kwargs)
-        context = {"error": "Group does not exist"}
-        return render(request, "messengers/page_error.html", context)
-    return wrapper
-
-
 def is_admin(function):
     @wraps(function)
     def wrapper(request, *args, **kwargs):

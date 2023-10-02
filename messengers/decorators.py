@@ -1,11 +1,17 @@
 from functools import wraps
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, get_object_or_404
 from django.db.models import Q
+from django.http import HttpRequest
+from django_htmx.middleware import HtmxDetails
 
 from Groups.models import Group, Membership
 
 from .models import User, Friends
+
+
+class HtmxHttpRequest(HttpRequest):
+    htmx: HtmxDetails
 
 
 def confirm_type(function):
@@ -21,43 +27,38 @@ def confirm_type(function):
 
 
 def confirm_member_friend(function):
-    """Decorator that checks for valid receiver or group"""
+    """Decorator that checks if user is a friend or member of group """
     @wraps(function)
     def wrapper(request, *args, **kwargs):
-        _type = kwargs.get("_type")
-        rec_id = kwargs.get("rec_id")
-        group_exists = Group.objects.filter(id=rec_id).exists()
-        receiver_exists = User.objects.filter(id=rec_id).exists()
-        context = {"error": f"The path '{request.path}' is invalid"}
-        if _type == "User" and receiver_exists:
-            receiver = User.objects.get(id=rec_id)
-            friendship_exists = Friends.objects.filter(
+        _type, rec_id = kwargs.get("_type"), kwargs.get("rec_id")
+        if _type == "User":
+            receiver = get_object_or_404(User, id=rec_id)
+            friendship = get_object_or_404(
+                Friends,
                 Q(req_sender=request.user, req_receiver=receiver) |
                 Q(req_sender=receiver, req_receiver=request.user),
                 status=True
-            ).exists()
-            if friendship_exists:
-                return function(request, *args, **kwargs)
+            )
+            return function(request, *args, **kwargs)
+        else:
+            group = get_object_or_404(Group, id=rec_id)
+            membership = get_object_or_404(
+                Membership,
+                group=group,
+                member=request.user
+            )
+            return function(request, *args, **kwargs)
+    return wrapper
+
+
+def confirm_htmx_request(function):
+    """Decorator that checks if function's request is an htmx request"""
+    @wraps(function)
+    def wrapper(request: HtmxHttpRequest, *args, **kwargs):
+        if request.htmx:
+            return function(request, *args, **kwargs)
+        else:
             context = {
-                "error": "Sorry you cannot message this user because you are not friends"}
-        elif _type == "Group" and group_exists:
-            group = Group.objects.get(id=rec_id)
-            membership_exists = Membership.objects.filter(
-                group=group, member=request.user).exists()
-            if membership_exists:
-                return function(request, *args, **kwargs)
-            context = {
-                "error": "Sorry you cannot message this group because you are not a member"}
-        elif _type == None and receiver_exists:
-            receiver = User.objects.get(id=rec_id)
-            friendship_exists = Friends.objects.filter(
-                Q(req_sender=request.user, req_receiver=receiver) |
-                Q(req_sender=receiver, req_receiver=request.user),
-                status=True
-            ).exists()
-            if friendship_exists:
-                return function(request, *args, **kwargs)
-            context = {
-                "error": "Sorry you cannot message this user because you are not friends"}
-        return render(request, 'messengers/page_error.html', context)
+                "error": "You cannot access this page"}
+            return render(request, 'messengers/page_error.html', context)
     return wrapper

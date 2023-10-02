@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.db.models import Q
+from django.contrib import messages as Msg
 
 
 from .models import Group, Membership, User
@@ -20,6 +21,7 @@ def _group_setup(request, data):
         request.user, through_defaults={"inviter": request.user}
     )
     group.admins.add(request.user)
+    Msg.success(request, 'Group ceation is succesful')
     return redirect("Groups:group_bio", grp_id=group.id)
 
 
@@ -50,5 +52,5 @@ def _add_members(request, form1, group, grp_id):
     for member in selected_admins:
         member = User.objects.get(username=member)
         group.admins.add(member)
-
+    Msg.success(request, 'Members and admins added succesfully')
     return redirect("Groups:group_bio", grp_id=grp_id)

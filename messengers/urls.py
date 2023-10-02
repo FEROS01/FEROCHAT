@@ -8,7 +8,8 @@ urlpatterns = [
     path("messages/", views.messages, name="messages"),
     path("view_messages/<int:rec_id>/<str:_type>",
          views.view_messages, name="view_messages"),
-    path("view_media/<int:rec_id>", views.view_media, name="view_media"),
+    path("view_media/<int:rec_id>/<str:_type>",
+         views.view_media, name="view_media"),
     path("users/", views.users, name="users"),
     path("user_bio/<int:user_id>", views.user_bio, name="user_bio"),
     path("notifications/", views.notifications, name="notifications"),
@@ -24,15 +25,21 @@ urlpatterns = [
     path("friends/<int:user_id>", views.friends, name="friends"),
     path("decline_request/<int:sen_id>",
          views.decline_request, name="decline_request"),
-    path("delete_message/<int:msg_id>/<int:rec_id>/<str:_type>",
-         views.delete_message, name="delete_message"),
     path("unfriend/<int:user_id>/<int:friend_id>",
          views.unfriend, name="unfriend"),
 
 ]
 
-htmx_pattern = [
+htmx_patterns = [
     path("more/", views.more, name="more"),
+    path("search_result/<int:rec_id>/<str:_type>",
+         views.search_result, name="search_result"),
+    path("blank/", views.blank, name="blank"),
+    path("search_form/<int:rec_id>/<str:_type>",
+         views.search_form, name="search_form"),
+    path("delete_message/<int:msg_id>/<int:rec_id>/<str:_type>",
+         views.delete_message, name="delete_message"),
+    path("media_name/", views.media_name, name="media_name"),
 ]
 
-urlpatterns += htmx_pattern
+urlpatterns += htmx_patterns

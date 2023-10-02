@@ -79,7 +79,7 @@ def m_type(val):
 
 @register.filter(name="nam_e")
 def name(val):
-    return val.split("/")[3].split(".")
+    return val.split("/")[-1].split(".")
 
 
 @register.filter(name="check_instance")

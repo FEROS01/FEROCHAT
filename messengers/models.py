@@ -13,7 +13,7 @@ from .validators import (file_size_val, media_size_val, file_type_validator,
 def user_directory_media(instance, filename):
     extension = filename.split(".")[-1]
     media_type = [typ_e for typ_e, ext in Media.items() if extension in ext][0]
-    return f"{instance.sender.username}/Media/{media_type}/{filename}"
+    return f"USERS/{instance.sender.id}/Media/{media_type}/{filename}"
 
 
 class Messages(models.Model):
@@ -22,7 +22,7 @@ class Messages(models.Model):
         User, blank=True, related_name="read_messages")
     media = models.FileField(
         upload_to=user_directory_media, null=True, blank=True, validators=[media_ext_val, media_size_val, file_type_validator])
-    text = models.TextField(blank=True)
+    text = models.TextField(blank=True, default="")
     date_sent = models.DateTimeField(auto_now_add=True)
     sender = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="sender")
@@ -32,7 +32,7 @@ class Messages(models.Model):
         Group, on_delete=models.CASCADE, related_name="grp_receiver", null=True, blank=True)
 
     def __str__(self):
-        return self.text if self.text else self.media.name
+        return self.media.name if self.media else self.text
 
     def delete(self):
         self.media.delete()
@@ -48,7 +48,7 @@ class Messages(models.Model):
 
 
 def user_directory_path(instance, filename):
-    return f"{instance.user.username}/Profile/{filename}"
+    return f"USERS/{instance.user.id}/Profile/{filename}"
 
 
 class Info(models.Model):

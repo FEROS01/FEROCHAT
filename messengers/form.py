@@ -1,5 +1,10 @@
+from collections.abc import Mapping
+from typing import Any
+from django.core.files.base import File
+from django.db.models.base import Model
 from django.forms import Textarea, TextInput, FileInput
 from django import forms
+from django.forms.utils import ErrorList
 
 
 from .models import Messages
@@ -8,13 +13,15 @@ from .models import Messages
 class NewMessage(forms.ModelForm):
     class Meta:
         model = Messages
-        exclude = ["date_sent", "receiver", "sender"]
+        fields = ["text", "media"]
         labels = {'text': "", 'media': ""}
         widgets = {
             'text': Textarea(attrs={'placeholder': "message"}),
+
+            # The media field form is manually placed in the view_message.html file
             "media": FileInput(attrs={
                 'accept': ".png,.jpeg,.jpg,.mp4,.mp3,.pdf",
-                'multiple': True
+                'multiple': True,
             })
         }
 
@@ -25,5 +32,7 @@ class Search(forms.Form):
 
 
 class SearchMessages(forms.Form):
+
+    # The search field form is manually placed in the view_message.html file
     search = forms.CharField(label="", label_suffix="", widget=Textarea(
         attrs={"placeholder": "Search_Messages", "class": "search"}))

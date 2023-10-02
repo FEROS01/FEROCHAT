@@ -6,7 +6,7 @@ from messengers.validators import image_type_validator, file_size_val, profile_v
 
 
 def group_directory_path(instance, filename):
-    return f"{instance.name.upper()}/Profile/{filename}"
+    return f"GROUPS/{instance.id}/Profile/{filename}"
 
 
 class Group(models.Model):

@@ -8,8 +8,7 @@ from .models import Info, Messages, Friends, User
 # VIEWS
 
 
-def _update_unread_messages(request, rec_msgs, all_msgs, unread_id, searched, _type):
-    searched = False
+def _update_unread_messages(request, rec_msgs, all_msgs, _type):
     if _type == "User":
         filtrd_rec_msgs = rec_msgs.filter(read=False)
         no_unread_msgs = filtrd_rec_msgs.count()
@@ -24,7 +23,7 @@ def _update_unread_messages(request, rec_msgs, all_msgs, unread_id, searched, _t
         request.user.info.save()
         unread_id = unread_msgs.first().id if no_unread_msgs else None
         request.user.read_messages.add(*unread_msgs)
-    return searched, unread_id
+    return unread_id
 
 
 def _send_message(request, form, rec_user, _type):
@@ -60,6 +59,8 @@ def _assign_type_variables(request, _type, rec_id):
         members = rec_user.members.all().exclude(
             username=request.user.username).order_by("-username")
         friends = Friends.get_friends(Friends, request.user)
+
+        # Friends should come first when showing group members
         friends_id = friends.values_list("id", flat=True)
         priority = Case(
             When(id__in=friends_id, then=Value(1)),

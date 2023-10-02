@@ -1,8 +1,10 @@
 {% extends "messengers/base.html" %}
-{% load tz %}
+{% load static %}
+
 
 {% block content %}
 <div class="landing">
+    <img width="100px" src="{% static 'messenger/ferochat_logo2.png' %}" alt="logo">
     <div class="head">Welcome to FeroChat!</div>
     <div class="pri_content">
         <p>

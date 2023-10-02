@@ -1,0 +1,58 @@
+@media (max-width: 540px) {
+    :root {
+        font-size: 13px;
+    }
+
+
+    .space {
+        height: 100px;
+    }
+
+    nav .first {
+        border-radius: 5px;
+        box-shadow: 0 0 6px 0 darkgrey;
+        margin-bottom: 1rem;
+        padding: 0.5rem 1rem 0.2rem 1rem;
+        flex-basis: 100%;
+    }
+
+    nav #more {
+        display: flex;
+        margin-left: auto;
+    }
+
+    nav #remove {
+        display: none;
+        margin-left: auto;
+    }
+
+
+    nav .second {
+        padding: 0rem 1rem 0 1rem;
+        flex-basis: 100%;
+    }
+
+    nav ul {
+        margin: 0;
+    }
+
+    .messages #create_grp {
+        display: none;
+    }
+
+    .view_mesg #search_form .search {
+        width: 70px;
+    }
+
+    .view_mesg .members {
+        width: 9rem;
+    }
+
+    .view_mesg #scroll_down {
+        top: 175px;
+    }
+
+    .view_mesg #find {
+        bottom: 150px;
+    }
+}
