@@ -14,7 +14,7 @@ from messenger.settings import TIME_ZONE
 from .models import Group, Membership
 from .forms import GroupEditForm, SelectMemberForm, GroupCreationForm
 from .utils import _group_setup, _search_members, _add_members
-from .decorators import is_admin, group_exists
+from .decorators import is_admin
 timezone = pytz.timezone(TIME_ZONE)
 
 # Create your views here.
