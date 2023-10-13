@@ -23,7 +23,7 @@ profile_val = FileExtensionValidator(
 def file_size_val(file):
     size = round(file.size/1_048_576, 2)
     file_name = file.name[0:15]+"...." if len(file.name) > 15 else file.name
-    allowed_size = 10
+    allowed_size = 15
     if size > allowed_size:
         raise ValidationError(
             f"{file_name} is greater than {allowed_size}MB", code="Invalid file size")

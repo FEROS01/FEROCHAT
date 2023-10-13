@@ -1,19 +1,68 @@
 {% extends "messengers/base.html" %}
 {% load static %}
 
-
+{% block stylesheet %}
+<link rel="stylesheet" href="{% static 'messenger/css/landing.css' %}">
+{% endblock stylesheet %}
+{% block logo %}{% endblock logo %}
 {% block content %}
 <div class="landing">
-    <img width="100px" src="{% static 'messenger/ferochat_logo2.png' %}" alt="logo">
-    <div class="head">Welcome to FeroChat!</div>
-    <div class="pri_content">
-        <p>
-            We're thrilled to have you here. Say hello to a whole new way of staying connected with your loved ones,
-            friends, and colleagues. FeroChat is designed with simplicity, security, and convenience in mind, making it
-            easier than ever to send messages, share moments, and stay in touch with those who matter most.
-        </p>
+    <div class="page_1">
+        <div class="intro">
+            <div class="inner">
+                <div class="bg_logo">
+                    <img src="{% static 'messenger/ferochat_logo3.png' %}" alt="logo">
+                </div>
+                <div class="head">
+                    <div id="A1">
+                        <p>Welcome to </p>
+                        <img src="{% static 'messenger/ferochat1.png' %}" alt="logo_name">
+                    </div>
+                    <p> We're thrilled to have you here. Say hello to a whole new way of staying connected with your
+                        loved
+                        ones,
+                        friends, and colleagues.</p>
+
+                </div>
+                {% if user.is_authenticated %}
+                <div class="make">
+                    <p>Don't be shy!! Explore and make new <a href="{% url 'messengers:users' %}">friends</a></p>
+                </div>
+
+                {% else %}
+
+                <div class="buttons">
+                    <button>
+                        <a href="{% url 'users:login' %}">Log In</a>
+                    </button>
+                    <button>
+                        <a href="{% url 'users:sign_up' %}"> Sign Up</a>
+                    </button>
+                </div>
+
+                {% endif %}
+            </div>
+            <!-- <div class="model">
+                <model-viewer style="width: 700px; height: 700px;" src="{% static 'messenger/Earth.glb' %}"
+                    alt="VR Headset" auto-rotate camera-controls ar rotation-per-second="500%" auto-rotate-delay="100"
+                    ios-src="{% static 'messenger/Earth.glb' %}"></model-viewer>
+            </div> -->
+
+            <!--<div class="pri_content">
+                <div id="inner1">
+                    <img src="" alt="">
+                    <p>
+                        We're thrilled to have you here. Say hello to a whole new way of staying connected with your loved ones,
+                        friends, and colleagues. FeroChat is designed with simplicity, security, and convenience in mind, making
+                        it
+                        easier than ever to send messages, share moments, and stay in touch with those who matter most.
+                    </p>
+                </div>
+            </div>-->
+        </div>
     </div>
-    <div class="sec_content">
+
+    <!--<div class="sec_content">
         With FeroChat, you can send text messages, voice messages, photos and even videos with just a few taps. Stay
         connected in real-time, no matter where you are, and never miss a moment with our
         intuitive and user-friendly interface.
@@ -23,10 +72,10 @@
         with peace of mind, knowing that your privacy is respected and safeguarded.
 
         Join our vibrant community of users worldwide who are already enjoying the benefits of FeroChat. Use our app now
-        and experience a whole new level of communication. Welcome to FeroChat, where staying
-        connected has never been easier or more enjoyable.
+        and experience a whole new level of communication.
 
         Let's get started and create meaningful connections with FeroChat today! Welcome aboard!
-    </div>
+    </div> -->
 </div>
+<script type="module" src="{% static 'messenger/js/model-viewer.min.js' %}"></script>
 {% endblock content %}

@@ -75,6 +75,9 @@ def remove_user(request, user_id, grp_id):
     membership = get_object_or_404(Membership, group=group, member=user)
     admin = group.admins.filter(id=user.id)
     if user != creator:
+        no_unread_messages = group.grp_receiver.exclude(read_by=user).count()
+        user.info.unread_messages -= no_unread_messages
+        user.info.save()
         membership.delete()
         Msg.success(request, f"{user.username} has been removed from group")
         if admin.contains(user):
@@ -142,6 +145,10 @@ def exit_group(request, grp_id):
     member = request.user
 
     if group.members.contains(member):
+        user = request.user
+        no_unread_messages = group.grp_receiver.exclude(read_by=user).count()
+        user.info.unread_messages -= no_unread_messages
+        user.info.save()
         group.members.remove(member)
         Msg.success(request, f"You have left {group.name}")
     if group.admins.contains(member):

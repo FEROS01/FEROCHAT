@@ -55,7 +55,10 @@ def _assign_type_variables(request, _type, rec_id):
         all_msgs = (sent_msgs | rec_msgs).order_by("date_sent")
     elif _type == "Group":
         rec_user = Group.objects.get(id=rec_id)
-        all_msgs = rec_user.grp_receiver.all()
+        date_join_group = request.user.membership_set.get(
+            group=rec_user).date_joined
+        all_msgs = rec_user.grp_receiver.filter(date_sent__gte=date_join_group)
+        # all_msgs = rec_user.grp_receiver.all()
         members = rec_user.members.all().exclude(
             username=request.user.username).order_by("-username")
         friends = Friends.get_friends(Friends, request.user)

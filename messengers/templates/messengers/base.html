@@ -7,28 +7,30 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block stylesheet %}
     <link rel="stylesheet" href="{% static 'messenger/css/test.css' %}">
+    {% endblock stylesheet %}
     <link rel="stylesheet" href="{% static 'messenger/css/query.css' %}">
-    <link rel="shortcut icon" href="{% static 'messenger/ferochat_logo2.png'  %}" type="image/x-icon">
+    <link rel="shortcut icon" href="{% static 'messenger/ferochat_logo3.png'  %}" type="image/x-icon">
     <title>FeroChat</title>
 
     <script src="{% static 'messenger/js/htmx.min.js' %}" defer></script>
     <script src="{% static 'messenger/js/ext/debug.js' %}" defer></script>
     <script src="{% static 'messenger/js/ext/event-header.js' %}" defer></script>
 
-    <script type="text/javascript">
-        var a = "{{user.id}}"
-    </script>
     <script src="{% static 'messenger/js/test.js' %}" defer></script>
+
 </head>
 
 <body hx-ext="debug, event-header" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
     <div class="replace"></div>
     <nav>
         <div class="first">
+            {% block logo %}
             <a title="Home" class="logo" href="{% url 'messengers:index' %}">
-                <img src="{% static 'messenger/ferochat_logo2.png'  %}" alt="logo">
+                <img src="{% static 'messenger/ferochat_logo3.png'  %}" alt="logo">
             </a>
+            {% endblock logo %}
             {% if user.is_authenticated %}
             <div class="prof_pics">
                 {% if user.info.prof_pics %}
@@ -56,7 +58,7 @@
         <div class="second">
             <ul class="shortcut">
                 <li id="remove">
-                    <a title="Home" class="logo" href="{% url 'messengers:index' %}">
+                    <a title="Home" href="{% url 'messengers:index' %}">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
                             <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
                             <path
@@ -133,14 +135,6 @@
                         </svg>
                     </a>
                 </li>
-            </ul>
-        </div>
-        {% endif %}
-        {% if not user.is_authenticated %}
-        <div class="second">
-            <ul class="log">
-                <li><a href="{% url 'users:sign_up' %}">Sign Up</a></li>
-                <li><a href="{% url 'users:login' %}">Login</a></li>
             </ul>
         </div>
         {% endif %}

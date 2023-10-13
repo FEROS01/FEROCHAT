@@ -16,6 +16,17 @@ def media_type(val):
     return ''
 
 
+@register.filter()
+def check_last(val, arg):
+    date_join_group = val.membership_set.get(group=arg).date_joined
+    all = arg.grp_receiver.filter(date_sent__gte=date_join_group)
+    last_text = arg.last_text
+    if last_text in all.values_list('text', flat=True):
+        return last_text
+    else:
+        return ""
+
+
 @register.filter(name="la_st")
 def last_message(val, arg):
     instance = arg.__class__.__name__
@@ -28,7 +39,8 @@ def last_message(val, arg):
         else:
             last = all.latest("date_sent")
     else:
-        all = arg.grp_receiver.all()
+        date_join_group = val.membership_set.get(group=arg).date_joined
+        all = arg.grp_receiver.filter(date_sent__gte=date_join_group)
         if not all:
             return [""]
         else:
@@ -55,7 +67,9 @@ def unread(val, arg):
         no_unread = rec_msgs.filter(read=False).count()
         return no_unread
     else:
-        grp_rec_msgs = Messages.objects.filter(grp_receiver=arg)
+        date_join_group = val.membership_set.get(group=arg).date_joined
+        grp_rec_msgs = Messages.objects.filter(
+            grp_receiver=arg, date_sent__gte=date_join_group)
         no_unread = grp_rec_msgs.exclude(
             read_by__username=val.username).count()
         return no_unread

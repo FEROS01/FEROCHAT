@@ -1,6 +1,6 @@
-/* @import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Electrolize&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Electrolize&display=swap');
 
 @keyframes title_bounce {
     0% {
@@ -328,11 +328,25 @@ nav .second {
     flex-basis: 60%;
 }
 
-nav .logo {
+/* nav .logo {
     position: relative;
     animation: title_bounce 2s;
     animation-timing-function: ease-in;
+} */
+
+
+nav .logo {
+    transform: translateX(-100%) rotate(-720deg);
+    animation: spin 3s 0.5s forwards
 }
+
+@keyframes spin {
+    to {
+        transform: translateX(0) rotate(0deg);
+    }
+
+}
+
 
 nav .logo img:hover {
     width: 45px;
@@ -347,7 +361,7 @@ nav .greeting {
     color: var(--default_color);
     font-size: 0.8rem;
     font-weight: 600;
-    /* margin-left: 1em; */
+    /* margin-left: 1em;  */
 }
 
 nav .logo img {
@@ -424,11 +438,11 @@ nav #no {
     width: 7px;
     /* display: flex; */
     height: 7px;
-    /* justify-content: center; */
-    /* align-items: center; */
+    /* justify-content: center;
+    align-items: center; */
     background-color: rgb(50, 200, 200);
-    /* font-size: 0.7rem; */
-    /* color: white; */
+    /* font-size: 0.7rem;
+    color: white; */
 }
 
 nav .log {
@@ -443,6 +457,11 @@ nav .log {
 
 
 .landing {
+    background-size: cover;
+    background-color: darkcyan;
+    background-repeat: no-repeat;
+    height: 90vh;
+    background-image: url('holding phone.png');
     overflow-x: hidden;
     display: flex;
     flex-direction: column;
@@ -451,26 +470,31 @@ nav .log {
 
 
 .landing .head {
-    /* z-index: -1; */
+    display: flex;
+    background-size: cover;
+    background-color: darkcyan;
+    background-repeat: no-repeat;
+    height: 30vh;
+    background-image: url('head_background.png');
+    width: 100%;
     text-align: center;
-    position: relative;
-    bottom: -30px;
-    margin: 10vw 0vw;
-    justify-self: center;
-    font-size: 43px;
-    font-weight: 900;
-    color: rgb(200, 50, 50);
-    color: var(--default_color);
-
-    animation: title_bounce 2s ease-in 0s 1 normal forwards;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
+.landing .head #A1 {
+    color: white;
+    font-size: 3.5rem;
+}
+
+/* 
 .landing .head:hover {
     cursor: pointer;
     font-size: 45px;
     color: rgb(55, 205, 205);
 
-}
+} */
 
 @keyframes contents {
     from {
@@ -1784,10 +1808,6 @@ nav .log {
     font-weight: 400;
 }
 
-.profile .bar #username p {
-    margin-left: 25px;
-}
-
 
 .profile .bar a {
     display: inline-flex;
@@ -1799,9 +1819,6 @@ nav .log {
 
 }
 
-.profile .bar #arrow {
-    margin: 0px;
-}
 
 .profile .bar p a:hover {
     font-size: 0.9rem;
