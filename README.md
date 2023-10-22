@@ -144,4 +144,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-Thank you for using the FEROCHAT Messenger App. We hope you enjoy it and find it useful for staying connected with friends and creating chat groups. If you have any questions or encounter issues, please don't hesitate to contact us on [twitter](twitter.com/oluwaferos).
+Thank you for using the FEROCHAT Messenger App. We hope you enjoy it and find it useful for staying connected with friends and creating chat groups. If you have any questions or encounter issues, please don't hesitate to contact us on [twitter](https://twitter.com/oluwaferos) or on [Linkedin](https://www.linkedin.com/in/oluwaferanmi-ope-20a091232/).
