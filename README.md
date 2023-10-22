@@ -1,4 +1,7 @@
-# Messenger App
+# Ferochat Messenger App
+
+- <img src="static/messenger/images/ferochat_logo3.png" width="200" height="200">
+- <img src="static/messenger/images/ferochat1.png" height="60">
 
 ## Table of Contents
 - [Introduction](#introduction)
@@ -11,6 +14,7 @@
 ## Introduction
 <a name="introduction"></a>
 Welcome to the FEROCHAT Messenger App! This is a Django-based messaging application that allows users to send text, images, audio, videos, and various other types of files. It is designed to facilitate communication between individuals, helping them make friends, create chat groups, and stay connected.
+#### It should be noted that this project is still a work in progress and contributions are welcomed. Check [Contibuting](#contributing) for more infos :)
 
 ## Features
 <a name="features"></a>
@@ -38,6 +42,8 @@ Welcome to the FEROCHAT Messenger App! This is a Django-based messaging applicat
 - Group members can exit group
 
 ### 5. Real-time Messaging
+
+### Todo (real-time)
 
 - Instantly send text messages, images, audio, videos, and files.
 - Messages are displayed in real-time, ensuring a seamless conversation experience.
@@ -74,8 +80,13 @@ To run the FEROCHAT Messenger App locally, follow these steps:
 2. Create a virtual environment (recommended) and activate it:
 
    ```bash
+   #on mac
    python -m venv venv
    source venv/bin/activate
+   
+   #on windows
+   python -m venv venv
+   source venv/Scripts/activate
    ```
 
 3. Install dependencies:
@@ -122,7 +133,7 @@ To run the FEROCHAT Messenger App locally, follow these steps:
 We welcome contributions to the FEROCHAT Messenger App. To contribute, please follow these steps:
 
 1. Fork the repository.
-2. Create a new branch for your feature or bug fix.
+2. Create a new branch for your feature or bug fix. (Please only fix one issue per pull request)
 3. Make your changes and commit them with descriptive messages.
 4. Push your branch to your fork.
 5. Create a pull request to merge your changes into the main repository.
@@ -133,4 +144,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-Thank you for using the FEROCHAT Messenger App. We hope you enjoy it and find it useful for staying connected with friends and creating chat groups. If you have any questions or encounter issues, please don't hesitate to [contact us](mailto:opeoluwaferanmi89@gmail.com).
+Thank you for using the FEROCHAT Messenger App. We hope you enjoy it and find it useful for staying connected with friends and creating chat groups. If you have any questions or encounter issues, please don't hesitate to contact us on [twitter](twitter.com/oluwaferos).

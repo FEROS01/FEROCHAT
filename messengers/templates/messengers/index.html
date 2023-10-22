@@ -11,14 +11,15 @@
         <div class="intro">
             <div class="inner">
                 <div class="bg_logo">
-                    <img src="{% static 'messenger/ferochat_logo3.png' %}" alt="logo">
+                    <img src="{% static 'messenger/images/ferochat_logo3.png' %}" alt="logo">
                 </div>
                 <div class="head">
                     <div id="A1">
                         <p>Welcome to </p>
-                        <img src="{% static 'messenger/ferochat1.png' %}" alt="logo_name">
+                        <img src="{% static 'messenger/images/ferochat1.png' %}" alt="logo_name">
                     </div>
-                    <p> We're thrilled to have you here. Say hello to a whole new way of staying connected with your
+                    <p class="p_space"> We're thrilled to have you here. Say hello to a whole new way of staying
+                        connected with your
                         loved
                         ones,
                         friends, and colleagues.</p>
@@ -26,7 +27,7 @@
                 </div>
                 {% if user.is_authenticated %}
                 <div class="make">
-                    <p>Don't be shy!! Explore and make new <a href="{% url 'messengers:users' %}">friends</a></p>
+                    <p>Explore and make new <a href="{% url 'messengers:users' %}">friends</a></p>
                 </div>
 
                 {% else %}
@@ -42,11 +43,11 @@
 
                 {% endif %}
             </div>
-            <!-- <div class="model">
-                <model-viewer style="width: 700px; height: 700px;" src="{% static 'messenger/Earth.glb' %}"
+            <div class="model">
+                <model-viewer style="width: 700px; height: 700px;" src="{% static 'messenger/models/model3.glb' %}"
                     alt="VR Headset" auto-rotate camera-controls ar rotation-per-second="500%" auto-rotate-delay="100"
                     ios-src="{% static 'messenger/Earth.glb' %}"></model-viewer>
-            </div> -->
+            </div>
 
             <!--<div class="pri_content">
                 <div id="inner1">
@@ -59,6 +60,45 @@
                     </p>
                 </div>
             </div>-->
+        </div>
+    </div>
+
+    <div class="page">
+        <div class="earth">
+            <h2>We bring the world to your fingertips</h2>
+            <model-viewer style="width: 300px; height: 300px;" src="{% static 'messenger/models/Earth.glb' %}"
+                alt="VR Headset" auto-rotate camera-controls ar rotation-per-second="300%" auto-rotate-delay="600"
+                ios-src="{% static 'messenger/Earth.glb' %}"></model-viewer>
+        </div>
+        <div class="about">
+            <div class="card">
+                <div class="picture">
+                    <img src="{% static 'messenger/images/connect.jpg' %}" alt="Connect">
+                </div>
+                <h3> Connectivity </h3>
+                <p class="p_space">With FeroChat, you can send text messages, voice messages, photos and even videos
+                    with just a few
+                    taps. Stay connected in real-time, no matter where you are, and never miss a moment with our
+                    intuitive and user-friendly interface.</p>
+            </div>
+            <div class="card">
+                <img src="{% static 'messenger/images/security.jpg' %}" alt="Security">
+                <div class="picture"></div>
+                <h3>Privacy and security</h3>
+                <p class="p_space">Your privacy and security are our top priorities. We've implemented state-of-the-art
+                    encryption and
+                    security features to protect your conversations and ensure that your personal information remains
+                    safe and secure. Chat with peace of mind, knowing that your privacy is respected and safeguarded.
+                </p>
+            </div>
+            <div class="card">
+                <img src="{% static 'messenger/images/community.png' %}" alt="Community">
+                <div class="picture"></div>
+                <h3>Join our community</h3>
+                <p class="p_space">Join our vibrant community of users worldwide who are already enjoying the benefits
+                    of FeroChat. Use
+                    our app now and experience a whole new level of communication.</p>
+            </div>
         </div>
     </div>
 

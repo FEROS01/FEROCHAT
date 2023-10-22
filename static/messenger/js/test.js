@@ -25,3 +25,15 @@ document.body.addEventListener('load', function () {
 const replace = () => {
     document.querySelector('#id_media').value = ''
 }
+
+const setdisplay = (form, search_button, state) => {
+    if (state === 'open') {
+        console.log('open')
+        form.setAttribute("style", "display:flex")
+        search_button.setAttribute("style", "display:none")
+    } else {
+        console.log('close')
+        form.setAttribute("style", "display:none")
+        search_button.setAttribute("style", "display:block")
+    }
+}

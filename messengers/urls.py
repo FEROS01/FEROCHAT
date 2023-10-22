@@ -35,11 +35,10 @@ htmx_patterns = [
     path("search_result/<int:rec_id>/<str:_type>",
          views.search_result, name="search_result"),
     path("blank/", views.blank, name="blank"),
-    path("search_form/<int:rec_id>/<str:_type>",
-         views.search_form, name="search_form"),
     path("delete_message/<int:msg_id>/<int:rec_id>/<str:_type>",
          views.delete_message, name="delete_message"),
     path("media_name/", views.media_name, name="media_name"),
+    path("message_search/", views.message_search, name="message_search"),
 ]
 
 urlpatterns += htmx_patterns

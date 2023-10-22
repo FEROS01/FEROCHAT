@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% block stylesheet %}
-    <link rel="stylesheet" href="{% static 'messenger/css/test.css' %}">
+    <link rel="stylesheet" href="{% static 'messenger/css/base.css' %}">
     {% endblock stylesheet %}
     <link rel="stylesheet" href="{% static 'messenger/css/query.css' %}">
     <link rel="shortcut icon" href="{% static 'messenger/ferochat_logo3.png'  %}" type="image/x-icon">
@@ -166,6 +166,19 @@
     <div class="block">
         {% block content %}{% endblock content %}
     </div>
+    {% block footer %}
+    <footer>
+        <div class="socials">
+            <span class="twitter"></span>
+            <span class="github"></span>
+            <span class="instagram"></span>
+        </div>
+        <div class="contact">
+            <p>Created by Ope Oluwaferanmi</p>
+            <p>2023</p>
+        </div>
+    </footer>
+    {% endblock footer %}
     {% django_htmx_script %}
 </body>
 

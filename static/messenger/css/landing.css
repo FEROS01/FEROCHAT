@@ -458,6 +458,45 @@ nav .log {
     justify-content: space-evenly;
 }
 
+footer {
+    width: 100%;
+    background-color: black;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    align-items: center;
+}
+
+.socials {
+    display: flex;
+    gap: 2rem;
+}
+
+.socials>* {
+    margin: 2rem;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background-color: grey;
+}
+
+footer .contact p {
+    margin: 1rem;
+    width: fit-content;
+    color: white;
+    font-weight: 100;
+    font-size: 0.7rem;
+}
+
+
+.landing {
+    background-position: center;
+    background-size: cover;
+    background-color: #fffefe;
+    background-repeat: no-repeat;
+    background-image: url('landing.png');
+}
+
 
 .landing .head #A1 {
     opacity: 0;
@@ -484,15 +523,20 @@ nav .log {
     animation: fade-in 1.5s 3s forwards;
 }
 
+.p_space {
+    line-height: 1.5rem;
+}
+
 .landing .page_1 {
     background-position: center;
     background-size: cover;
+    height: 100vh;
     background-color: #fffefe;
     background-repeat: no-repeat;
-    height: 100vh;
-    background-image: url('holding phone2.png');
+    background-image: url('landing.png');
     overflow-x: hidden;
 }
+
 
 .landing .intro {
     background-image: linear-gradient(153deg, black, transparent);
@@ -568,10 +612,85 @@ nav .log {
 }
 
 .make {
-    margin-top: 1rem;
-    padding: 0.5rem;
+    width: fit-content;
+    color: white;
+    padding: 1rem;
     text-align: center;
     border-radius: 5px;
-    border: 1px solid rgb(240 242 242);
-    background-color: rgb(249 250 250);
+    background-color: rgb(35, 35, 35);
+    background-color: rgb(35, 35, 35);
+}
+
+.make a {
+    color: darkcyan
+}
+
+.page {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    background-color: black;
+    background-image: url(forcefields.png);
+}
+
+.page h2 {
+    font-size: 5rem;
+    margin: 2rem 0rem;
+    color: white;
+    font-weight: 100;
+    text-align: center;
+}
+
+.earth {
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.about {
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+}
+
+.about .card {
+    transition: all 0.3s;
+    margin: 1rem;
+    padding: 1rem;
+    border-radius: 5px;
+    box-shadow: 0px 0px 6px 0px lightgrey;
+}
+
+.about .card:hover {
+    cursor: pointer;
+    transform: translateY(0.5rem);
+    box-shadow: 0px 0px 6px 0px rgb(50, 200, 200);
+}
+
+.about img {
+    max-width: 18rem;
+    background-color: lightgray;
+    border-radius: 2px;
+    margin-bottom: 1rem;
+}
+
+
+.about .card h3 {
+    margin-bottom: 1rem;
+    color: darkcyan;
+    font-weight: 100;
+}
+
+.about .card p {
+    color: white;
+    max-width: 18rem;
+}
+
+@media (max-width:540px) {
+    .page h2 {
+        text-align: start;
+    }
 }

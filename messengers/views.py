@@ -90,7 +90,27 @@ def messages(request):
             msgs = msgs.filter(text__contains=data)
     context = {"friends": friends, "form": form,
                "message_s": msgs, "searched": searched}
+    # context = {"friends": friends, "message_s": msgs, "searched": searched}
     return render(request, "messengers/messages.html", context)
+
+
+@login_required
+def message_search(request):
+    if request.method == "GET":
+        search_string = request.GET['search']
+        groups = request.user.members.all()
+        msgs = Messages.objects.filter(
+            Q(receiver=request.user) |
+            Q(sender=request.user)
+        )
+        group_msgs = Messages.objects.filter(grp_receiver__in=groups)
+        group_msgs = group_msgs.exclude(sender=request.user)
+        msgs = (msgs | group_msgs).order_by("-date_sent")
+        msgs = msgs.filter(text__contains=search_string)
+        context = {"message_s": msgs}
+        return render(request, "htmx_templates/message_search_result.html", context)
+    else:
+        return HttpResponse('<div class="message_list">failed</div>')
 
 
 @login_required
@@ -356,16 +376,6 @@ def search_result(request, rec_id, _type):
 @confirm_htmx_request
 def blank(request):
     return HttpResponse('')
-
-
-@login_required
-@confirm_htmx_request
-@require_http_methods(["GET", "POST"])
-def search_form(request, rec_id, _type):
-    if request.method == 'GET':
-        return render(request, "htmx_templates/search_form.html", {"rec_id": rec_id, "type": _type})
-    else:
-        return render(request, "htmx_templates/search.html", {"rec_id": rec_id, "type": _type})
 
 
 @login_required
