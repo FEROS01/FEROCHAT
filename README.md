@@ -77,7 +77,19 @@ To run the FEROCHAT Messenger App locally, follow these steps:
    git clone https://github.com/FEROS01/Messenger.git
    ```
 
-2. Create a virtual environment (recommended) and activate it:
+2. Install python's venv module
+
+   ```bash
+   pip install virtualenv
+   ```
+
+3. Enter the Messenger file
+
+   ```bash
+   cd Messenger
+   ```
+
+4. Create a virtual environment (recommended) and activate it:
 
    ```bash
    #on mac
@@ -86,36 +98,36 @@ To run the FEROCHAT Messenger App locally, follow these steps:
    
    #on windows
    python -m venv venv
-   source venv/Scripts/activate
+   venv/Scripts/activate
    ```
 
-3. Install dependencies:
+5. Install dependencies:
 
    ```bash
    pip install -r requirements.txt
    ```
 
-4. Create a `.env` file and configure your environment variables (e.g., database settings, secret key).
+6. Create a `.env` file and configure your environment variables (e.g., database settings, secret key).
 
-5. Apply database migrations:
+7. Apply database migrations:
 
    ```bash
    python manage.py migrate
    ```
 
-6. Create a superuser (admin):
+8. Create a superuser (admin):
 
    ```bash
    python manage.py createsuperuser
    ```
 
-7. Start the development server:
+9. Start the development server:
 
    ```bash
    python manage.py runserver
    ```
 
-8. Access the application in your web browser at `http://localhost:8000`.
+9. Access the application in your web browser at `http://localhost:8000`.
 
 ## Usage
 <a name="usage"></a>
