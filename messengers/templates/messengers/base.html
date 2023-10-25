@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="{% static 'messenger/css/base.css' %}">
     {% endblock stylesheet %}
     <link rel="stylesheet" href="{% static 'messenger/css/query.css' %}">
-    <link rel="shortcut icon" href="{% static 'messenger/ferochat_logo3.png'  %}" type="image/x-icon">
+    <link rel="shortcut icon" href="{% static 'messenger/images/ferochat_logo3.png'  %}" type="image/x-icon">
     <title>FeroChat</title>
 
     <script src="{% static 'messenger/js/htmx.min.js' %}" defer></script>
@@ -28,7 +28,7 @@
         <div class="first">
             {% block logo %}
             <a title="Home" class="logo" href="{% url 'messengers:index' %}">
-                <img src="{% static 'messenger/ferochat_logo3.png'  %}" alt="logo">
+                <img src="{% static 'messenger/images/ferochat_logo3.png'  %}" alt="logo">
             </a>
             {% endblock logo %}
             {% if user.is_authenticated %}

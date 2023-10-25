@@ -93,11 +93,11 @@ To run the FEROCHAT Messenger App locally, follow these steps:
 
    ```bash
    #on mac
-   python -m venv venv
+   python -m venv msg_env
    source venv/bin/activate
    
    #on windows
-   python -m venv venv
+   python -m venv msg_env
    venv/Scripts/activate
    ```
 
@@ -121,13 +121,19 @@ To run the FEROCHAT Messenger App locally, follow these steps:
    python manage.py createsuperuser
    ```
 
-9. Start the development server:
+9. Create a media folder called 'media':
+
+   ```bash
+   mkdir media
+   ```
+
+10. Start the development server:
 
    ```bash
    python manage.py runserver
    ```
 
-9. Access the application in your web browser at `http://localhost:8000`.
+11. Access the application in your web browser at `http://localhost:8000`.
 
 ## Usage
 <a name="usage"></a>
