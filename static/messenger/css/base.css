@@ -369,6 +369,7 @@ nav .logo img {
 }
 
 nav img {
+    object-fit: cover;
     transition: all 0.3s;
     width: 40px;
     height: 40px;
