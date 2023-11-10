@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
 from django.shortcuts import render, redirect
+from django.contrib.auth import get_user_model as user_model
 from django.contrib import messages
 
 from settings.forms import ProfileForm, InfoForm
@@ -9,6 +10,12 @@ from settings.forms import ProfileForm, InfoForm
 @login_required
 def settings(request):
     return render(request, "settings/setting.html")
+
+
+def _email_exist_validator(mail):
+    """Check if email is already in use"""
+    user = user_model().objects.filter(email=mail)
+    return user.exists()
 
 
 @login_required
@@ -21,6 +28,9 @@ def edit_prof(request):
         prof_form = ProfileForm(
             request.POST, request.FILES, instance=request.user)
         info_form = InfoForm(request.POST, request.FILES, instance=info)
+        input_mail = info_form.data['email']
+        if input_mail != request.user.email and _email_exist_validator(input_mail):
+            prof_form.add_error('email', 'Email has been used')
         if prof_form.is_valid() and info_form.is_valid():
             prof_form.save()
             info_form.save()
