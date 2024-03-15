@@ -115,25 +115,35 @@ To run the FEROCHAT Messenger App locally, follow these steps:
    python manage.py migrate
    ```
 
-8. Create a superuser (admin):
+8. Create the messenger app user 'FeroChat' (admin):
+
+   ```bash
+   python manage.py createsuperuser --username 'FeroChat' --email 'anyEmail@gmail.com'
+
+   # You will be required to give a password
+   # Give any password of your liking
+   ```
+
+
+9. Create a superuser (admin):
 
    ```bash
    python manage.py createsuperuser
    ```
 
-9. Create a media folder called 'media':
+10. Create a media folder called 'media':
 
    ```bash
    mkdir media
    ```
 
-10. Start the development server:
+11. Start the development server:
 
    ```bash
    python manage.py runserver
    ```
 
-11. Access the application in your web browser at `http://localhost:8000`.
+12. Access the application in your web browser at `http://localhost:8000`.
 
 ## Usage
 <a name="usage"></a>

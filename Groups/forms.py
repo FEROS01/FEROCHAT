@@ -5,7 +5,7 @@ from Groups.models import Group
 class GroupEditForm(forms.ModelForm):
     class Meta:
         model = Group
-        exclude = ('date_created', 'creator', 'admins', 'members')
+        fields = ['name', 'description', 'prof_pics']
 
 
 class SelectMemberForm(forms.Form):
@@ -25,7 +25,7 @@ class SelectMemberForm(forms.Form):
 class GroupCreationForm(forms.ModelForm):
     class Meta:
         model = Group
-        exclude = ("date_created", "creator", "admins")
+        fields = ['name', 'description', 'prof_pics', 'members']
         widgets = {
             "members": forms.CheckboxSelectMultiple()
         }

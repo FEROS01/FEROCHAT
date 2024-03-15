@@ -1,11 +1,12 @@
 {% load humanize %}
 {% if files %}
-<ul>
+<ul id="media_names">
     {% for file in files %}
     <li>
-        <div class="file">
+        <div class="file {% if file.error %}red{% endif %}">
             <p id="name">{{file.name}}</p>
             <p id="date">{{file.size|filesizeformat}}</p>
+            {{file.error}}
         </div>
     </li>
     {% endfor %}

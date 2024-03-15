@@ -137,6 +137,15 @@
                 </li>
             </ul>
         </div>
+        {% else %}
+        {% block access %}
+        <div class="second">
+            <div class="access">
+                <p><a href="{% url 'users:sign_up' %}"></a>Sign_up</p>
+                <p><a href="{% url 'users:login' %}"></a>Login</p>
+            </div>
+        </div>
+        {% endblock access %}
         {% endif %}
     </nav>
     <div class="space"></div>

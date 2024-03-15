@@ -22,9 +22,22 @@ document.body.addEventListener('load', function () {
     color(elements)
 })
 
+
+// let images = document.getElementsByTagName('img')
+// if (images) {
+//     for (let i = 0; i < images.length; i++) {
+//         let image = images.item(i)
+//         image.setAttribute("loading", 'lazy');
+//     }
+// }
+
+
+
+
 const replace = () => {
     document.querySelector('#id_media').value = ''
 }
+
 
 const setdisplay = (form, search_button, state) => {
     if (state === 'open') {

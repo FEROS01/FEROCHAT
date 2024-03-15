@@ -3,8 +3,10 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.shortcuts import render, redirect
 from django.contrib.auth import get_user_model as user_model
 from django.contrib import messages
+from django.http import HttpResponse
 
 from settings.forms import ProfileForm, InfoForm
+from messengers.decorators import confirm_htmx_request
 
 
 @login_required
@@ -52,3 +54,14 @@ def edit_pass(request):
             return redirect("settings:setting")
     context = {"form": form}
     return render(request, "settings/edit_pass.html", context)
+
+
+@login_required
+@confirm_htmx_request
+def file_name(request):
+    data = ''
+    if request.method == 'POST':
+        data = request.FILES['prof_pics'].name
+    return HttpResponse(
+        f'<div class="name">{data}</div>'
+    )

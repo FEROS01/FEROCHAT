@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
-from django.db.models import Q
+from django.db.models import Q, CharField, Value
+from django.db.models.functions import Concat
 from django.contrib import messages as Msg
 
 
@@ -23,21 +24,6 @@ def _group_setup(request, data):
     group.admins.add(request.user)
     Msg.success(request, 'Group ceation is succesful')
     return redirect("Groups:group_bio", grp_id=group.id)
-
-
-def _search_members(users, non_admin_members, data):
-    search = data["search"]
-    users = users.filter(
-        Q(username__startswith=search) |
-        Q(last_name__startswith=search) |
-        Q(first_name__startswith=search)
-    )
-    non_admin_members = non_admin_members.filter(
-        Q(username__startswith=search) |
-        Q(last_name__startswith=search) |
-        Q(first_name__startswith=search)
-    )
-    return users, non_admin_members
 
 
 def _add_members(request, form1, group, grp_id):

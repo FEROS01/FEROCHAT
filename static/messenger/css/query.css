@@ -10,7 +10,6 @@
 
     nav .first {
         border-radius: 5px;
-        box-shadow: 0 0 6px 0 darkgrey;
         margin-bottom: 1rem;
         padding: 0.5rem 1rem 0.2rem 1rem;
         flex-basis: 100%;
@@ -54,5 +53,9 @@
 
     .view_mesg #find {
         bottom: 150px;
+    }
+
+    .view_mesg .media_names .file {
+        max-width: 55vw;
     }
 }

@@ -4,14 +4,16 @@ import pytz
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.conf import settings
-from django.db.models import F, Q
-from django.db.models.functions import Lower
+from django.db.models import F, Q, Value, CharField
+from django.db.models.functions import Lower, Concat
 from django.contrib.auth.models import User
 from django.contrib import messages as Msg
 from django.http import HttpResponse, Http404
+from django_htmx.middleware import HtmxDetails
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods, require_POST, require_GET
 
+from messenger.utils import _find_users
 from Groups.models import Group
 
 from .models import Messages, Friends, Info
@@ -20,6 +22,10 @@ from .utils import _send_message, _update_unread_messages, _assign_type_variable
 from .decorators import confirm_type, confirm_member_friend, confirm_htmx_request
 
 timezone = pytz.timezone(settings.TIME_ZONE)
+
+
+class HtmxHttpResponse(HttpResponse):
+    htmx: HtmxDetails
 
 
 def index(request):
@@ -42,24 +48,22 @@ def user_bio(request, user_id):
 
 
 @login_required
-def users(request):
+def users(request: HtmxHttpResponse):
     users = User.objects.exclude(
         username='FeroChat').order_by(Lower('username'))
     friends = Friends.get_friends(Friends, request.user)
     searched = False
-    if request.method != "POST":
-        form = Search()
-    else:
+    if request.htmx and request.method == 'POST':
         form = Search(data=request.POST)
         if form.is_valid():
-            searched = True
             data = form.cleaned_data
-            for user in users:
-                search = data["search"].lower()
-                name = [user.username.lower().startswith(search), user.last_name.lower(
-                ).startswith(search), user.first_name.lower().startswith(search)]
-                if not any(name):
-                    users = users.exclude(id=user.id)
+            search = data["search"].lower()
+            users = _find_users(users, search)
+        context = {"users": users, "friends": friends,
+                   "form": form, "search": data['search']}
+        return render(request, "htmx_templates/people_search.html", context)
+    elif request.method != "POST":
+        form = Search()
     context = {"users": users, "friends": friends,
                "form": form, "searched": searched}
     return render(request, "messengers/users.html", context)
@@ -268,24 +272,23 @@ def decline_request(request, sen_id):
 
 
 @login_required
-def friends(request, user_id):
+def friends(request: HtmxHttpResponse, user_id):
     user = get_object_or_404(User, id=user_id)
     friends = Friends.get_friends(Friends, user).exclude(
         username='FeroChat').order_by("username")
     searched = False
     if request.method != "POST":
         form = Search()
-    else:
+    elif request.htmx and request.method == 'POST':
         form = Search(data=request.POST)
+        search = ''
         if form.is_valid():
             data = form.cleaned_data
             search = data["search"].lower()
-            friends = friends.filter(
-                Q(username__startswith=search) |
-                Q(first_name__startswith=search) |
-                Q(last_name__startswith=search)
-            ).order_by("username")
+            friends = _find_users(friends, search).order_by("username")
             searched = True
+        context = {"friends": friends, "search": search}
+        return render(request, "htmx_templates/friends_search.html", context)
     context = {"friends": friends, "searched": searched, "form": form}
     return render(request, "messengers/friends.html", context)
 
@@ -382,6 +385,19 @@ def blank(request):
 @confirm_htmx_request
 @require_POST
 def media_name(request):
-    files = [{"name": file.name, "size": file.size}
-             for file in request.FILES.getlist('media')]
+    # print(request.FILES)
+    # form = NewMessage(files=request.FILES)
+    # errors = form.errors
+    # print(errors)
+    files = []
+    for file in request.FILES.getlist('media'):
+        request.FILES['media'] = file
+        form = NewMessage(files=request.FILES)
+        file_object = {"name": file.name,
+                       "size": file.size,
+                       "error": form.errors.get('media', '')
+                       }
+        files.append(file_object)
+    # files = [{"name": file.name, "size": file.size}
+    #          for file in request.FILES.getlist('media')]
     return render(request, "htmx_templates/media_name.html", {"files": files})

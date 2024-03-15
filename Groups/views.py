@@ -2,48 +2,53 @@ from datetime import datetime
 import pytz
 
 from django.shortcuts import render, redirect, get_object_or_404
-from django.db.models import F, Q, Case, Value, When
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q, Case, Value, When
+from django_htmx.middleware import HtmxDetails
 from django.contrib.auth.models import User
 from django.contrib import messages as Msg
+from django.http import HttpRequest
+
 
 from messengers.form import Search
 from messengers.models import Friends
 from messenger.settings import TIME_ZONE
+from messenger.utils import _find_users
 
 from .models import Group, Membership
 from .forms import GroupEditForm, SelectMemberForm, GroupCreationForm
-from .utils import _group_setup, _search_members, _add_members
+from .utils import _group_setup, _add_members
 from .decorators import is_admin
 timezone = pytz.timezone(TIME_ZONE)
 
-# Create your views here.
+
+class HtmxHttpResponse(HttpRequest):
+    htmx: HtmxDetails
 
 
 @login_required
-def create_group(request):
+def create_group(request: HtmxHttpResponse):
     users = User.objects.all().exclude(id=request.user.id)
     searched = False
     if request.method != "POST":
         form = GroupCreationForm()
         search_form = Search()
+    elif request.htmx and request.method == 'POST':
+        search_form = Search(request.POST)
+        form = GroupCreationForm()
+        if search_form.is_valid():
+            search = search_form.cleaned_data["search"]
+            users = _find_users(users, search)
+        context = {"form": form, "users": users,
+                   "search_form": search_form, "searched": searched}
+        return render(request, "htmx_templates/create_group_result.html", context)
+
     elif request.method == "POST" and "create" in request.POST:
         search_form = Search()
         form = GroupCreationForm(request.POST, request.FILES)
         if form.is_valid():
             data = form.cleaned_data
             return _group_setup(request, data)
-    elif request.method == "POST" and "search" in request.POST:
-        searched = True
-        search_form = Search(request.POST)
-        form = GroupCreationForm()
-        if search_form.is_valid():
-            data = search_form.cleaned_data["search"]
-            users = users.filter(
-                Q(username__startswith=data) |
-                Q(first_name__startswith=data) |
-                Q(last_name__startswith=data)
-            )
     context = {"form": form, "users": users,
                "search_form": search_form, "searched": searched}
     return render(request, "Groups/create_group.html", context)
@@ -87,7 +92,7 @@ def remove_user(request, user_id, grp_id):
 
 @login_required
 @is_admin
-def select_member(request, grp_id):
+def select_member(request: HtmxHttpResponse, grp_id):
     all = User.objects.all()
     group = get_object_or_404(Group, id=grp_id)
     admins = group.admins.all()
@@ -99,15 +104,19 @@ def select_member(request, grp_id):
     friends = Friends.get_friends(Friends, request.user, exclude=request.user)
     searched = False
     form1 = SelectMemberForm(selected_choices=[], selected_admin_choices=[])
-    if request.method != "POST":
-        form = Search()
-    elif request.method == "POST" and "search" in request.POST:
+    if request.htmx and request.method == 'POST':
         form = Search(request.POST)
         if form.is_valid():
             searched = True
-            data = form.cleaned_data
-            users, non_admin_members = _search_members(
-                users, non_admin_members, data)
+            data = form.cleaned_data['search']
+            users = _find_users(users, data)
+            non_admin_members = _find_users(non_admin_members, data)
+        context = {"users": users, "friends": friends, "searched": searched,
+                   "grp_id": grp_id, "form1": form1, "members": non_admin_members}
+        return render(request, "htmx_templates/grp_search_result.html", context)
+    elif request.method != "POST":
+        form = Search()
+
     elif request.method == "POST" and "slct_mbrs" in request.POST:
         CHOICES = [(user.username, user.username) for user in users]
         ADMIN_CHOICES = [(user.username, user.username)

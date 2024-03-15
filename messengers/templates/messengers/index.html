@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="{% static 'messenger/css/landing.css' %}">
 {% endblock stylesheet %}
 {% block logo %}{% endblock logo %}
+{% block access %}{% endblock access %}
 {% block content %}
 <div class="landing">
     <div class="page_1">
@@ -101,21 +102,20 @@
             </div>
         </div>
     </div>
-
-    <!--<div class="sec_content">
-        With FeroChat, you can send text messages, voice messages, photos and even videos with just a few taps. Stay
-        connected in real-time, no matter where you are, and never miss a moment with our
-        intuitive and user-friendly interface.
-
-        Your privacy and security are our top priorities. We've implemented state-of-the-art encryption and security
-        features to protect your conversations and ensure that your personal information remains safe and secure. Chat
-        with peace of mind, knowing that your privacy is respected and safeguarded.
-
-        Join our vibrant community of users worldwide who are already enjoying the benefits of FeroChat. Use our app now
-        and experience a whole new level of communication.
-
-        Let's get started and create meaningful connections with FeroChat today! Welcome aboard!
-    </div> -->
 </div>
 <script type="module" src="{% static 'messenger/js/model-viewer.min.js' %}"></script>
+<script>
+    const drop = () => {
+        let navbar = document.getElementsByTagName('nav')[0]
+        if (window.scrollY > 200) {
+            navbar.setAttribute('style', 'background-color: rgba(0,0,0,0.7);backdrop-filter:blur(5px);')
+        } else {
+            navbar.setAttribute('style', 'background-color: rgba(0,0,0,0);backdrop-filter:blur(0px);')
+        }
+    }
+    document.addEventListener('DOMContentLoaded', function () {
+        console.log('fish')
+        window.addEventListener('scroll', drop)
+    })
+</script>
 {% endblock content %}

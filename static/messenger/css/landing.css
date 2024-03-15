@@ -228,6 +228,7 @@ a {
 
 
 nav {
+    transition: all 0.5s;
     z-index: 4;
     overflow: hidden;
     /* box-shadow: 0px 0px 6px grey; */
@@ -657,6 +658,8 @@ footer .contact p {
 }
 
 .about .card {
+    backdrop-filter: blur(4px);
+    background-color: rgba(0, 0, 0, 0.5);
     transition: all 0.3s;
     margin: 1rem;
     padding: 1rem;
@@ -690,6 +693,10 @@ footer .contact p {
 }
 
 @media (max-width:540px) {
+    nav {
+        padding-bottom: 1rem;
+    }
+
     .page h2 {
         text-align: start;
     }
