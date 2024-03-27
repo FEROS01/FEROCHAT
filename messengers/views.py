@@ -324,16 +324,6 @@ def view_media(request, rec_id, _type):
 
 @login_required
 @confirm_htmx_request
-@require_http_methods(["GET", "POST"])
-def more(request):
-    if request.method == 'GET':
-        return render(request, "htmx_templates/more.html", {})
-    else:
-        return HttpResponse('<div class="replace"></div>')
-
-
-@login_required
-@confirm_htmx_request
 @confirm_member_friend
 @confirm_type
 @require_http_methods(["DELETE"])

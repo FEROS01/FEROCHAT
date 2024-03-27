@@ -318,12 +318,12 @@ nav #no {
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
     padding: 0 0 0 1rem;
-    background-color: white;
+    background-color: rgba(5, 5, 5, 0.5);
     width: 50vw;
-    box-shadow: 0 0 6px 0 darkgray;
+    /* box-shadow: 0 0 6px 0 darkgray; */
     display: flex;
     flex-direction: column;
-    animation: slide_in 1s ease forwards;
+    /* animation: slide_in 1s ease forwards; */
 }
 
 @keyframes slide_in {
@@ -331,6 +331,7 @@ nav #no {
         left: 0;
     }
 }
+
 
 .more ul>* {
     border-bottom: 1px solid lightgray;
@@ -343,11 +344,12 @@ nav #no {
 }
 
 .more {
+    backdrop-filter: blur(3.5px);
     height: 100vh;
     width: 100%;
     justify-content: end;
     /* top: 100px; */
-    display: flex;
+    display: none;
     position: fixed;
     z-index: 10;
 }
@@ -356,7 +358,8 @@ nav #no {
     display: flex;
     gap: 2rem;
     text-decoration: none;
-    color: black;
+    /* color: black; */
+    color: lightgray;
 }
 
 .more a:active {
@@ -365,9 +368,10 @@ nav #no {
 
 
 nav .first {
+    overflow: hidden;
     display: flex;
     align-items: center;
-    flex-basis: 10%;
+    flex-basis: 40%;
 }
 
 nav #more {

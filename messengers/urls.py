@@ -31,7 +31,6 @@ urlpatterns = [
 ]
 
 htmx_patterns = [
-    path("more/", views.more, name="more"),
     path("search_result/<int:rec_id>/<str:_type>",
          views.search_result, name="search_result"),
     path("blank/", views.blank, name="blank"),
