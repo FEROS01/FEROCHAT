@@ -109,7 +109,7 @@
                         {% endfor %}
                     </ul>
 
-                    <label for="#">Members: </label>
+                    <label for="#">Add Members: </label>
                     <div class="select_mem">
                         <div class="select_form">
                             {% if form.members.errors %}
@@ -140,7 +140,9 @@
                                 </div>
                                 <input type="checkbox" value="{{use_r.id}}" name="members">
                             </div>
-
+                            {% empty %}
+                            <p class="no_cont">You need <a href="{% url 'messengers:users' %}">friends</a> to create a
+                                group</p>
                             {% endfor %}
                         </div>
                     </div>

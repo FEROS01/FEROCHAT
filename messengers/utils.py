@@ -1,6 +1,6 @@
 from django.db.models import F, Q, When, Case, Value
 
-from Groups.models import Group
+from Groups.models import Group,Membership
 
 from .models import Info, Messages, Friends, User
 
@@ -16,6 +16,7 @@ def _update_unread_messages(request, rec_msgs, all_msgs, _type):
         request.user.info.save()
         unread_id = filtrd_rec_msgs.first().id if no_unread_msgs else None
         rec_msgs.update(read=True)
+        request.user.read_messages.add(*rec_msgs)
     else:
         unread_msgs = all_msgs.exclude(read_by__id=request.user.id)
         no_unread_msgs = unread_msgs.count()
@@ -33,14 +34,17 @@ def _send_message(request, form, rec_user, _type):
         new_message.save()
         rec_user.info.unread_messages += 1
         rec_user.info.save()
+        new_message.read_by.add(request.user)
+        return new_message
     else:
         new_message = form.save(commit=False)
-        new_message.sender, new_message.grp_receiver, new_message.read = request.user, rec_user, True
+        new_message.sender, new_message.grp_receiver = request.user, rec_user
         new_message.save()
         g_members = rec_user.members.all()
         Info.objects.exclude(user=request.user).filter(user__in=g_members).update(
             unread_messages=F("unread_messages")+1)
         new_message.read_by.add(request.user)
+        return new_message
 
 
 def _assign_type_variables(request, _type, rec_id):
@@ -53,6 +57,12 @@ def _assign_type_variables(request, _type, rec_id):
         rec_msgs = Messages.objects.filter(
             sender=rec_user, receiver=request.user)
         all_msgs = (sent_msgs | rec_msgs).order_by("date_sent")
+        friendship = Friends.objects.get(
+                Q(req_sender=request.user, req_receiver=rec_user) |
+                Q(req_sender=rec_user, req_receiver=request.user),
+                status=True
+            )
+        room_name = friendship.get_room_name()
     elif _type == "Group":
         rec_user = Group.objects.get(id=rec_id)
         date_join_group = request.user.membership_set.get(
@@ -71,4 +81,6 @@ def _assign_type_variables(request, _type, rec_id):
         )
         grp_members = members.annotate(
             position=priority).order_by("position", "username")
-    return rec_msgs, rec_user, all_msgs, grp_members
+        membership = Membership.objects.get(group=rec_user, member=request.user)
+        room_name = membership.get_room_name()
+    return room_name, rec_msgs, rec_user, all_msgs, grp_members

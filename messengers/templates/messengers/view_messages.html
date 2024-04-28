@@ -31,6 +31,7 @@
                     d="M256 0H576c35.3 0 64 28.7 64 64V288c0 35.3-28.7 64-64 64H256c-35.3 0-64-28.7-64-64V64c0-35.3 28.7-64 64-64zM476 106.7C471.5 100 464 96 456 96s-15.5 4-20 10.7l-56 84L362.7 169c-4.6-5.7-11.5-9-18.7-9s-14.2 3.3-18.7 9l-64 80c-5.8 7.2-6.9 17.1-2.9 25.4s12.4 13.6 21.6 13.6h80 48H552c8.9 0 17-4.9 21.2-12.7s3.7-17.3-1.2-24.6l-96-144zM336 96a32 32 0 1 0 -64 0 32 32 0 1 0 64 0zM64 128h96V384v32c0 17.7 14.3 32 32 32H320c17.7 0 32-14.3 32-32V384H512v64c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V192c0-35.3 28.7-64 64-64zm8 64c-8.8 0-16 7.2-16 16v16c0 8.8 7.2 16 16 16H88c8.8 0 16-7.2 16-16V208c0-8.8-7.2-16-16-16H72zm0 104c-8.8 0-16 7.2-16 16v16c0 8.8 7.2 16 16 16H88c8.8 0 16-7.2 16-16V312c0-8.8-7.2-16-16-16H72zm0 104c-8.8 0-16 7.2-16 16v16c0 8.8 7.2 16 16 16H88c8.8 0 16-7.2 16-16V416c0-8.8-7.2-16-16-16H72zm336 16v16c0 8.8 7.2 16 16 16h16c8.8 0 16-7.2 16-16V416c0-8.8-7.2-16-16-16H424c-8.8 0-16 7.2-16 16z" />
             </svg>
         </a>
+
         {% else %}
 
         {% if rec_user.prof_pics %}
@@ -98,17 +99,17 @@
     <ul class="message_list">
         {% for msg in all_messages %}
 
-        <a id="find" name="{{msg.id}}"></a>
         {% if unread_id and msg.id == unread_id %}
         <a id="find" name="unread"></a>
         <section class="unread">Unread Messages</section>
         {% endif %}
         {% ifchanged msg.date_sent.day %}
-        <p class="day">{{msg.date_sent|naturalday:'l, j F'}}</p>
+        <p class="day" id="{{msg.id}}">{{msg.date_sent|naturalday:'l, j F'}}</p>
         {% endifchanged %}
         {% if msg.sender == user %}
 
-        <li class="right">
+        <li class="right" id="{{msg.id}}">
+            <a id="find" name="{{msg.id}}"></a>
             <div class="sent">
                 {% if msg.media %}
                 <div id="media" class="media">
@@ -154,10 +155,12 @@
             </div>
         </li>
 
+
         {% else %}
 
 
-        <li class="left">
+        <li class="left" data="{{msg.id}}">
+            <a id="find" name="{{msg.id}}"></a>
             <div class="received">
                 {% if type == "Group" %}
                 <p class="sender_name">{{msg.sender}}</p>
@@ -195,7 +198,6 @@
                 </section>
             </div>
         </li>
-
         {% endif %}
 
 
@@ -218,9 +220,14 @@
         {% endfor %}
         {% endif %}
     </div>
+
+
     {% if not is_ferochat %}
-    <form id="msg_form" enctype="multipart/form-data" action="{% url 'messengers:view_messages' rec_id type %}#bottom"
-        method="post">
+    <input hx-encoding="multipart/form-data" hx-post="{% url 'messengers:view_messages' rec_id type %}#bottom"
+        hx-swap="afterend scroll:true" hx-target="previous .message_list" hx-trigger="change" id="refresh" type="hidden"
+        name="method" value="">
+    <form hx-encoding="multipart/form-data" hx-post="{% url 'messengers:view_messages' rec_id type %}#bottom"
+        hx-swap="afterend scroll:true" hx-target="previous .message_list" id="msg_form">
         {% csrf_token %}
         <div class="in_form">
             <div class="text">
@@ -231,16 +238,14 @@
                 <path
                     d="M64 480H448c35.3 0 64-28.7 64-64V160c0-35.3-28.7-64-64-64H288c-10.1 0-19.6-4.7-25.6-12.8L243.2 57.6C231.1 41.5 212.1 32 192 32H64C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64z" />
             </svg>
-            <input type="file" name="media" accept=".png,.jpeg,.jpg,.mp4,.mp3,.pdf" multiple=""
-                hx-post="{% url 'messengers:media_name' %}" hx-encoding="multipart/form-data" hx-swap="innerHTML"
-                hx-target=".media_names" id="id_media">
-            <button type="submit">
+            <input class="send_input" type="file" name="media" accept=".png,.jpeg,.jpg,.mp4,.mp3,.pdf" multiple=""
+                hx-post="{% url 'messengers:media_name' %}" hx-swap="innerHTML" hx-target=".media_names" id="id_media">
+            <button id="send_msg" type="submit">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
                     <path
                         d="M120-160v-640l760 320-760 320Zm80-120 474-200-474-200v140l240 60-240 60v140Zm0 0v-400 400Z" />
                 </svg>
             </button>
-            <input type="hidden" name="next" value="{% url 'messengers:view_messages' rec_id type %}">
         </div>
     </form>
     {% else %}
@@ -255,11 +260,124 @@
     {% endif %}
 </div>
 
+{{ room_name|json_script:"room-name" }}
 <script>
     let form = document.querySelector('#search_form')
     let search_button = document.querySelector('#search')
     const switch_visibility = (state) => {
         setdisplay(form, search_button, state)
     }
+
+    const roomName = JSON.parse(document.getElementById('room-name').textContent);
+
+    const chatSocket = new WebSocket(
+        'ws://'
+        + window.location.host
+        + '/ws/view_messages/'
+        + roomName
+        + '/'
+    );
+    chatSocket.onmessage = function (e) {
+        const data = JSON.parse(e.data)
+        const user_name = '{{user.username}}'
+        if (data.sender !== user_name) {
+            if (data.request === 'send') {
+                htmx.trigger('#refresh', 'change')
+            } else if (data.request === 'delete') {
+                let message_id = data.msg_id
+                document.querySelector(`[data="${message_id}"][class="left"]`).remove()
+            }
+        }
+    };
+    chatSocket.onclose = function (e) {
+        console.error('Chat socket closed unexpectedly');
+    };
+
+    document.querySelector('#msg_form textarea').focus();
+
+    const insertAfter = (last, htmlString) => last.insertAdjacentHTML("afterend", htmlString)
+
+    const removeDayOnDelete = (evt) => {
+        if (evt.target.className === 'right' | evt.target.className === 'left') {
+            let next_element = evt.target.nextElementSibling
+            let previous_element = evt.target.previousElementSibling
+            if (next_element !== null && next_element.className === 'day' && previous_element.className === 'day') {
+                element_id = evt.target.getAttribute('id')
+                document.getElementById(element_id).remove()
+            } else if (next_element === null && previous_element === null) {
+                let todays = document.querySelectorAll('.today')
+                if (todays.length == 1) { todays[0].remove() }
+            }
+            else if (previous_element.className === 'day' && next_element === null) {
+                let els = document.querySelectorAll('.day')
+                els[els.length - 1].remove()
+            }
+        }
+    }
+
+    const insertTodayOnSend = (evt) => {
+        if (evt.detail.elt.className === 'message_list htmx-settling') {
+            let message_list = document.querySelector('.message_list')
+            let last = message_list.lastElementChild
+            let days = document.querySelectorAll('.day')
+            let count = days.length
+            let day = ''
+
+            if (count > 0) { day = days.item(count - 1).textContent }
+            if (day !== 'today') {
+                htmlString = '<p class="day today">today</p>'
+                insertAfter(last, htmlString)
+            }
+        }
+    }
+
+    const refreshFormInputs = (evt) => {
+        if (evt.detail.successful && evt.target.tagName === 'FORM') {
+            chatSocket.send(JSON.stringify({
+                'request': 'send',
+                'sender': '{{user.username}}',
+                'msg_id': ''
+            }))
+            const fileInputDom = document.querySelector('.send_input');
+            const messageInputDom = document.querySelector('#msg_form textarea');
+            messageInputDom.value = '';
+            fileInputDom.value = '';
+            document.querySelector('#msg_form textarea').focus();
+            document.querySelector('.media_names').innerHTML = ''
+        }
+    }
+
+    document.body.addEventListener('htmx:beforeSwap', function (evt) {
+        removeDayOnDelete(evt)
+    })
+
+    document.body.addEventListener('htmx:afterSwap', function (evt) {
+        insertTodayOnSend(evt)
+    })
+
+    document.body.addEventListener('htmx:afterRequest', function (evt) {
+        let is_delete = evt.detail.xhr.responseURL.split('/').includes('delete_message')
+        let url = evt.detail.xhr.responseURL.split('/')
+        let msg_id = url[url.length - 3]
+        if (is_delete) {
+            chatSocket.send(JSON.stringify({
+                'request': 'delete',
+                'msg_id': msg_id,
+                'sender': '{{user.username}}'
+            }))
+        }
+        // console.log(evt)
+
+    })
+
+    const msg_form = document.querySelector('#msg_form')
+    msg_form.addEventListener('submit', function (e) {
+        e.preventDefault()
+    })
+
+    msg_form.addEventListener('htmx:afterRequest', function (evt) {
+        refreshFormInputs(evt)
+    })
+
 </script>
 {% endblock content %}

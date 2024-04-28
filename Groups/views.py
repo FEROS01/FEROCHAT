@@ -28,7 +28,8 @@ class HtmxHttpResponse(HttpRequest):
 
 @login_required
 def create_group(request: HtmxHttpResponse):
-    users = User.objects.all().exclude(id=request.user.id)
+    ferochat = User.objects.get(username='FeroChat')
+    friends = Friends.get_friends(Friends,request.user,exclude=ferochat)
     searched = False
     if request.method != "POST":
         form = GroupCreationForm()
@@ -38,8 +39,8 @@ def create_group(request: HtmxHttpResponse):
         form = GroupCreationForm()
         if search_form.is_valid():
             search = search_form.cleaned_data["search"]
-            users = _find_users(users, search)
-        context = {"form": form, "users": users,
+            friends = _find_users(friends, search)
+        context = {"form": form, "users": friends,
                    "search_form": search_form, "searched": searched}
         return render(request, "htmx_templates/create_group_result.html", context)
 
@@ -49,7 +50,7 @@ def create_group(request: HtmxHttpResponse):
         if form.is_valid():
             data = form.cleaned_data
             return _group_setup(request, data)
-    context = {"form": form, "users": users,
+    context = {"form": form, "users": friends,
                "search_form": search_form, "searched": searched}
     return render(request, "Groups/create_group.html", context)
 

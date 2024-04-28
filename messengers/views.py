@@ -4,8 +4,8 @@ import pytz
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.conf import settings
-from django.db.models import F, Q, Value, CharField
-from django.db.models.functions import Lower, Concat
+from django.db.models import F, Q
+from django.db.models.functions import Lower
 from django.contrib.auth.models import User
 from django.contrib import messages as Msg
 from django.http import HttpResponse, Http404
@@ -102,10 +102,11 @@ def messages(request):
 def message_search(request):
     if request.method == "GET":
         search_string = request.GET['search']
+        friends = Friends.get_friends(Friends,request.user)
         groups = request.user.members.all()
         msgs = Messages.objects.filter(
-            Q(receiver=request.user) |
-            Q(sender=request.user)
+            Q(receiver=request.user)|Q(sender=request.user),
+            Q(sender__in=friends)|Q(receiver__in=friends)
         )
         group_msgs = Messages.objects.filter(grp_receiver__in=groups)
         group_msgs = group_msgs.exclude(sender=request.user)
@@ -120,14 +121,15 @@ def message_search(request):
 @login_required
 @confirm_type
 @confirm_member_friend
-def view_messages(request, rec_id, _type):
+def view_messages(request:HtmxHttpResponse, rec_id, _type):
 
     # This is the app's administrator that sends messages to new users and shares updates to all users
     ferochat = User.objects.get(username='FeroChat')
 
+    # room_name = request.user.username +'_'+ User.objects.get(id=rec_id).username
     unread_id = None
     old_errors = []
-    rec_msgs, rec_user, all_msgs, grp_members = _assign_type_variables(
+    room_name,rec_msgs, rec_user, all_msgs, grp_members = _assign_type_variables(
         request, _type, rec_id)
     is_ferochat = rec_user == ferochat
 
@@ -136,29 +138,48 @@ def view_messages(request, rec_id, _type):
             request, rec_msgs, all_msgs, _type)
         form = NewMessage()
         search_form = SearchMessages()
-    elif "next" in request.POST:
+    elif request.method == "POST" and request.htmx:
+        messages = []
         files = request.FILES.getlist('media')
         search_form = SearchMessages()
         form = NewMessage(request.POST, request.FILES)
         if is_ferochat:
             Msg.error(request, 'You cannot message FEROCHAT')
+        elif 'method' in request.POST:
+            messages_copy = all_msgs.exclude(
+            Q(read_by__id=request.user.id)|
+            Q(read=True)
+            )
+            messages = list(messages_copy)
+            unread_id = _update_unread_messages(
+            request, messages_copy, all_msgs, _type)
+            unread_id = None
         elif not files or len(files) == 1:
             if form.is_valid():
-                _send_message(request, form, rec_user, _type)
-                return redirect("messengers:view_messages", rec_id=rec_id, _type=_type)
-            old_errors.append(form.errors["media"])
+                message = _send_message(request, form, rec_user, _type)
+                messages.append(message)
+                # return redirect("messengers:view_messages", rec_id=rec_id, _type=_type)
+                # return HttpResponse('')
+            else:
+                old_errors.append(form.errors["media"])
         else:
             for file in files:
                 request.FILES["media"] = file
                 form = NewMessage(request.POST, request.FILES)
                 if form.is_valid():
-                    _send_message(request, form, rec_user, _type)
+                    message = _send_message(request, form, rec_user, _type)
+                    messages.append(message)
                 else:
                     if form.errors["media"] not in old_errors:
                         old_errors.append(form.errors["media"])
+        context = {
+        "all_messages": messages, "rec_id": rec_id, "rec_user": rec_user,
+        "unread_id": unread_id, "old_errors": old_errors, "members": grp_members, "is_ferochat": is_ferochat,"type": _type
+        }
+        return render(request, "htmx_templates/message.html", context)
     context = {
         "all_messages": all_msgs, "form": form, "search_form": search_form, "rec_id": rec_id, "rec_user": rec_user,
-        "unread_id": unread_id, "old_errors": old_errors, "type": _type, "members": grp_members, "is_ferochat": is_ferochat
+        "unread_id": unread_id, "old_errors": old_errors, "type": _type, "members": grp_members, "is_ferochat": is_ferochat, "room_name":room_name
     }
     return render(request, "messengers/view_messages.html", context)
 
@@ -355,7 +376,7 @@ def delete_message(request, msg_id, rec_id, _type):
 @confirm_member_friend
 @confirm_type
 def search_result(request, rec_id, _type):
-    rec_msgs, rec_user, all_msgs, grp_members = _assign_type_variables(
+    room_name,rec_msgs, rec_user, all_msgs, grp_members = _assign_type_variables(
         request, _type, rec_id)
     search_mesg = request.POST.get("search", "")
     result = all_msgs.filter(text__contains=search_mesg).order_by('-date_sent')
@@ -375,10 +396,8 @@ def blank(request):
 @confirm_htmx_request
 @require_POST
 def media_name(request):
-    # print(request.FILES)
     # form = NewMessage(files=request.FILES)
     # errors = form.errors
-    # print(errors)
     files = []
     for file in request.FILES.getlist('media'):
         request.FILES['media'] = file

@@ -1,3 +1,5 @@
+import uuid
+
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import Q, When, Case, F, OuterRef, Subquery, Value
@@ -11,7 +13,7 @@ from .validators import (file_size_val, media_size_val, file_type_validator,
 
 
 def user_directory_media(instance, filename):
-    extension = filename.split(".")[-1]
+    extension = filename.split(".")[-1].lower()
     media_type = [typ_e for typ_e, ext in Media.items() if extension in ext][0]
     return f"USERS/{instance.sender.id}/Media/{media_type}/{filename}"
 
@@ -40,7 +42,7 @@ class Messages(models.Model):
 
     def media_type(self):
         if self.media:
-            extension = self.media.url.split(".")[-1]
+            extension = self.media.url.split(".")[-1].lower()
             media_type = [typ_e for typ_e,
                           ext in Media.items() if extension in ext]
             return media_type[0]
@@ -74,6 +76,7 @@ class Friends(models.Model):
     rejected = models.BooleanField(default=False)
     date_added = models.DateTimeField(auto_now_add=True)
     friend_date = models.DateTimeField(auto_now=True)
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False)
 
     def __str__(self):
         return f"{self.req_sender}_To_{self.req_receiver}"
@@ -191,3 +194,7 @@ class Friends(models.Model):
             return friends
 
         return friends.exclude(username=exclude.username)
+
+    def get_room_name(self):
+        name = f'{self.req_sender.username}_{self.req_receiver.username}{self.uuid}'
+        return name

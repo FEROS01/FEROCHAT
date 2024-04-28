@@ -93,6 +93,7 @@ def m_type(val):
 
 @register.filter(name="nam_e")
 def name(val):
+    print(val)
     return val.split("/")[-1].split(".")
 
 

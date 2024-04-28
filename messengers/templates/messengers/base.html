@@ -266,6 +266,12 @@
             more.setAttribute('style', 'display:none')
 
         }
+
+        document.body.addEventListener('htmx:beforeSwap', function (evt) {
+            if (evt.detail.xhr.status === 404) {
+                alert("Error");
+            }
+        })
     </script>
 </body>
 

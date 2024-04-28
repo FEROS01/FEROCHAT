@@ -30,12 +30,12 @@
                 </p>
                 <div class="time">
                     <p>
-                        You: {{msg.text}}
+                        You: {{msg.text|truncatechars:30}}
                     </p>
                     <section>
-                        <p><strong>{{user|la_st:msg.grp_receiver|first|last|naturalday:'d/m/y'|default:""}}</strong>
+                        <p><strong>{{msg.date_sent|naturalday:'d/m/y'|default:""}}</strong>
                         </p>
-                        <p><strong>{{user|la_st:msg.grp_receiver|first|last|date:'P'|default:""}}</strong></p>
+                        <p><strong>{{msg.date_sent|date:'P'|default:""}}</strong></p>
                     </section>
                 </div>
             </a>
@@ -57,12 +57,12 @@
                 <section>{{msg.receiver.username}}</section>
                 <div class="time">
                     <p>
-                        You: {{msg.text}}
+                        You: {{msg.text|truncatechars:30}}
                     </p>
                     <section>
-                        <p><strong>{{user|la_st:msg.receiver|first|last|naturalday:'d/m/y'|default:""}}</strong>
+                        <p><strong>{{msg.date_sent|naturalday:'d/m/y'|default:""}}</strong>
                         </p>
-                        <p><strong>{{user|la_st:msg.receiver|first|last|date:'P'|default:""}}</strong></p>
+                        <p><strong>{{msg.date_sent|date:'P'|default:""}}</strong></p>
                     </section>
                 </div>
             </a>
@@ -94,12 +94,12 @@
                 <section>{{msg.grp_receiver.name}}</section>
                 <div class="time">
                     <p>
-                        {{msg.sender.username}}: {{msg.text}}
+                        {{msg.sender.username}}: {{msg.text|truncatechars:30}}
                     </p>
                     <section>
-                        <p><strong>{{user|la_st:msg.grp_receiver|first|last|naturalday:'d/m/y'|default:""}}</strong>
+                        <p><strong>{{msg.date_sent|naturalday:'d/m/y'|default:""}}</strong>
                         </p>
-                        <p><strong>{{user|la_st:msg.grp_receiver|first|last|date:'P'|default:""}}</strong></p>
+                        <p><strong>{{msg.date_sent|date:'P'|default:""}}</strong></p>
                     </section>
                 </div>
             </a>
@@ -122,11 +122,11 @@
 
                 <div class="time">
                     <p>
-                        {{msg.text}}
+                        {{msg.text|truncatechars:30}}
                     </p>
                     <section>
-                        <p><strong>{{user|la_st:msg.sender|first|last|naturalday:'d/m/y'|default:""}}</strong></p>
-                        <p><strong>{{user|la_st:msg.sender|first|last|date:'P'|default:""}}</strong></p>
+                        <p><strong>{{msg.date_sent|naturalday:'d/m/y'|default:""}}</strong></p>
+                        <p><strong>{{msg.date_sent|date:'P'|default:""}}</strong></p>
                     </section>
                 </div>
             </a>

@@ -1,3 +1,5 @@
+import uuid
+
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import validate_image_file_extension
@@ -36,6 +38,11 @@ class Membership(models.Model):
     date_joined = models.DateTimeField(auto_now_add=True)
     inviter = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="inviter")
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False)
+
+    def get_room_name(self):
+        room_name = f"{self.group.name}_{self.uuid}"
+        return room_name
 
     def __str__(self):
         return f"{self.group.name}_{self.member.username}"

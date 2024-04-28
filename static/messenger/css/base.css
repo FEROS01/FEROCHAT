@@ -792,6 +792,10 @@ footer .contact p {
     margin-right: 1rem;
 }
 
+.view_mesg .no_cont {
+    height: 10vh;
+}
+
 .view_mesg .result {
     width: 100%;
     position: fixed;
@@ -968,6 +972,7 @@ footer .contact p {
     list-style: none;
 }
 
+
 .view_mesg a:hover {
     color: rgb(55, 205, 205);
 }
@@ -980,8 +985,8 @@ footer .contact p {
 
 .view_mesg .message_list {
     z-index: 1;
-    margin-top: 30px;
-    padding: 1rem;
+    margin-top: 50px;
+    padding: 1rem 1rem 0rem 1rem;
     display: flex;
     overflow-x: hidden;
     flex-direction: column;
@@ -1223,7 +1228,7 @@ footer .contact p {
     width: 20px;
     position: relative;
     height: 20px;
-    bottom: 120px;
+    bottom: 180px;
 }
 
 .view_mesg .space_buttom {

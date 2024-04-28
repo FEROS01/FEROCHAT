@@ -1,0 +1,140 @@
+{% load humanize %}
+{% load filters %}
+{% load static %}
+
+
+{% if messages %}
+<ul class="popup">
+    {% for message in messages %}
+    <li {% if message.tags %} class="{{message.tags}}" {% endif %}>
+        {% if message.tags == 'success' %}
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+            <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+            <path
+                d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z" />
+        </svg>
+        {% else %}
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+            <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+            <path
+                d="M367.2 412.5L99.5 144.8C77.1 176.1 64 214.5 64 256c0 106 86 192 192 192c41.5 0 79.9-13.1 111.2-35.5zm45.3-45.3C434.9 335.9 448 297.5 448 256c0-106-86-192-192-192c-41.5 0-79.9 13.1-111.2 35.5L412.5 367.2zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256z" />
+        </svg>
+        {% endif %}
+        {{message}}
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+{% if all_messages %}
+<ul class="message_list" style="margin-top: 0; padding-block: 0;">
+    {% for msg in all_messages %}
+    {% if unread_id and msg.id == unread_id %}
+    <a id="find" name="unread"></a>
+    <section class="unread">Unread Messages</section>
+    {% endif %}
+    {% if msg.sender == user %}
+
+    <li class="right">
+        <a id="find" name="{{msg.id}}"></a>
+        <div class="sent">
+            {% if msg.media %}
+            <div id="media" class="media">
+                {% if msg|m_type == "image" %}
+                <a id="img" href="{{msg.media.url}}">
+                    <img src="{{msg.media.url}}" alt="Image">
+                </a>
+                {% elif msg|m_type == "video" %}
+                <video controls src="{{msg.media.url}}"></video>
+                {% elif msg|m_type == "audio" %}
+                <audio controls src="{{msg.media.url}}"></audio>
+                {% elif msg|m_type == "document" %}
+                <a id="doclink" href="{{msg.media.url}}">
+                    <div class="doc">
+                        <section>
+                            <p>{{msg.media.name|nam_e|first|truncatechars:25}}.{{msg.media.name|nam_e|last}}</p>
+                            <p>{{msg.media.size|filesizeformat}}</p>
+                        </section>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+                            <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                            <path
+                                d="M384 480h48c11.4 0 21.9-6 27.6-15.9l112-192c5.8-9.9 5.8-22.1 .1-32.1S555.5 224 544 224H144c-11.4 0-21.9 6-27.6 15.9L48 357.1V96c0-8.8 7.2-16 16-16H181.5c4.2 0 8.3 1.7 11.3 4.7l26.5 26.5c21 21 49.5 32.8 79.2 32.8H416c8.8 0 16 7.2 16 16v32h48V160c0-35.3-28.7-64-64-64H298.5c-17 0-33.3-6.7-45.3-18.7L226.7 50.7c-12-12-28.3-18.7-45.3-18.7H64C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H87.7 384z" />
+                        </svg>
+                    </div>
+                </a>
+                {% endif %}
+            </div>
+            {% endif %}
+            <p>{{msg.text|linebreaks|urlize}}</p>
+            <section class="date">{{msg.date_sent|date:'P'}}</section>
+            <section class="del">
+                {{msg.date_sent|naturaltime}}
+                <a title="delete" href="" hx-delete="{% url 'messengers:delete_message' msg.id rec_id type %}"
+                    hx-swap="outerHTML" hx-target="closest .right"
+                    hx-confirm="Are you sure you want to permanently delete this message?">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                        <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                        <path
+                            d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z" />
+                    </svg>
+                </a>
+            </section>
+        </div>
+    </li>
+
+
+    {% else %}
+
+
+    <li class="left" data="{{msg.id}}">
+        <a id=" find" name="{{msg.id}}"></a>
+        <div class="received">
+            {% if type == "Group" %}
+            <p class="sender_name">{{msg.sender}}</p>
+            {% endif %}
+            {% if msg.media %}
+            <div id="media" class="media">
+                {% if msg|m_type == "image" %}
+                <a id="img" href="{{msg.media.url}}">
+                    <img src="{{msg.media.url}}" alt="Image">
+                </a>
+                {% elif msg|m_type == "video" %}
+                <video controls src="{{msg.media.url}}"></video>
+                {% elif msg|m_type == "audio" %}
+                <audio controls src="{{msg.media.url}}"></audio>
+                {% elif msg|m_type == "document" %}
+                <a id="doclink" href="{{msg.media.url}}">
+                    <div class="doc">
+                        <section>
+                            <p>{{msg.media.name|nam_e|truncatechars:30}}</p>
+                            <p>{{msg.media.size|filesizeformat}}</p>
+                        </section>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+                            <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                            <path
+                                d="M384 480h48c11.4 0 21.9-6 27.6-15.9l112-192c5.8-9.9 5.8-22.1 .1-32.1S555.5 224 544 224H144c-11.4 0-21.9 6-27.6 15.9L48 357.1V96c0-8.8 7.2-16 16-16H181.5c4.2 0 8.3 1.7 11.3 4.7l26.5 26.5c21 21 49.5 32.8 79.2 32.8H416c8.8 0 16 7.2 16 16v32h48V160c0-35.3-28.7-64-64-64H298.5c-17 0-33.3-6.7-45.3-18.7L226.7 50.7c-12-12-28.3-18.7-45.3-18.7H64C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H87.7 384z" />
+                        </svg>
+                    </div>
+                </a>
+                {% endif %}
+            </div>
+            {% endif %}
+            <p>{{msg.text|linebreaks|urlize}}</p>
+            <p class="date">{{msg.date_sent|date:'P'}}</p>
+            <section class="del">{{msg.date_sent|naturaltime}}
+            </section>
+        </div>
+    </li>
+    {% endif %}
+
+    {% endfor %}
+</ul>
+{% endif %}
+
+{% if old_errors %}
+<div class="error">
+    {% for error in old_errors %}
+    {{error}}
+    {% endfor %}
+</div>
+{% endif %}
