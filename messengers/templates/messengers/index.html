@@ -50,17 +50,6 @@
                     ios-src="{% static 'messenger/Earth.glb' %}"></model-viewer>
             </div>
 
-            <!--<div class="pri_content">
-                <div id="inner1">
-                    <img src="" alt="">
-                    <p>
-                        We're thrilled to have you here. Say hello to a whole new way of staying connected with your loved ones,
-                        friends, and colleagues. FeroChat is designed with simplicity, security, and convenience in mind, making
-                        it
-                        easier than ever to send messages, share moments, and stay in touch with those who matter most.
-                    </p>
-                </div>
-            </div>-->
         </div>
     </div>
 
@@ -117,5 +106,7 @@
         console.log('fish')
         window.addEventListener('scroll', drop)
     })
+
+    document.addEventListener("DOMContentLoaded", set_timezone);
 </script>
 {% endblock content %}

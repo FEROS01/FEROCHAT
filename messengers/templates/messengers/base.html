@@ -249,6 +249,8 @@
         </div>
     </footer>
     {% endblock footer %}
+    <input id="timezone" hx-post="{% url 'messengers:set_timezone' %}" hx-swap="none" type="hidden" name="timezone"
+        value="">
     {% django_htmx_script %}
     <script>
         var hamburger = document.getElementById('more')

@@ -3,15 +3,15 @@ import pytz
 
 
 from django.shortcuts import render, redirect, get_object_or_404
-from django.conf import settings
 from django.db.models import F, Q
 from django.db.models.functions import Lower
 from django.contrib.auth.models import User
 from django.contrib import messages as Msg
+from django.utils import timezone as tz
 from django.http import HttpResponse, Http404
 from django_htmx.middleware import HtmxDetails
 from django.contrib.auth.decorators import login_required
-from django.views.decorators.http import require_http_methods, require_POST, require_GET
+from django.views.decorators.http import require_http_methods, require_POST
 
 from messenger.utils import _find_users
 from Groups.models import Group
@@ -21,12 +21,18 @@ from .form import NewMessage, Search, SearchMessages
 from .utils import _send_message, _update_unread_messages, _assign_type_variables
 from .decorators import confirm_type, confirm_member_friend, confirm_htmx_request
 
-timezone = pytz.timezone(settings.TIME_ZONE)
+timezone = tz.get_current_timezone()
 
 
 class HtmxHttpResponse(HttpResponse):
     htmx: HtmxDetails
 
+
+def set_timezone(request):
+    django_timezone_exist = request.session.get('django_timezone',False)
+    if request.method == "POST" and not django_timezone_exist:
+        request.session["django_timezone"] = request.POST["timezone"]
+    return HttpResponse('')
 
 def index(request):
     return render(request, "messengers/index.html")

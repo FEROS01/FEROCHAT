@@ -59,6 +59,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_htmx.middleware.HtmxMiddleware',
+    'messengers.middleware.TimezoneMiddleware'
 ]
 
 ROOT_URLCONF = 'messenger.urls'
@@ -123,9 +124,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'Africa/Lagos'
-# TIME_ZONE = 'UTC'
-# TIME_ZONE = 'datetime.datetime.now'
+
+TIME_ZONE = 'UTC'
 
 USE_I18N = True
 

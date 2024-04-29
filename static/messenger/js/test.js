@@ -11,16 +11,16 @@ const color = (elements) => {
             people[person] = random_color;
         }
     }
-}
+};
 
 document.body.addEventListener('htmx:load', function (evt) {
     let elements = htmx.findAll(evt.detail.elt, '.sender_name')
     color(elements)
-})
+});
 document.body.addEventListener('load', function () {
     let elements = document.getElementsByClassName('sender_name')
     color(elements)
-})
+});
 
 
 // let images = document.getElementsByTagName('img')
@@ -36,7 +36,7 @@ document.body.addEventListener('load', function () {
 
 const replace = () => {
     document.querySelector('#id_media').value = ''
-}
+};
 
 
 const setdisplay = (form, search_button, state) => {
@@ -47,4 +47,11 @@ const setdisplay = (form, search_button, state) => {
         form.setAttribute("style", "display:none")
         search_button.setAttribute("style", "display:block")
     }
-}
+};
+
+const set_timezone = () => {
+    timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
+    timezone_input = document.querySelector("[name='timezone']")
+    timezone_input.value = timeZone
+    htmx.trigger("#timezone", 'change')
+};
