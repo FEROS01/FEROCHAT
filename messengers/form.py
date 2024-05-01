@@ -1,10 +1,7 @@
-from collections.abc import Mapping
 from typing import Any
-from django.core.files.base import File
-from django.db.models.base import Model
+from django.core.exceptions import ValidationError
 from django.forms import Textarea, TextInput, FileInput
 from django import forms
-from django.forms.utils import ErrorList
 
 
 from .models import Messages
@@ -24,6 +21,14 @@ class NewMessage(forms.ModelForm):
                 'multiple': True,
             })
         }
+
+    def clean(self):
+        cleaned_data = super().clean()
+        text = cleaned_data.get('text')
+        media = cleaned_data.get('media')
+        if not (text or media):
+            error_msg = ValidationError('Cannot send blank message')
+            self.add_error('media',error_msg)
 
 
 class Search(forms.Form):

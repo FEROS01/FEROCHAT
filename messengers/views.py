@@ -131,8 +131,6 @@ def view_messages(request:HtmxHttpResponse, rec_id, _type):
 
     # This is the app's administrator that sends messages to new users and shares updates to all users
     ferochat = User.objects.get(username='FeroChat')
-
-    # room_name = request.user.username +'_'+ User.objects.get(id=rec_id).username
     unread_id = None
     old_errors = []
     room_name,rec_msgs, rec_user, all_msgs, grp_members = _assign_type_variables(
@@ -164,8 +162,6 @@ def view_messages(request:HtmxHttpResponse, rec_id, _type):
             if form.is_valid():
                 message = _send_message(request, form, rec_user, _type)
                 messages.append(message)
-                # return redirect("messengers:view_messages", rec_id=rec_id, _type=_type)
-                # return HttpResponse('')
             else:
                 old_errors.append(form.errors["media"])
         else:

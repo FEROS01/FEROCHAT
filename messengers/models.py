@@ -40,6 +40,10 @@ class Messages(models.Model):
         self.media.delete()
         super().delete()
 
+    def save(self):
+        if self.text or self.media:
+            super().save()
+
     def media_type(self):
         if self.media:
             extension = self.media.url.split(".")[-1].lower()
