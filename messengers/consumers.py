@@ -4,7 +4,7 @@ from asgiref.sync import async_to_sync
 from django.template.loader import get_template
 from channels.generic.websocket import WebsocketConsumer
 
-class MessagesConsumer(WebsocketConsumer):
+class ChatConsumer(WebsocketConsumer):
     def connect(self):
         self.room_name = self.scope['url_route']['kwargs']['room_name']
         self.room_group_name = f'chat_{self.room_name}'

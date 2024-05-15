@@ -100,7 +100,6 @@ def messages(request):
             msgs = msgs.filter(text__contains=data)
     context = {"friends": friends, "form": form,
                "message_s": msgs, "searched": searched}
-    # context = {"friends": friends, "message_s": msgs, "searched": searched}
     return render(request, "messengers/messages.html", context)
 
 

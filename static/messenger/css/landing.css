@@ -75,6 +75,10 @@
     box-sizing: border-box;
 }
 
+*:not(html, body) {
+    transition: all 0.3s;
+}
+
 :root {
     font-size: 16px;
     font-weight: 400;
@@ -390,8 +394,8 @@ nav .logo {
 }
 
 nav .logo img:hover {
-    width: 45px;
-    height: 45px;
+    /* width: 45px;
+    height: 45px; */
     opacity: 0.7;
 }
 
@@ -423,8 +427,8 @@ nav svg:hover,
 .more svg:hover {
     cursor: pointer;
     fill: rgb(55, 205, 205);
-    height: 25px;
-    width: 25px;
+    /* height: 25px;
+    width: 25px; */
 }
 
 nav .second {
@@ -477,12 +481,18 @@ footer {
     gap: 2rem;
 }
 
-.socials>* {
-    margin: 2rem;
-    width: 2rem;
-    height: 2rem;
+.socials img {
+    filter: grayscale(1);
+    /* margin: 2rem; */
+    width: 3rem;
+    /* height: 2rem;
     border-radius: 50%;
-    background-color: grey;
+    background-color: grey; */
+}
+
+.socials img:hover {
+    filter: grayscale(0);
+    cursor: pointer;
 }
 
 footer .contact p {
