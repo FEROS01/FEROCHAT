@@ -94,7 +94,7 @@ def remove_user(request, user_id, grp_id):
 @login_required
 @is_admin
 def select_member(request: HtmxHttpResponse, grp_id):
-    all = User.objects.all()
+    all = Friends.get_friends(Friends,request.user).exclude(username='FeroChat')
     group = get_object_or_404(Group, id=grp_id)
     admins = group.admins.all()
     admins_id = admins.values_list("id", flat=True)
