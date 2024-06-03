@@ -1,12 +1,13 @@
-const color = (elements) => {
+const color = (elements, mode = 'light') => {
     let people = {}
+    mode_object = { 'light': '40%', 'dark': '80%' }
     for (let i = 0; i < elements.length; i++) {
         let person = elements.item(i).innerHTML
         if (person in people) {
             elements.item(i).setAttribute("style", people[person]);
         } else {
             let random_number = Math.floor(Math.random() * 360 + 1)
-            let random_color = `color :hsl(${random_number},100%,40%)`
+            let random_color = `color :hsl(${random_number},100%,${mode_object[mode]})`
             elements.item(i).setAttribute("style", random_color)
             people[person] = random_color;
         }
@@ -55,3 +56,12 @@ const set_timezone = () => {
     timezone_input.value = timeZone
     htmx.trigger("#timezone", 'change')
 };
+
+const toggle_mode = () => {
+    let list = document.body.classList
+    let elements = document.getElementsByClassName('sender_name')
+    if (list.toggle('dark')) {
+        color(elements, 'dark')
+    } else { color(elements) }
+
+}

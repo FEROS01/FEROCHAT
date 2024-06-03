@@ -87,8 +87,8 @@
 }
 
 html {
-    scrollbar-color: rgb(200, 50, 50) #f1f1f1;
-    scrollbar-width: thin;
+    /* scrollbar-color: rgb(200, 50, 50) #f1f1f1;
+    scrollbar-width: thin; */
     scrollbar-track-color: rgba(238, 238, 238, 1);
     -ms-scrollbar-track-color: rgba(238, 238, 238, 1);
     scrollbar-base-color: rgb(200, 50, 50);
