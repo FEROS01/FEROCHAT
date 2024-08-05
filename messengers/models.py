@@ -65,6 +65,7 @@ class Info(models.Model):
         upload_to=user_directory_path, null=True, blank=True, validators=[validate_image_file_extension, image_type_validator, file_size_val, profile_val])
     unread_messages = models.IntegerField(default=0)
     notifications = models.IntegerField(default=0)
+    dark_theme = models.BooleanField(default=False)
 
     def __str__(self):
         return self.bio if self.bio else f"{self.user.username}'s Info"

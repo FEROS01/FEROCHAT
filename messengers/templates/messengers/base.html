@@ -22,7 +22,8 @@
 
 </head>
 
-<body hx-ext="debug, event-header" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+<body hx-ext="debug, event-header" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+    class="{% if user.info.dark_theme %}dark{% endif %}">
     <div class="replace"></div>
     {% if user.is_authenticated %}
     <div class="more" id="more_id">

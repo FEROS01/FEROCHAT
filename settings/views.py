@@ -11,7 +11,10 @@ from messengers.decorators import confirm_htmx_request
 
 @login_required
 def settings(request):
-    return render(request, "settings/setting.html")
+    is_dark = request.user.info.dark_theme
+    theme = "dark" if is_dark else "light"
+    context = {'theme':theme}
+    return render(request, "settings/setting.html",context)
 
 
 def _email_exist_validator(mail):
@@ -55,6 +58,15 @@ def edit_pass(request):
     context = {"form": form}
     return render(request, "settings/edit_pass.html", context)
 
+@login_required
+@confirm_htmx_request
+def change_theme(request):
+    user_id = request.user.id
+    user = user_model().objects.get(id=user_id)
+    user.info.dark_theme = not user.info.dark_theme
+    user.save()
+    theme = 'dark' if user.info.dark_theme else 'light'
+    return HttpResponse(f'<p class="theme_text">{theme}</p>')
 
 @login_required
 @confirm_htmx_request

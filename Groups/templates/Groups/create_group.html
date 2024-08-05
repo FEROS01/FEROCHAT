@@ -118,7 +118,9 @@
                             {% for use_r in users|dictsort:"username" %}
 
                             <div class="field">
-
+                                <span id="name" style="display: none;">
+                                    {{use_r.username}}_{{use_r.last_name}}_{{use_r.first_name}}
+                                </span>
                                 {% if use_r.info.prof_pics %}
                                 <a title="{{use_r.username}}'s Picture" id="prof" href="{{use_r.info.prof_pics.url}}">
                                     <img src="{{use_r.info.prof_pics.url}}" alt="Profile">
@@ -158,5 +160,13 @@
     const switch_visibility = (state) => {
         setdisplay(form, search_button, state)
     }
+
+    // let fields = document.querySelectorAll('.select_mem .field')
+    // const search_fields = () => {
+    //     fields.forEach(check_name)
+    //     const check_name = (item) => {
+    //         console.log('')
+    //     }
+    // }
 </script>
 {% endblock content %}

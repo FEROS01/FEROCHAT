@@ -130,6 +130,8 @@ def view_messages(request:HtmxHttpResponse, rec_id, _type):
 
     # This is the app's administrator that sends messages to new users and shares updates to all users
     ferochat = User.objects.get(username='FeroChat')
+    is_dark = request.user.info.dark_theme
+    theme = 'dark' if is_dark else 'light'
     unread_id = None
     old_errors = []
     room_name,rec_msgs, rec_user, all_msgs, grp_members = _assign_type_variables(
@@ -180,7 +182,7 @@ def view_messages(request:HtmxHttpResponse, rec_id, _type):
         return render(request, "htmx_templates/message.html", context)
     context = {
         "all_messages": all_msgs, "form": form, "search_form": search_form, "rec_id": rec_id, "rec_user": rec_user,
-        "unread_id": unread_id, "old_errors": old_errors, "type": _type, "members": grp_members, "is_ferochat": is_ferochat, "room_name":room_name
+        "unread_id": unread_id, "old_errors": old_errors, "type": _type, "members": grp_members, "is_ferochat": is_ferochat, "room_name":room_name,"theme":theme
     }
     return render(request, "messengers/view_messages.html", context)
 

@@ -259,7 +259,7 @@
     <a id="find" name="unread"></a>
     {% endif %}
 </div>
-
+<input type="hidden" value="{{theme}}" id="theme">
 {{ room_name|json_script:"room-name" }}
 <script>
     let form = document.querySelector('#search_form')
@@ -275,6 +275,17 @@
     media_folder.addEventListener('click', () => {
         media_input.click()
     })
+
+    document.body.addEventListener('htmx:load', function (evt) {
+        let elements = htmx.findAll(evt.detail.elt, '.sender_name')
+        let mode = document.querySelector('#theme').value
+        color(elements, mode)
+    });
+    document.body.addEventListener('load', function () {
+        let elements = document.getElementsByClassName('sender_name')
+        let mode = document.querySelector('#theme').value
+        color(elements, mode)
+    });
 
     const chatSocket = new WebSocket(
         'ws://'

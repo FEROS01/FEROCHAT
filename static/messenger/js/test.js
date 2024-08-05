@@ -14,14 +14,6 @@ const color = (elements, mode = 'light') => {
     }
 };
 
-document.body.addEventListener('htmx:load', function (evt) {
-    let elements = htmx.findAll(evt.detail.elt, '.sender_name')
-    color(elements)
-});
-document.body.addEventListener('load', function () {
-    let elements = document.getElementsByClassName('sender_name')
-    color(elements)
-});
 
 
 // let images = document.getElementsByTagName('img')
@@ -59,9 +51,5 @@ const set_timezone = () => {
 
 const toggle_mode = () => {
     let list = document.body.classList
-    let elements = document.getElementsByClassName('sender_name')
-    if (list.toggle('dark')) {
-        color(elements, 'dark')
-    } else { color(elements) }
-
+    list.toggle('dark')
 }
