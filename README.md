@@ -108,6 +108,11 @@ To run the FEROCHAT Messenger App locally, follow these steps:
    ```
 
 6. Create a `.env` file and configure your environment variables (e.g., database settings, secret key).
+   ```bash
+   SECRET_KEY = "yourSecretKey"
+   EMAIL_USER = "yourEmailAddress"
+   EMAIL_PASSWORD = 'yourEmailPassword'
+   ```
 
 7. Apply database migrations:
 

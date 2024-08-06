@@ -26,6 +26,15 @@ def check_last(val, arg):
     else:
         return ""
 
+@register.filter()
+def check_lastd(val, arg):
+    date_join_group = val.membership_set.get(group=arg).date_joined
+    all = arg.grp_receiver.filter(date_sent__gte=date_join_group)
+    last_text = arg.last_text
+    if last_text in all.values_list('text', flat=True):
+        return arg.last_date
+    else:
+        return ""
 
 @register.filter(name="la_st")
 def last_message(val, arg):

@@ -159,8 +159,8 @@
                             {% endif %}
                         </div>
                         <section>
-                            <p><strong>{{use_r.last_date|naturalday:'d/m/y'|default:""}}</strong></p>
-                            <p><strong>{{use_r.last_date|date:'P'|default:""}}</strong></p>
+                            <p><strong>{{user|check_lastd:use_r|naturalday:'d/m/y'|default:""}}</strong></p>
+                            <p><strong>{{user|check_lastd:use_r|date:'P'|default:""}}</strong></p>
                         </section>
                     </div>
                 </a>

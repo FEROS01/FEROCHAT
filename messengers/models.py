@@ -40,9 +40,9 @@ class Messages(models.Model):
         self.media.delete()
         super().delete()
 
-    def save(self):
+    def save(self,*args,**kwargs):
         if self.text or self.media:
-            super().save()
+            super().save(*args,**kwargs)
 
     def media_type(self):
         if self.media:
