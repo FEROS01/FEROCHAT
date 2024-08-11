@@ -8,10 +8,19 @@
         height: 100px;
     }
 
+    nav .tkf {
+        margin: 0;
+        flex-basis: auto;
+        padding: 0.5rem 1rem 0.2rem 1rem;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+    }
+
     nav .first {
-        box-shadow: 0 0 6px 0 darkgrey;
+        /* box-shadow: 0 0 6px 0 darkgrey; */
         border-radius: 5px;
-        margin-bottom: 1rem;
+        margin-bottom: 1.2rem;
         padding: 0.5rem 1rem 0.2rem 1rem;
         flex-basis: 100%;
     }
@@ -30,6 +39,11 @@
     nav .second {
         padding: 0rem 1rem 0 1rem;
         flex-basis: 100%;
+    }
+
+    nav .tks {
+        margin-left: auto;
+        padding: 0rem 1rem 0 1rem;
     }
 
     nav ul {

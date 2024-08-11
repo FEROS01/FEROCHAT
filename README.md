@@ -43,8 +43,6 @@ Welcome to the FEROCHAT Messenger App! This is a Django-based messaging applicat
 
 ### 5. Real-time Messaging
 
-### Todo (real-time)
-
 - Instantly send text messages, images, audio, videos, and files.
 - Messages are displayed in real-time, ensuring a seamless conversation experience.
 
@@ -177,4 +175,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-Thank you for using the FEROCHAT Messenger App. We hope you enjoy it and find it useful for staying connected with friends and creating chat groups. If you have any questions or encounter issues, please don't hesitate to contact us on [twitter](https://twitter.com/oluwaferos) or on [Linkedin](https://www.linkedin.com/in/oluwaferanmi-ope-20a091232/).
+Thank you for using the FEROCHAT Messenger App. I hope you enjoy it and found it useful in one way or another. If you have any questions or encounter issues, please don't hesitate to contact me on [twitter](https://twitter.com/oluwaferos) or on [Linkedin](https://www.linkedin.com/in/oluwaferanmi-ope-20a091232/).

@@ -43,8 +43,9 @@
 <input type="hidden" value="{{theme}}" id="theme">
 <script>
     var theme = document.querySelector("#theme").value
+    var check = document.querySelector(".checkbox")
     if (theme === 'dark') {
-        theme.setAttribute('checked', 'true')
+        check.setAttribute('checked', 'true')
     }
 </script>
 {% endblock content %}

@@ -87,15 +87,11 @@
             </li>
         </ul>
     </div>
-    {% endif %}
+
     <nav>
         <div class="first">
-            {% block logo %}
-            <a title="Home" class="logo" href="{% url 'messengers:index' %}">
-                <img src="{% static 'messenger/images/ferochat_logo3.png'  %}" alt="logo">
-            </a>
-            {% endblock logo %}
-            {% if user.is_authenticated %}
+
+
             <div class="prof_pics">
                 {% if user.info.prof_pics %}
                 <a title="{{user.username}}'s Picture" href="{{user.info.prof_pics.url}}">
@@ -114,9 +110,9 @@
                 <path
                     d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z" />
             </svg>
-            {% endif %}
+
         </div>
-        {% if user.is_authenticated %}
+
         <div class="second">
             <ul class="shortcut">
                 <li id="remove">
@@ -199,17 +195,29 @@
                 </li>
             </ul>
         </div>
-        {% else %}
+
+
+
+    </nav>
+    {% else %}
+    <nav>
+        <div class="tkf">
+            {% block logo %}
+            <a title="Home" class="logo" href="{% url 'messengers:index' %}">
+                <img src="{% static 'messenger/images/ferochat_logo3.png'  %}" alt="logo">
+            </a>
+            {% endblock logo %}
+        </div>
         {% block access %}
-        <div class="second">
+        <div class="tks">
             <div class="access">
                 <p><a href="{% url 'users:sign_up' %}">Sign_up</a></p>
                 <p><a href="{% url 'users:login' %}">Login</a></p>
             </div>
         </div>
         {% endblock access %}
-        {% endif %}
     </nav>
+    {% endif %}
     <div class="space"></div>
 
     {% if messages %}
