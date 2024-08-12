@@ -66,6 +66,7 @@ class Info(models.Model):
     unread_messages = models.IntegerField(default=0)
     notifications = models.IntegerField(default=0)
     dark_theme = models.BooleanField(default=False)
+    uuid = models.UUIDField(unique=True,default=uuid.uuid4, editable=False)
 
     def __str__(self):
         return self.bio if self.bio else f"{self.user.username}'s Info"
@@ -81,7 +82,7 @@ class Friends(models.Model):
     rejected = models.BooleanField(default=False)
     date_added = models.DateTimeField(auto_now_add=True)
     friend_date = models.DateTimeField(auto_now=True)
-    uuid = models.UUIDField(default=uuid.uuid4, editable=False)
+    uuid = models.UUIDField(unique=True,default=uuid.uuid4, editable=False)
 
     def __str__(self):
         return f"{self.req_sender}_To_{self.req_receiver}"

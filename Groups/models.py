@@ -27,6 +27,7 @@ class Group(models.Model):
         through_fields=("group", "member"),
         related_name="members"
     )
+    uuid = models.UUIDField(unique=True,default=uuid.uuid4, editable=False)
 
     def __str__(self):
         return self.name
@@ -38,7 +39,7 @@ class Membership(models.Model):
     date_joined = models.DateTimeField(auto_now_add=True)
     inviter = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="inviter")
-    uuid = models.UUIDField(default=uuid.uuid4, editable=False)
+    uuid = models.UUIDField(unique=True,default=uuid.uuid4, editable=False)
 
     def get_room_name(self):
         room_name = f"{self.group.name}_{self.uuid}"
