@@ -67,7 +67,7 @@ Welcome to the FEROCHAT Messenger App! This is a Django-based messaging applicat
 ## Installation
 <a name="installation"></a>
 
-To run the FEROCHAT Messenger App locally, follow these steps:
+To run the FEROCHAT Messenger App locally, follow these steps in your console:
 
 1. Clone this repository:
 
@@ -87,7 +87,22 @@ To run the FEROCHAT Messenger App locally, follow these steps:
    cd Messenger
    ```
 
-4. Create a virtual environment (recommended) and activate it:
+4. Create a folder named 'media':
+
+      ```bash
+      mkdir media
+      ```
+
+5. Create a `.env` file and configure your environment variables (e.g., database settings, secret key).
+   ```bash
+   #In the .env file
+   SECRET_KEY = "yourSecretKey"
+   EMAIL_USER = "yourEmailAddress"
+   EMAIL_PASSWORD = 'yourEmailPassword'
+   ```
+   Checkout this [link](https://dev.to/earthcomfy/django-reset-password-3k0l#set-up-sending-email-in-django) to learn how to setup your django email
+
+6. Create a virtual environment (recommended) and activate it:
 
    ```bash
    #on mac
@@ -99,26 +114,19 @@ To run the FEROCHAT Messenger App locally, follow these steps:
    venv/Scripts/activate
    ```
 
-5. Install dependencies:
+7. Install dependencies:
 
    ```bash
    pip install -r requirements.txt
    ```
 
-6. Create a `.env` file and configure your environment variables (e.g., database settings, secret key).
-   ```bash
-   SECRET_KEY = "yourSecretKey"
-   EMAIL_USER = "yourEmailAddress"
-   EMAIL_PASSWORD = 'yourEmailPassword'
-   ```
-
-7. Apply database migrations:
+8. Apply database migrations:
 
    ```bash
    python manage.py migrate
    ```
 
-8. Create a messenger app user for 'FeroChat' (admin):
+9. Create a User object for the FeroChat app:
 
    ```bash
    python manage.py createsuperuser --username 'FeroChat' --email 'dummyEmailAddress'
@@ -127,17 +135,13 @@ To run the FEROCHAT Messenger App locally, follow these steps:
    # Give any password of your liking
    ```
 
-9. Create a superuser (admin):
-
-   ```bash
-   python manage.py createsuperuser
-   ```
-
-10. Create a media folder called 'media':
+10. Create a User object for yourself:
 
       ```bash
-      mkdir media
+      python manage.py createsuperuser
+      #You will also be rquired to give a username and password
       ```
+
 
 11. Start the development server:
 
