@@ -91,11 +91,11 @@ To run the FEROCHAT Messenger App locally, follow these steps:
 
    ```bash
    #on mac
-   python -m venv msg_env
+   python -m venv venv
    source venv/bin/activate
    
    #on windows
-   python -m venv msg_env
+   python -m venv venv
    venv/Scripts/activate
    ```
 
