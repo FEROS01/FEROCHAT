@@ -162,6 +162,7 @@ svg {
 }
 
 .no_cont {
+    color: var(--black);
     text-align: center;
     display: flex;
     justify-content: center;
@@ -442,7 +443,7 @@ nav svg:hover,
 }
 
 nav .second,
-.tks {
+nav .tks {
     flex-basis: 60%;
     margin-left: auto;
 }
