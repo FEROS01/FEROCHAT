@@ -16,7 +16,7 @@
     {% for msg in result %}
     <li id="{% if msg.sender != user %}received{% endif %}">
         <div id="mesg_box">
-            {% if type == "Group" %}
+            {% if type == "Group" and msg.sender != user %}
             <p class="sender_name">{{msg.sender}}</p>
             {% endif %}
             <p id="text">{{msg.text|linebreaks|urlize|truncatechars:100}}</p>
