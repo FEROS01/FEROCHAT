@@ -200,6 +200,8 @@ def send_request(request, rec_id):
         receiver.info.notifications += 1
         receiver.info.save()
         request.user.info.save()
+    else:
+        Msg.error(request, "Friend request was not sent!")
     return users(request)
 
 
