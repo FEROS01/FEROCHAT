@@ -50,6 +50,10 @@
         margin: 0;
     }
 
+    .messages .time {
+        font-size: 0.9rem;
+    }
+
     .messages #create_grp {
         display: none;
     }
