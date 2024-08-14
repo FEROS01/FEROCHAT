@@ -89,8 +89,10 @@ class Friends(models.Model):
 
     def check_request(self, sender, receiver):
         requests = self.objects.filter(
-            models.Q(req_sender=sender, req_receiver=receiver, sent_status=True) |
-            models.Q(req_sender=sender, req_receiver=receiver, status=True)
+            Q(req_sender=sender, req_receiver=receiver, sent_status=True) |
+            Q(req_sender=sender, req_receiver=receiver, status=True)|
+            Q(req_sender=receiver, req_receiver=sender, sent_status=True) |
+            Q(req_sender=receiver, req_receiver=sender, status=True)
         )
         return requests.exists()
 
@@ -202,5 +204,5 @@ class Friends(models.Model):
         return friends.exclude(username=exclude.username)
 
     def get_room_name(self):
-        name = f'{self.req_sender.username}_{self.req_receiver.username}{self.uuid}'
+        name = f'U{self.uuid}'
         return name

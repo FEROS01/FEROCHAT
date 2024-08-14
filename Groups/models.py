@@ -42,7 +42,7 @@ class Membership(models.Model):
     uuid = models.UUIDField(unique=True,default=uuid.uuid4, editable=False)
 
     def get_room_name(self):
-        room_name = f"{self.group.name}_{self.uuid}"
+        room_name = f"G{self.uuid}"
         return room_name
 
     def __str__(self):
