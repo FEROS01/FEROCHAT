@@ -328,6 +328,7 @@ def unfriend(request, user_id, friend_id):
             Q(req_sender=friend, req_receiver=request.user, status=True) |
             Q(req_sender=request.user, req_receiver=friend, status=True)
         ).delete()
+        Msg.error(request, f"You have unfriend {friend}")
         return friends(request=request, user_id=user_id)
     Msg.error(request, "Cannot unfriend this user")
     return friends(request=request, user_id=user_id)

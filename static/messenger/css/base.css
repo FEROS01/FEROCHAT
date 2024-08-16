@@ -2892,8 +2892,8 @@ footer .contact p {
     flex-direction: column;
     align-items: center;
     display: flex;
-    background-color: rgb(238, 238, 238);
-    border: 1.5px solid lightgray;
+    background-color: var(--gradient_start);
+    border: 1.5px solid var(--shadow_color);
     border-radius: 5px;
     padding: 1rem;
     color: darkcyan;
@@ -2903,7 +2903,7 @@ footer .contact p {
 .page_error .error_card svg {
     width: 30px;
     height: 30px;
-    fill: rgb(200, 50, 50);
+    fill: var(--default_color);
 }
 
 .page_error .error_card p {
