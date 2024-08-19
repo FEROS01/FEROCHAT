@@ -91,7 +91,13 @@
     <nav>
         <div class="first">
 
-
+            <div class="tkf">
+                {% block logo %}
+                <a title="Home" class="logo" href="{% url 'messengers:index' %}">
+                    <img src="{% static 'messenger/images/ferochat_logo3.png'  %}" alt="logo">
+                </a>
+                {% endblock logo %}
+            </div>
             <div class="prof_pics">
                 {% if user.info.prof_pics %}
                 <a title="{{user.username}}'s Picture" href="{{user.info.prof_pics.url}}">
@@ -202,11 +208,11 @@
     {% else %}
     <nav>
         <div class="tkf">
-            {% block logo %}
+            {% block logo1 %}
             <a title="Home" class="logo" href="{% url 'messengers:index' %}">
                 <img src="{% static 'messenger/images/ferochat_logo3.png'  %}" alt="logo">
             </a>
-            {% endblock logo %}
+            {% endblock logo1 %}
         </div>
         {% block access %}
         <div class="tks">
