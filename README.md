@@ -72,7 +72,7 @@ To run the FEROCHAT Messenger App locally, follow these steps in your console:
 1. Clone this repository:
 
    ```bash
-   git clone https://github.com/FEROS01/Messenger.git
+   git clone https://github.com/FEROS01/FEROCHAT.git
    ```
 
 2. Install python's venv module
