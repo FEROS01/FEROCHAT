@@ -74,6 +74,7 @@ coverage.xml
 # Environments 
 .env 
 .msg_env 
+venv/
 env/ 
 msg_env/ 
 ENV/ 
@@ -94,3 +95,4 @@ msg_env.bak/
 !.vscode/launch.json 
 !.vscode/extensions.json 
 .history
+messenger/loc_settings.py

@@ -81,7 +81,7 @@ To run the FEROCHAT Messenger App locally, follow these steps in your console:
    pip install virtualenv
    ```
 
-3. Enter the Messenger file
+3. Enter the Messenger folder
 
    ```bash
    cd Messenger
@@ -119,6 +119,12 @@ To run the FEROCHAT Messenger App locally, follow these steps in your console:
    ```bash
    pip install -r requirements.txt
    ```
+8. Navigate to this file `venv/Lib/site-packages/magic/__init__.py` and replace its content with this
+
+   ```py
+   from .magic import *
+   __version__ = '0.4.14'
+   ```
 
 8. Apply database migrations:
 
@@ -132,14 +138,13 @@ To run the FEROCHAT Messenger App locally, follow these steps in your console:
    python manage.py createsuperuser --username 'FeroChat' --email 'dummyEmailAddress'
 
    # You will be required to give a password
-   # Give any password of your liking
    ```
 
-10. Create a User object for yourself:
+10. Create a User account for yourself:
 
       ```bash
       python manage.py createsuperuser
-      #You will also be rquired to give a username and password
+      # follow the prompts
       ```
 
 
@@ -178,4 +183,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-Thank you for using the FEROCHAT Messenger App. I hope you enjoy it and found it useful in one way or another. If you have any questions or encounter issues, please don't hesitate to contact me on [twitter](https://twitter.com/oluwaferos) or on [Linkedin](https://www.linkedin.com/in/oluwaferanmi-ope-20a091232/).
+Thank you for using the FEROCHAT Messenger App. I hope you enjoyed the experience and found it useful in one way or another. If you have any questions or encounter any issues, please don't hesitate to contact me on [twitter](https://twitter.com/oluwaferos) or on [Linkedin](https://www.linkedin.com/in/oluwaferanmi-ope-20a091232/).
