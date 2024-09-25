@@ -4,64 +4,64 @@
 
 @keyframes title_bounce {
     0% {
-        bottom: -25px;
+        bottom: -1.5625rem;
     }
 
     15% {
-        bottom: 15px;
+        bottom: 0.9375rem;
     }
 
     18% {
-        bottom: 18px;
+        bottom: 1.125rem;
     }
 
     25% {
-        bottom: 20px;
+        bottom: 1.25rem;
     }
 
     50% {
-        bottom: 0px;
+        bottom: 0.0rem;
     }
 
     55% {
-        bottom: 10px;
+        bottom: 0.625rem;
     }
 
     60% {
-        bottom: 0px;
+        bottom: 0.0rem;
     }
 
     65% {
-        bottom: 5px;
+        bottom: 0.3125rem;
     }
 
     70% {
-        bottom: 0px;
+        bottom: 0.0rem;
     }
 
     75% {
-        bottom: 3px
+        bottom: 0.1875rem
     }
 
     80% {
-        bottom: 0px;
+        bottom: 0.0rem;
     }
 
     85% {
-        bottom: 2px;
+        bottom: 0.125rem;
     }
 
     90% {
-        bottom: 0px;
+        bottom: 0.0rem;
     }
 
     95% {
-        bottom: 1px;
+        bottom: 0.0625rem;
 
     }
 
     100% {
-        bottom: 0px
+        bottom: 0.0rem
     }
 
 }
@@ -124,6 +124,10 @@ body.dark {
     --text_color: rgb(117, 117, 117);
 }
 
+input,
+textarea {
+    font-family: 'Varela Round', sans-serif;
+}
 
 ::-webkit-scrollbar {
     height: 0rem;
@@ -152,7 +156,7 @@ svg {
 
 .space {
     width: 100%;
-    height: 60px;
+    height: 3.75rem;
 }
 
 .block {
@@ -179,7 +183,7 @@ svg {
 }
 
 .no_cont a:hover {
-    font-size: 18px;
+    font-size: 1.125rem;
     color: rgb(55, 205, 205);
 }
 
@@ -188,7 +192,7 @@ svg {
     margin: 0.5rem;
     padding: 1rem;
     color: white;
-    border-radius: 5px;
+    border-radius: 0.3125rem;
     display: flex;
     align-items: center;
     width: fit-content;
@@ -215,7 +219,7 @@ svg {
 .popup {
     z-index: 5;
     top: 50vh;
-    height: 51px;
+    height: 3.1875rem;
     position: fixed;
     align-self: center;
     font-size: 0.7rem;
@@ -225,11 +229,11 @@ svg {
 
 @keyframes vanish {
     from {
-        height: 51px;
+        height: 3.1875rem;
     }
 
     to {
-        height: 0px;
+        height: 0.0rem;
         display: none;
     }
 }
@@ -247,7 +251,7 @@ svg {
     background-color: var(--background_color);
     width: 100%;
     position: fixed;
-    border-bottom: 1.5px solid var(--shadow_color);
+    border-bottom: 0.09375rem solid var(--shadow_color);
     color: rgb(200, 50, 50);
     color: var(--default_color);
     font-size: 1.5rem;
@@ -267,8 +271,8 @@ svg {
     left: 55vw;
     margin-top: 1rem;
     margin-bottom: 1rem;
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
+    border-top-left-radius: 0.625rem;
+    border-bottom-left-radius: 0.625rem;
     padding: 0 0 0 1rem;
     background-color: rgba(5, 5, 5, 0.5);
     width: 50vw;
@@ -285,7 +289,7 @@ svg {
 }
 
 .more ul>* {
-    border-bottom: 1px solid lightgray;
+    border-bottom: 0.0625rem solid lightgray;
 }
 
 .more .top {
@@ -295,7 +299,7 @@ svg {
 }
 
 .more {
-    backdrop-filter: blur(3.5px);
+    backdrop-filter: blur(0.21875rem);
     height: 100vh;
     width: 100%;
     justify-content: end;
@@ -319,7 +323,7 @@ svg {
 
 nav {
     z-index: 4;
-    box-shadow: 0px 0px 6px var(--shadow_color);
+    box-shadow: 0.0rem 0.0rem 0.375rem var(--shadow_color);
     background-color: var(--background_color);
     position: fixed;
     padding: 0.5rem;
@@ -396,7 +400,7 @@ nav .logo img:hover {
 
 
 nav .greeting {
-    margin-top: 1px;
+    margin-top: 0.0625rem;
     color: rgb(200, 50, 50);
     color: var(--default_color);
     font-size: 1rem;
@@ -411,8 +415,8 @@ nav .logo img {
 nav img {
     object-fit: cover;
     transition: all 0.3s;
-    width: 40px;
-    height: 40px;
+    width: 2.5rem;
+    height: 2.5rem;
     border-radius: 50%;
 }
 
@@ -428,8 +432,8 @@ nav .prof_pics svg {
 nav svg,
 .more svg {
     /* transition: all 0.3s; */
-    height: 20px;
-    width: 20px;
+    height: 1.25rem;
+    width: 1.25rem;
     fill: rgb(200, 50, 50);
 
 }
@@ -458,7 +462,7 @@ nav ul a {
 
 nav ul a:hover {
     color: rgb(55, 205, 205);
-    font-size: 14px;
+    font-size: 0.875rem;
     font-weight: 500;
 }
 
@@ -478,9 +482,9 @@ nav ul li {
 
 nav #no {
     border-radius: 50%;
-    width: 7px;
+    width: 0.4375rem;
     /* display: flex; */
-    height: 7px;
+    height: 0.4375rem;
     /* justify-content: center;
     align-items: center; */
     background-color: rgb(50, 200, 200);
@@ -553,19 +557,19 @@ footer .contact p {
 
 .messages .message {
     margin-bottom: 1rem;
-    border-radius: 5px;
-    box-shadow: 0px 0px 6px 0px var(--shadow_color);
+    border-radius: 0.3125rem;
+    box-shadow: 0.0rem 0.0rem 0.375rem 0.0rem var(--shadow_color);
     font-size: 1.1rem;
     display: grid;
     display: -ms-grid;
-    -ms-grid-columns: 60px 1fr;
-    grid-template-columns: 60px auto;
+    -ms-grid-columns: 3.75rem 1fr;
+    grid-template-columns: 3.75rem auto;
     -ms-grid-rows: auto;
     grid-template-rows: auto;
     width: 100%;
     color: rgb(200, 50, 50);
     color: var(--default_color);
-    padding: 10px;
+    padding: 0.625rem;
 }
 
 .messages #unread {
@@ -586,7 +590,7 @@ footer .contact p {
     background-image: linear-gradient(to right, var(--gradient_start), var(--gradient_stop));
     cursor: pointer;
     font-weight: 500;
-    padding: 13px;
+    padding: 0.8125rem;
     font-size: 1.2rem;
 }
 
@@ -600,15 +604,15 @@ footer .contact p {
 .messages .message img {
     object-fit: cover;
     border-radius: 50%;
-    width: 50px;
-    height: 50px;
+    width: 3.125rem;
+    height: 3.125rem;
 }
 
 .messages .message svg {
     fill: rgb(138, 138, 138);
     grid-row: 1 / span 2;
-    width: 50px;
-    height: 50px;
+    width: 3.125rem;
+    height: 3.125rem;
 }
 
 .messages li a {
@@ -640,7 +644,7 @@ footer .contact p {
 }
 
 .message .time section p {
-    padding-top: 1px;
+    padding-top: 0.0625rem;
     text-align: center;
     color: var(--text_color);
 
@@ -648,8 +652,8 @@ footer .contact p {
 
 .messages .time #svgs svg {
     fill: rgb(117, 117, 117);
-    width: 16px;
-    height: 16px;
+    width: 1.0rem;
+    height: 1.0rem;
 }
 
 .messages .time #svgs {
@@ -692,18 +696,18 @@ footer .contact p {
 
 .messages #create_grp svg {
     fill: rgb(200, 50, 50);
-    width: 20px;
-    height: 20px;
+    width: 1.25rem;
+    height: 1.25rem;
 }
 
 .messages #create_grp svg:hover {
-    width: 23px;
-    height: 23px;
+    width: 1.4375rem;
+    height: 1.4375rem;
 }
 
 .messages .left button {
     border: none;
-    margin-left: 5px;
+    margin-left: 0.3125rem;
     /* width: 30px;
     height: 30px; */
     background: none;
@@ -713,8 +717,8 @@ footer .contact p {
 .messages .left button svg,
 .view_mesg .search_box svg {
     fill: var(--search_icon_color);
-    width: 18px;
-    height: 18px;
+    width: 1.125rem;
+    height: 1.125rem;
 
 }
 
@@ -722,28 +726,28 @@ footer .contact p {
 .messages .left button svg:hover,
 .view_mesg .search_box svg:hover {
     cursor: pointer;
-    width: 21px;
-    height: 21px;
+    width: 1.3125rem;
+    height: 1.3125rem;
 
 }
 
 .messages .form .search,
 .view_mesg #search_form .search {
-    width: 160px;
+    width: 10.0rem;
     resize: none;
     color: var(--black);
     background-color: var(--background_color);
-    height: 25px;
+    height: 1.5625rem;
     padding: 0.5rem;
-    border: 1.5px solid rgb(200, 50, 50);
-    border-radius: 10px;
+    border: 0.09375rem solid rgb(200, 50, 50);
+    border-radius: 0.625rem;
 }
 
 .messages .form .search:focus,
 .view_mesg #search_form .search:focus {
     outline: none;
-    height: 30px;
-    border: 2px solid rgb(55, 205, 205);
+    height: 1.875rem;
+    border: 0.125rem solid rgb(55, 205, 205);
 }
 
 
@@ -751,7 +755,7 @@ footer .contact p {
 
 
 .view_mesg {
-    -ms-grid-columns: 1fr 40px;
+    -ms-grid-columns: 1fr 2.5rem;
     display: -ms-grid;
     width: 100vw;
 }
@@ -766,12 +770,12 @@ footer .contact p {
 .view_mesg .bar {
     text-transform: none;
     padding: 0 0 0 0.3rem;
-    height: 70px;
+    height: 4.375rem;
     display: inline-flex;
     -ms-grid-rows: auto;
     grid-template-rows: auto;
-    -ms-grid-columns: 60px auto auto;
-    grid-template-columns: 60px auto auto;
+    -ms-grid-columns: 3.75rem auto auto;
+    grid-template-columns: 3.75rem auto auto;
     align-items: center;
 }
 
@@ -782,7 +786,7 @@ footer .contact p {
 
 .view_mesg .bar img,
 .view_mesg .bar #prof {
-    margin-right: 5px;
+    margin-right: 0.3125rem;
     fill: rgb(173, 172, 172);
     width: 3.5rem;
     height: 3.5rem;
@@ -826,8 +830,8 @@ footer .contact p {
     display: flex;
     flex-direction: column;
     max-height: 50vh;
-    box-shadow: 0px 0px 6px 0px var(--shadow_color);
-    border-radius: 5px;
+    box-shadow: 0.0rem 0.0rem 0.375rem 0.0rem var(--shadow_color);
+    border-radius: 0.3125rem;
     padding: 0rem 1rem 1rem 1rem;
     background-color: var(--background_color);
     margin: 6rem 0.5rem 0rem auto;
@@ -835,7 +839,7 @@ footer .contact p {
 }
 
 .view_mesg .result #result_list .space {
-    margin-top: 40px;
+    margin-top: 2.5rem;
     height: 0;
 
 }
@@ -855,7 +859,7 @@ footer .contact p {
     display: flex;
     background-color: var(--sent_background_color);
     margin-bottom: 0.4rem;
-    border-radius: 5px;
+    border-radius: 0.3125rem;
     list-style: none;
     /* border-bottom: 1px solid lightgrey; */
 }
@@ -882,7 +886,7 @@ footer .contact p {
     border-radius: 0;
     list-style: none;
     border-bottom: none;
-    height: 35px;
+    height: 2.1875rem;
     background-color: var(--background_color);
     width: 14rem;
     display: flex;
@@ -892,8 +896,8 @@ footer .contact p {
 }
 
 .view_mesg .result #view svg {
-    width: 15px;
-    height: 15px;
+    width: 0.9375rem;
+    height: 0.9375rem;
     fill: white;
 }
 
@@ -902,12 +906,12 @@ footer .contact p {
 }
 
 .view_mesg .result #view svg:hover {
-    width: 17px;
-    height: 17px
+    width: 1.0625rem;
+    height: 1.0625rem
 }
 
 .view_mesg .result #view {
-    border-top-right-radius: 5px;
+    border-top-right-radius: 0.3125rem;
     margin-left: 0;
     background-color: rgb(200, 50, 50);
     padding: 0rem 0.2rem;
@@ -922,7 +926,7 @@ footer .contact p {
 }
 
 .view_mesg .result #time {
-    margin-top: 5px;
+    margin-top: 0.3125rem;
     /* color: white; */
     display: flex;
     font-size: 0.75rem;
@@ -940,8 +944,8 @@ footer .contact p {
     align-items: center;
     justify-content: center;
     background-color: white;
-    width: 25px;
-    height: 25px;
+    width: 1.5625rem;
+    height: 1.5625rem;
     border-radius: 50%;
     float: right;
     margin-right: 1rem;
@@ -955,7 +959,7 @@ footer .contact p {
     white-space: nowrap;
     overflow: hidden;
     /* position: absolute; */
-    width: 200px;
+    width: 12.5rem;
     text-overflow: ellipsis;
     color: rgb(101, 100, 100);
     font-size: 0.8rem;
@@ -965,15 +969,15 @@ footer .contact p {
 .view_mesg #scroll_down svg,
 .view_mesg #media_files {
     fill: #656464;
-    width: 20px;
-    height: 20px;
+    width: 1.25rem;
+    height: 1.25rem;
 }
 
 
 .view_mesg #media_files:hover,
 .view_mesg #scroll_down svg:hover {
-    width: 22px;
-    height: 22px;
+    width: 1.375rem;
+    height: 1.375rem;
 }
 
 
@@ -986,7 +990,7 @@ footer .contact p {
     color: cadetblue;
     display: flex;
     justify-content: center;
-    padding: 1.5rem 0vh 10px 0vh;
+    padding: 1.5rem 0vh 0.625rem 0vh;
 }
 
 .view_mesg .message_list li {
@@ -1007,7 +1011,7 @@ footer .contact p {
 
 .view_mesg .message_list {
     z-index: 1;
-    margin-top: 50px;
+    margin-top: 3.125rem;
     padding: 1rem 1rem 0rem 1rem;
     display: flex;
     overflow-x: hidden;
@@ -1016,8 +1020,8 @@ footer .contact p {
 
 
 .view_mesg .message_list svg {
-    width: 15px;
-    height: 15px;
+    width: 0.9375rem;
+    height: 0.9375rem;
     fill: rgb(200, 50, 50);
 }
 
@@ -1026,8 +1030,8 @@ footer .contact p {
 }
 
 .view_mesg .message_list svg:hover {
-    width: 18px;
-    height: 18px;
+    width: 1.125rem;
+    height: 1.125rem;
 }
 
 .view_mesg .left {
@@ -1052,7 +1056,7 @@ footer .contact p {
     margin: 0.3rem;
     color: rgb(88, 72, 72);
     font-size: 0.8rem;
-    border-radius: 10px;
+    border-radius: 0.625rem;
     padding: 0.4rem;
     background-color: #d5d4d4;
     align-items: center;
@@ -1066,8 +1070,8 @@ footer .contact p {
 .view_mesg .media svg,
 .view_mesg .media svg:hover {
     padding-left: 0.3rem;
-    width: 30px;
-    height: 30px;
+    width: 1.875rem;
+    height: 1.875rem;
     fill: #656464;
 }
 
@@ -1076,10 +1080,10 @@ footer .contact p {
     justify-self: center;
     display: -ms-inline-grid;
     -ms-grid-column-align: center;
-    margin: 0.3rem;
+    /* margin: 0.3rem; */
     max-width: 40vw;
     width: 12.5rem;
-    border-radius: 10px;
+    border-radius: 0.625rem;
 }
 
 .view_mesg .media audio {
@@ -1089,20 +1093,50 @@ footer .contact p {
 }
 
 .view_mesg .media img {
-    width: 12.5rem;
-    max-width: 40vw;
-    border-radius: 10px;
+    /* width: 12.5rem; */
+    max-width: 35vw;
+    border-top-left-radius: 0.325rem;
+    border-top-right-radius: 0.325rem;
+}
+
+.view_mesg .vid,
+.view_media .vid {
+    position: relative;
+}
+
+.view_mesg .vid #vid,
+.view_media .vid #vid {
+    z-index: 1;
+    position: absolute;
+    top: 40%;
+    left: 40%;
+}
+
+.view_mesg .vid #vid svg,
+.view_media .vid #vid svg {
+    height: 1.875rem;
+    width: 1.875rem;
+    fill: white;
+}
+
+.view_mesg .vid #vid svg:active,
+.view_media .vid #vid svg:active {
+    transform: scale(0.9);
+}
+
+.view_mesg .vid img,
+.view_media .vid img {
+    filter: brightness(0.5);
 }
 
 .view_mesg .sent,
 .view_mesg .received {
     display: inline-flex;
     flex-direction: column;
-
     padding: 0.3rem;
-    border-radius: 5px;
+    border-radius: 0.625rem;
     width: fit-content;
-    margin-bottom: 10px;
+    margin-bottom: 0.625rem;
     font-size: 0.9rem;
     overflow: hidden;
 }
@@ -1120,7 +1154,7 @@ footer .contact p {
 
 
 .view_mesg .sent {
-    border: 1px solid var(--sent_background_color);
+    border: 0.0625rem solid var(--sent_background_color);
     color: white;
     background-color: var(--sent_background_color);
     margin-left: auto;
@@ -1129,7 +1163,7 @@ footer .contact p {
 .view_mesg .sent:hover {
     cursor: pointer;
     /* background-color: rgb(30, 180, 180); */
-    border: 3px solid var(--sent_background_color);
+    border: 0.1875rem solid var(--sent_background_color);
 }
 
 .view_mesg .sent:hover .del,
@@ -1146,7 +1180,7 @@ footer .contact p {
 
 .view_mesg .sent .del,
 .view_mesg .received .del {
-    padding-top: 1px;
+    padding-top: 0.0625rem;
     display: none;
     font-size: 0.7rem;
     font-weight: 400;
@@ -1154,18 +1188,18 @@ footer .contact p {
 }
 
 .view_mesg .sent .del a {
-    padding-left: 2px;
+    padding-left: 0.125rem;
     margin-left: auto;
 }
 
 .view_mesg .received {
-    border: 1px solid var(--receive_background_color);
+    border: 0.0625rem solid var(--receive_background_color);
     color: var(--black);
     background-color: var(--receive_background_color);
 }
 
 .view_mesg .received:hover {
-    border: 3px solid var(--receive_background_color);
+    border: 0.1875rem solid var(--receive_background_color);
     cursor: pointer;
     /* background-color: rgb(214, 213, 213); */
 }
@@ -1176,26 +1210,32 @@ footer .contact p {
 }
 
 .view_mesg .media_names {
+    display: grid;
     width: 100%;
     bottom: 5rem;
     position: fixed;
 }
 
+.view_mesg .media_names .loading {
+    justify-self: center;
+    transform: scale(0.25);
+}
+
 .view_mesg .media_names #media_names {
-    padding: 10px 0;
+    padding: 0.625rem 0;
     display: flex;
     overflow: scroll;
 }
 
 
 .view_mesg .media_names li {
-    margin-left: 10px;
+    margin-left: 0.625rem;
     list-style: none;
 }
 
 
 .view_mesg .media_names #clear {
-    padding: 1px;
+    padding: 0.0625rem;
     display: flex;
     transition: all 0.3s;
     display: flex;
@@ -1213,8 +1253,8 @@ footer .contact p {
 }
 
 .view_mesg .media_names #clear svg {
-    height: 15px;
-    width: 15px;
+    height: 0.9375rem;
+    width: 0.9375rem;
     fill: white;
 }
 
@@ -1224,8 +1264,8 @@ footer .contact p {
     /* text-wrap: nowrap; */
     display: flex;
     flex-direction: column;
-    box-shadow: 0px 0px 6px 0px var(--shadow_color);
-    border-radius: 5px;
+    box-shadow: 0.0rem 0.0rem 0.375rem 0.0rem var(--shadow_color);
+    border-radius: 0.3125rem;
     padding: 0.5rem;
     background-color: var(--background_color);
 }
@@ -1236,7 +1276,7 @@ footer .contact p {
 }
 
 .view_mesg .media_names #date {
-    margin-top: 5px;
+    margin-top: 0.3125rem;
     margin-left: auto;
     font-size: 0.75rem;
     color: darkcyan;
@@ -1247,10 +1287,10 @@ footer .contact p {
 }
 
 .view_mesg #find {
-    width: 20px;
+    width: 1.25rem;
     position: relative;
-    height: 20px;
-    bottom: 180px;
+    height: 1.25rem;
+    bottom: 11.25rem;
 }
 
 .view_mesg .space_buttom {
@@ -1258,19 +1298,19 @@ footer .contact p {
 }
 
 .view_mesg .error {
-    margin-bottom: 60px;
+    margin-bottom: 3.75rem;
 }
 
 .view_mesg #media_names .errorlist {
     /* animation: popin 0.5s ease-in forwards; */
     display: none;
-    border-radius: 3px;
+    border-radius: 0.1875rem;
     padding: 0.2rem;
     background-color: rgb(179 177 177 / 15%);
 }
 
 .view_mesg #media_names .red {
-    box-shadow: 0px 0px 6px 1px rgb(200, 50, 50);
+    box-shadow: 0.0rem 0.0rem 0.375rem 0.0625rem rgb(200, 50, 50);
 }
 
 .view_mesg #media_names .file:hover .errorlist {
@@ -1279,7 +1319,7 @@ footer .contact p {
 
 .view_mesg .errorlist {
     flex-direction: column;
-    margin-top: 0px;
+    margin-top: 0.0rem;
     padding: 0;
     /* align-items: center; */
     display: flex;
@@ -1289,7 +1329,7 @@ footer .contact p {
 .view_mesg .errorlist li {
     width: auto;
     /* text-align: center; */
-    padding-bottom: 3px;
+    padding-bottom: 0.1875rem;
     font-size: 0.8rem;
     list-style: disc;
     color: rgb(200, 50, 50);
@@ -1300,7 +1340,7 @@ footer .contact p {
     background-color: var(--background_color);
     position: fixed;
     padding: 2vh 1rem 2vh;
-    bottom: 0px;
+    bottom: 0.0rem;
     margin-top: 2vh;
     width: 100%;
     padding-right: 1rem;
@@ -1310,7 +1350,7 @@ footer .contact p {
 
 .view_mesg #msg_form .text {
     /* border-left: 2px solid rgb(101, 100, 100); */
-    height: 34px;
+    height: 2.125rem;
     /* border-top-right-radius: 0px; */
     margin-left: auto;
     /* grid-column: 1; */
@@ -1324,7 +1364,7 @@ footer .contact p {
 }
 
 .view_mesg #msg_form button {
-    border-radius: 5px;
+    border-radius: 0.3125rem;
     border: none;
     background: none;
     align-self: center;
@@ -1352,7 +1392,7 @@ footer .contact p {
 .view_mesg #msg_form textarea {
     color: var(--black);
     border: none;
-    border-radius: 20px;
+    border-radius: 1.25rem;
     background-color: var(--shadow_color);
     padding: 0.5rem;
     height: 2.2rem;
@@ -1369,8 +1409,8 @@ footer .contact p {
 .view_mesg #msg_form svg,
 .view_mesg .result #close svg {
     cursor: pointer;
-    width: 30px;
-    height: 30px;
+    width: 1.875rem;
+    height: 1.875rem;
     fill: rgb(200, 50, 50);
     fill: var(--default_color);
 }
@@ -1383,14 +1423,14 @@ footer .contact p {
 }
 
 .view_mesg .result #close svg:hover {
-    width: 22px;
-    height: 22px
+    width: 1.375rem;
+    height: 1.375rem
 }
 
 .view_mesg #msg_form .bottom {
-    margin-top: 133px;
+    margin-top: 8.3125rem;
     display: flex;
-    height: 40px;
+    height: 2.5rem;
 }
 
 .view_mesg #bottom {
@@ -1410,8 +1450,8 @@ footer .contact p {
     background-color: rgb(113, 113, 113);
     color: white;
     font-size: 0.8rem;
-    padding: 5px;
-    border-radius: 5px;
+    padding: 0.3125rem;
+    border-radius: 0.3125rem;
 }
 
 
@@ -1419,15 +1459,15 @@ footer .contact p {
 
 .view_media #arrow {
 
-    margin-right: 5px;
-    width: 20px;
-    height: 20px;
+    margin-right: 0.3125rem;
+    width: 1.25rem;
+    height: 1.25rem;
     fill: rgb(173, 172, 172);
 }
 
 .view_media #arrow:hover {
-    width: 22px;
-    height: 22px;
+    width: 1.375rem;
+    height: 1.375rem;
 }
 
 .view_media #arrow:active {
@@ -1449,7 +1489,7 @@ footer .contact p {
     display: flex;
     overflow-y: hidden;
     overflow-x: scroll;
-    height: 200px;
+    height: 12.5rem;
 }
 
 
@@ -1469,22 +1509,22 @@ footer .contact p {
 
 .view_media ul::before {
     content: "";
-    width: 30px;
+    width: 1.875rem;
 }
 
 .view_media .img_card,
 .view_media .video_card,
 .view_media .audio_card,
 .view_media .doc_card {
-    padding: 0px;
+    padding: 0.0rem;
     margin-right: 0.7rem;
-    height: 180px;
-    border-radius: 10px;
+    height: 11.25rem;
+    border-radius: 0.625rem;
     color: white;
     background-color: black;
     display: inline-block;
     font-size: 0.7rem;
-    box-shadow: 0px 0px 8px 0px var(--shadow_color);
+    box-shadow: 0.0rem 0.0rem 0.5rem 0.0rem var(--shadow_color);
 }
 
 
@@ -1492,7 +1532,7 @@ footer .contact p {
 .view_media .video_card:hover,
 .view_media .audio_card:hover,
 .view_media .doc_card:hover {
-    padding: 5px;
+    padding: 0.3125rem;
     cursor: pointer;
 }
 
@@ -1504,22 +1544,22 @@ footer .contact p {
 
 .view_media #thumbnail {
 
-    width: 100px;
-    height: 100px;
+    width: 6.25rem;
+    height: 6.25rem;
     fill: rgb(226, 226, 226);
     fill: rgb(111 111 111 / 15%);
 }
 
 
 .view_media audio {
-    margin-inline: 10px;
+    margin-inline: 0.625rem;
     display: block;
-    height: 30px;
-    width: 250px;
+    height: 1.875rem;
+    width: 15.625rem;
 }
 
 .view_media .card_bottom {
-    padding-left: 5px;
+    padding-left: 0.3125rem;
     align-items: center;
     /* height: 30px; */
     display: flex;
@@ -1531,15 +1571,15 @@ footer .contact p {
 }
 
 .view_media #eye {
-    margin: 5px 5px 0 0;
-    width: 20px;
-    height: 20px;
+    margin: 0.3125rem 0.3125rem 0 0;
+    width: 1.25rem;
+    height: 1.25rem;
     fill: white;
 }
 
 .view_media #eye:hover {
-    width: 22px;
-    height: 22px;
+    width: 1.375rem;
+    height: 1.375rem;
 }
 
 .view_media #eye:active {
@@ -1547,7 +1587,7 @@ footer .contact p {
 }
 
 .view_media .img p {
-    padding: 5px;
+    padding: 0.3125rem;
     font-family: "Electrolize", sans-serif;
     font-weight: 600;
     font-size: 1rem;
@@ -1564,10 +1604,10 @@ footer .contact p {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 140px;
-    border-radius: 5px;
-    border-bottom-left-radius: 0px;
-    border-bottom-right-radius: 0px;
+    height: 8.75rem;
+    border-radius: 0.3125rem;
+    border-bottom-left-radius: 0.0rem;
+    border-bottom-right-radius: 0.0rem;
 }
 
 .view_media .img:hover {
@@ -1614,22 +1654,22 @@ footer .contact p {
 .select_mem .search_form .search {
     background-color: var(--background_color);
     color: var(--black);
-    width: 100px;
-    height: 25px;
+    width: 6.25rem;
+    height: 1.5625rem;
     padding: 0.5rem;
-    border: 1.5px solid rgb(200, 50, 50);
-    border-radius: 10px;
+    border: 0.09375rem solid rgb(200, 50, 50);
+    border-radius: 0.625rem;
 }
 
 .people .form .search:focus,
 .select_mem .search_form .search:focus {
     outline: none;
-    height: 30px;
-    border: 2px solid rgb(55, 205, 205);
+    height: 1.875rem;
+    border: 0.125rem solid rgb(55, 205, 205);
 }
 
 .people ul {
-    margin: 0px 1rem 0px 1rem;
+    margin: 0.0rem 1rem 0.0rem 1rem;
 }
 
 .people li {
@@ -1637,14 +1677,14 @@ footer .contact p {
     align-content: center;
     display: -ms-grid;
     display: grid;
-    -ms-grid-columns: 60px 1fr;
-    grid-template-columns: 60px auto;
+    -ms-grid-columns: 3.75rem 1fr;
+    grid-template-columns: 3.75rem auto;
     -ms-grid-rows: 2fr 2fr 3fr;
     grid-template-rows: auto auto auto auto auto;
     align-items: center;
-    height: 100px;
-    border-radius: 5px;
-    box-shadow: 0px 0px 8px 0px var(--shadow_color);
+    height: 6.25rem;
+    border-radius: 0.3125rem;
+    box-shadow: 0.0rem 0.0rem 0.5rem 0.0rem var(--shadow_color);
     margin-bottom: 1rem;
     list-style: none;
     padding-bottom: 1rem;
@@ -1652,7 +1692,7 @@ footer .contact p {
 }
 
 .people li>* {
-    min-width: 0px;
+    min-width: 0.0rem;
 }
 
 .people li #prof {
@@ -1667,16 +1707,16 @@ footer .contact p {
 
 .people li img {
     object-fit: cover;
-    height: 50px;
-    width: 50px;
+    height: 3.125rem;
+    width: 3.125rem;
     border-radius: 50%;
 }
 
 .people li svg {
     border-radius: 50%;
     grid-row: 1 / span 4;
-    height: 45px;
-    width: 45px;
+    height: 2.813rem;
+    width: 2.813rem;
     fill: rgb(173, 172, 172);
 }
 
@@ -1684,7 +1724,7 @@ footer .contact p {
 .profile .people li:hover {
     cursor: pointer;
     background-image: linear-gradient(to right, var(--gradient_start), var(--gradient_stop));
-    box-shadow: 0px 0px 8px 2px var(--shadow_color);
+    box-shadow: 0.0rem 0.0rem 0.5rem 0.125rem var(--shadow_color);
 }
 
 .people a {
@@ -1730,15 +1770,15 @@ footer .contact p {
 .people .for svg,
 .people #remove svg {
     fill: rgb(200, 50, 50);
-    width: 18px;
-    height: 18px;
+    width: 1.125rem;
+    height: 1.125rem;
 }
 
 .people .fo_r svg:hover,
 .people .for svg:hover,
 .people #remove svg:hover {
-    width: 20px;
-    height: 20px;
+    width: 1.25rem;
+    height: 1.25rem;
 }
 
 .people .fo_r svg:active,
@@ -1751,24 +1791,24 @@ footer .contact p {
 .select_mem .search_form button,
 .select_mem form button {
     border: none;
-    width: 30px;
-    height: 30px;
+    width: 1.875rem;
+    height: 1.875rem;
     background: none;
 }
 
 .people .form svg,
 .select_mem .search_form svg {
     fill: rgb(188, 186, 186);
-    width: 18px;
-    height: 18px;
+    width: 1.125rem;
+    height: 1.125rem;
 
 }
 
 .people .form svg:hover,
 .select_mem .search_form svg:hover {
     cursor: pointer;
-    width: 21px;
-    height: 21px;
+    width: 1.3125rem;
+    height: 1.3125rem;
 
 }
 
@@ -1831,8 +1871,8 @@ footer .contact p {
 
 .profile .bar svg {
     fill: white;
-    height: 20px;
-    width: 20px;
+    height: 1.25rem;
+    width: 1.25rem;
 }
 
 .profile .bar #username {
@@ -1849,7 +1889,7 @@ footer .contact p {
 
 .profile .bar a {
     display: inline-flex;
-    margin: 10px;
+    margin: 0.625rem;
     text-decoration: none;
     font-size: 0.8rem;
     color: rgb(117, 117, 117);
@@ -1865,8 +1905,8 @@ footer .contact p {
 
 .profile .bar svg:hover {
     fill: rgb(173, 172, 172);
-    height: 22px;
-    width: 22px;
+    height: 1.375rem;
+    width: 1.375rem;
 }
 
 .profile .bar #edit {
@@ -1885,7 +1925,7 @@ footer .contact p {
 
 .pro_space {
     width: 100%;
-    height: 79px;
+    height: 4.9375rem;
 }
 
 .profile .background,
@@ -1904,8 +1944,8 @@ footer .contact p {
 
 .profile .background a,
 .profile .background section {
-    border-bottom-right-radius: 80px;
-    border-bottom-left-radius: 80px;
+    border-bottom-right-radius: 5.0rem;
+    border-bottom-left-radius: 5.0rem;
     width: inherit;
     height: inherit;
 }
@@ -1920,7 +1960,7 @@ footer .contact p {
     display: inline-flex;
     font-size: 0.9rem;
     color: darkcyan;
-    border-bottom: 1.5px dashed lightgray;
+    border-bottom: 0.09375rem dashed lightgray;
 }
 
 .profile .prof_card {
@@ -1928,13 +1968,13 @@ footer .contact p {
     display: flex;
     justify-content: center;
     position: relative;
-    bottom: 95px;
+    bottom: 5.9375rem;
 }
 
 .profile .cl_profile {
     border-radius: 50%;
-    width: 150px;
-    height: 150px;
+    width: 9.375rem;
+    height: 9.375rem;
     background-color: #f5f6f6;
     background-position: center;
     background-size: cover;
@@ -1951,16 +1991,16 @@ footer .contact p {
     justify-content: space-around;
     display: flex;
     position: relative;
-    bottom: 120px;
+    bottom: 7.5rem;
     flex-wrap: wrap;
 }
 
 .profile .info>* {
-    flex-basis: 400px;
+    flex-basis: 25.0rem;
     margin: 1rem;
-    border-radius: 5px;
+    border-radius: 0.3125rem;
     padding: 0.5rem;
-    box-shadow: 0px 0px 6px 0px var(--shadow_color);
+    box-shadow: 0.0rem 0.0rem 0.375rem 0.0rem var(--shadow_color);
 }
 
 .profile .info>*>* {
@@ -1976,20 +2016,20 @@ footer .contact p {
 
 .profile .info .request svg {
     fill: rgb(200, 50, 50);
-    width: 18px;
-    height: 18px;
+    width: 1.125rem;
+    height: 1.125rem;
 }
 
 .profile .info .request svg:hover {
-    width: 20px;
-    height: 20px;
+    width: 1.25rem;
+    height: 1.25rem;
 }
 
 .profile .info .request section {
     background-color: var(--gradient_start);
-    padding: 4px;
+    padding: 0.25rem;
     align-items: center;
-    border-radius: 5px;
+    border-radius: 0.3125rem;
     display: flex;
 }
 
@@ -2010,7 +2050,7 @@ footer .contact p {
 }
 
 .profile .add p {
-    padding: 0px
+    padding: 0.0rem
 }
 
 .profile .add p:hover {
@@ -2023,8 +2063,8 @@ footer .contact p {
 }
 
 .profile .add svg {
-    width: 15px;
-    height: 15px;
+    width: 0.9375rem;
+    height: 0.9375rem;
 }
 
 .profile .email {
@@ -2053,7 +2093,7 @@ footer .contact p {
 .profile .people {
     justify-content: space-around;
     position: relative;
-    top: -100px;
+    top: -6.25rem;
     display: flex;
     flex-wrap: wrap;
 }
@@ -2064,7 +2104,7 @@ footer .contact p {
 
 .profile .people>* {
     margin: 1rem;
-    flex-basis: 325px;
+    flex-basis: 20.3125rem;
     padding: 0.2rem;
 }
 
@@ -2075,19 +2115,19 @@ footer .contact p {
 .profile .people li {
     -ms-grid-rows: auto auto auto auto auto;
     height: auto;
-    padding: 5px;
-    border-radius: 5px;
+    padding: 0.3125rem;
+    border-radius: 0.3125rem;
     margin-bottom: 1rem;
     border: none;
-    box-shadow: 0px 0px 6px 0px var(--shadow_color);
+    box-shadow: 0.0rem 0.0rem 0.375rem 0.0rem var(--shadow_color);
 }
 
 .profile .people .creator {
-    box-shadow: 0px 0px 6px 0px green;
+    box-shadow: 0.0rem 0.0rem 0.375rem 0.0rem green;
 }
 
 .profile .people .creator:hover {
-    box-shadow: 0px 0px 6px 2px green;
+    box-shadow: 0.0rem 0.0rem 0.375rem 0.125rem green;
 }
 
 .profile .people #a2 {
@@ -2133,16 +2173,16 @@ footer .contact p {
     -ms-grid-row: 1;
     display: -ms-inline-grid;
     grid-row: 1 /span 4;
-    width: 50px;
-    height: 50px;
+    width: 3.125rem;
+    height: 3.125rem;
     border-radius: 50%;
     fill: rgb(173, 172, 172);
 }
 
 
 .fri_req .request {
-    box-shadow: 0px 0px 6px 0px var(--shadow_color);
-    border-radius: 5px;
+    box-shadow: 0.0rem 0.0rem 0.375rem 0.0rem var(--shadow_color);
+    border-radius: 0.3125rem;
     margin-bottom: 1rem;
     align-items: center;
     display: flex;
@@ -2151,12 +2191,12 @@ footer .contact p {
 
 .fri_req .request:hover {
     background-image: linear-gradient(to right, var(--gradient_start), var(--gradient_stop));
-    box-shadow: 0px 0px 8px 2px var(--shadow_color);
+    box-shadow: 0.0rem 0.0rem 0.5rem 0.125rem var(--shadow_color);
 }
 
 
 .fri_req .request #p a {
-    margin-bottom: 5px;
+    margin-bottom: 0.3125rem;
     z-index: 1;
     text-decoration: none;
     font-weight: 300;
@@ -2180,8 +2220,8 @@ footer .contact p {
 }
 
 .fri_req .sent svg {
-    width: 20px;
-    height: 20px;
+    width: 1.25rem;
+    height: 1.25rem;
     fill: rgb(200, 50, 50);
 }
 
@@ -2193,14 +2233,14 @@ footer .contact p {
 }
 
 .fri_req #green p {
-    margin-bottom: 0px;
+    margin-bottom: 0.0rem;
 }
 
 .fri_req #green svg {
-    margin-left: 3px;
+    margin-left: 0.1875rem;
     fill: green;
-    width: 20px;
-    height: 20px;
+    width: 1.25rem;
+    height: 1.25rem;
 }
 
 .fri_req .request #p {
@@ -2217,7 +2257,7 @@ footer .contact p {
 }
 
 .fri_req .request p {
-    margin-bottom: 5px;
+    margin-bottom: 0.3125rem;
 }
 
 .fri_req .butns {
@@ -2232,26 +2272,26 @@ footer .contact p {
 
 .fri_req .request .butns svg {
     fill: white;
-    width: 15px;
-    height: 15px;
+    width: 0.9375rem;
+    height: 0.9375rem;
 }
 
 .fri_req .request button {
     z-index: 1;
-    padding: 2px 12px;
-    border-radius: 5px;
+    padding: 0.125rem 0.75rem;
+    border-radius: 0.3125rem;
     color: white;
 }
 
 .fri_req .request .accept {
 
-    border: 1px solid rgb(55, 205, 205);
+    border: 0.0625rem solid rgb(55, 205, 205);
     background-color: rgb(55, 205, 205);
 }
 
 .fri_req .request .accept:hover {
     cursor: pointer;
-    border: 2px solid rgb(238, 238, 238);
+    border: 0.125rem solid rgb(238, 238, 238);
 }
 
 .fri_req .request .accept:active {
@@ -2259,9 +2299,9 @@ footer .contact p {
 }
 
 .fri_req .request .decline {
-    margin-left: 20px;
+    margin-left: 1.25rem;
 
-    border: 1px solid rgb(200, 50, 50);
+    border: 0.0625rem solid rgb(200, 50, 50);
     background-color: rgb(200, 50, 50);
 }
 
@@ -2271,19 +2311,19 @@ footer .contact p {
 
 .fri_req .request .decline:hover {
     cursor: pointer;
-    border: 2px solid rgb(238, 238, 238);
+    border: 0.125rem solid rgb(238, 238, 238);
 }
 
 
 /* FRIENDS */
 
 .friends .people {
-    margin-left: 0px;
-    margin-right: 0px;
+    margin-left: 0.0rem;
+    margin-right: 0.0rem;
 }
 
 .friends .people ul {
-    margin-top: 0px;
+    margin-top: 0.0rem;
 }
 
 .friends .people li {
@@ -2313,20 +2353,20 @@ footer .contact p {
     padding: 1rem;
     margin-bottom: 1rem;
     width: 100%;
-    height: 80px;
-    border-radius: 5px;
-    box-shadow: 0px 0px 6px 0px var(--shadow_color);
+    height: 5.0rem;
+    border-radius: 0.3125rem;
+    box-shadow: 0.0rem 0.0rem 0.375rem 0.0rem var(--shadow_color);
     display: flex;
     align-items: center;
 }
 
 .settings .edit_prof:hover {
     background-image: linear-gradient(to right, var(--gradient_start), var(--gradient_stop));
-    box-shadow: 0px 0px 8px 2px var(--shadow_color);
+    box-shadow: 0.0rem 0.0rem 0.5rem 0.125rem var(--shadow_color);
 }
 
 .settings a {
-    padding: 25px 0px;
+    padding: 1.5625rem 0.0rem;
     width: 100%;
     text-decoration: none;
 }
@@ -2337,14 +2377,14 @@ footer .contact p {
 
 .settings svg {
 
-    width: 20px;
-    height: 20px;
+    width: 1.25rem;
+    height: 1.25rem;
     fill: rgb(138, 138, 138);
 }
 
 .settings svg:hover {
-    width: 23px;
-    height: 23px;
+    width: 1.4375rem;
+    height: 1.4375rem;
     fill: rgb(117, 117, 117);
 }
 
@@ -2377,7 +2417,7 @@ footer .contact p {
     background-color: var(--dark);
     border-radius: 1.56rem;
     cursor: pointer;
-    border: 3px solid var(--dark);
+    border: 0.1875rem solid var(--dark);
 }
 
 .settings .checkbox {
@@ -2406,8 +2446,8 @@ footer .contact p {
     width: 1.25rem;
     height: 1.25rem;
     border-radius: 50%;
-    -webkit-box-shadow: inset 12px -4px 0px 0px var(--light);
-    box-shadow: inset 12px -4px 0px 0px var(--light);
+    -webkit-box-shadow: inset 0.75rem -0.25rem 0.0rem 0.0rem var(--light);
+    box-shadow: inset 0.75rem -0.25rem 0.0rem 0.0rem var(--light);
     background-color: var(--dark);
     -webkit-transition: 0.3s;
     transition: 0.3s;
@@ -2433,20 +2473,20 @@ footer .contact p {
 
 .edit_profile .profile_picture img,
 .edit_profile .profile_picture svg {
-    width: 100px;
-    height: 100px;
+    width: 6.25rem;
+    height: 6.25rem;
     fill: rgb(173, 172, 172);
     border-radius: 50%;
 }
 
 .edit_profile .profile_picture input,
 .edit_profile .profile_picture input:focus {
-    width: 92px;
+    width: 5.75rem;
     border: none;
 }
 
 .edit_profile .pro_space {
-    height: 80px;
+    height: 5.0rem;
 }
 
 .edit_profile .test {
@@ -2454,14 +2494,14 @@ footer .contact p {
 }
 
 .edit_profile .test svg {
-    width: 100px;
-    height: 100px;
+    width: 6.25rem;
+    height: 6.25rem;
     fill: rgb(173, 172, 172);
 }
 
 .edit_profile .field svg {
-    width: 50px;
-    height: 50px;
+    width: 3.125rem;
+    height: 3.125rem;
     fill: rgb(173, 172, 172);
 }
 
@@ -2472,12 +2512,12 @@ footer .contact p {
 .edit_profile .clear p {
     color: var(--black);
     font-size: 0.8rem;
-    margin-right: 3px;
+    margin-right: 0.1875rem;
 }
 
 .edit_profile #prof_pics-clear_id {
-    width: 15px;
-    height: 15px;
+    width: 0.9375rem;
+    height: 0.9375rem;
 }
 
 .edit_profile .name {
@@ -2491,7 +2531,7 @@ footer .contact p {
 .edit_pass label {
     color: rgb(200, 50, 50);
     /* font-weight: 600; */
-    padding-bottom: 10px;
+    padding-bottom: 0.625rem;
 }
 
 .edit_pass .field {
@@ -2519,10 +2559,10 @@ footer .contact p {
 }
 
 .edit_pass .error svg {
-    width: 10px;
-    height: 10px;
+    width: 0.625rem;
+    height: 0.625rem;
     fill: rgb(200, 50, 50);
-    margin-right: 3px;
+    margin-right: 0.1875rem;
 }
 
 .edit_pass .help_text ul li,
@@ -2574,8 +2614,8 @@ footer .contact p {
     align-items: center;
     background-color: rgb(250, 250, 250);
     padding: 1rem;
-    border-radius: 10px;
-    border: 2px solid rgb(238, 238, 238);
+    border-radius: 0.625rem;
+    border: 0.125rem solid rgb(238, 238, 238);
     /* box-shadow: 4px 4px 12px rgb(200 200 200); */
 }
 
@@ -2586,14 +2626,14 @@ footer .contact p {
     align-self: flex-start;
     color: white;
     background-color: green;
-    border: 1px solid green;
-    border-radius: 5px;
+    border: 0.0625rem solid green;
+    border-radius: 0.3125rem;
 }
 
 .login button:hover,
 .edit_pass button:hover {
     background-color: rgb(30, 180, 180);
-    border: 2px solid rgb(30, 180, 180);
+    border: 0.125rem solid rgb(30, 180, 180);
     cursor: pointer;
 }
 
@@ -2602,35 +2642,35 @@ footer .contact p {
     /* font-weight: 600; */
     color: rgb(200, 50, 50);
     /* color: black; */
-    padding: 5px 0px;
+    padding: 0.3125rem 0.0rem;
 }
 
 .login h3 {
     text-align: center;
     color: darkcyan;
-    margin-bottom: 30px;
+    margin-bottom: 1.875rem;
     font-weight: 600;
 
 }
 
 .login input,
 .edit_pass input {
-    padding: 4px;
-    border-radius: 5px;
+    padding: 0.25rem;
+    border-radius: 0.3125rem;
 
-    height: 25px;
+    height: 1.5625rem;
     color: rgb(111, 111, 111);
     background: none;
     /* border: none; */
-    border: 1.5px solid rgb(173, 172, 172);
+    border: 0.09375rem solid rgb(173, 172, 172);
 }
 
 .login input:focus,
 .edit_pass input:focus {
-    height: 33px;
+    height: 2.0625rem;
     outline: none;
     /* border: none; */
-    border: 2px solid rgb(55, 205, 205);
+    border: 0.125rem solid rgb(55, 205, 205);
 }
 
 .login ul li {
@@ -2641,7 +2681,7 @@ footer .contact p {
 }
 
 .login #forgot {
-    padding-top: 10px;
+    padding-top: 0.625rem;
     color: rgb(200, 50, 50);
     font-size: 0.8rem;
     margin-left: auto;
@@ -2678,8 +2718,8 @@ footer .contact p {
 }
 
 .pass_reset .check svg {
-    width: 30px;
-    height: 30px;
+    width: 1.875rem;
+    height: 1.875rem;
     fill: green;
 }
 
@@ -2702,16 +2742,16 @@ footer .contact p {
 
 .pass_reset #cancel {
     margin-left: auto;
-    border: 1.5px solid rgb(200, 50, 50);
-    padding: 4px;
+    border: 0.09375rem solid rgb(200, 50, 50);
+    padding: 0.25rem;
     color: rgb(200, 50, 50);
     text-decoration: none;
-    border-radius: 5px;
+    border-radius: 0.3125rem;
 }
 
 .pass_reset #cancel:hover {
-    border: 2px solid rgb(200, 50, 50);
-    padding: 4px;
+    border: 0.125rem solid rgb(200, 50, 50);
+    padding: 0.25rem;
     color: rgb(200, 50, 50);
 }
 
@@ -2720,7 +2760,7 @@ footer .contact p {
 }
 
 .pass_reset .title {
-    margin-bottom: 10px;
+    margin-bottom: 0.625rem;
     font-size: 1.5rem;
     font-weight: 600;
     color: rgb(200, 50, 50);
@@ -2738,14 +2778,14 @@ footer .contact p {
 }
 
 .select_mem #back svg {
-    width: 20px;
-    height: 20px;
+    width: 1.25rem;
+    height: 1.25rem;
     fill: rgb(117, 117, 117);
 }
 
 .select_mem #back svg:hover {
-    width: 24px;
-    height: 24px;
+    width: 1.5rem;
+    height: 1.5rem;
 }
 
 .select_mem #back svg:active {
@@ -2763,19 +2803,19 @@ footer .contact p {
 .select_mem h4 {
     display: inline-flex;
     color: darkcyan;
-    border-bottom: 2px darkgrey dashed;
+    border-bottom: 0.125rem darkgrey dashed;
     margin-bottom: 0.5rem;
 }
 
 .select_mem .form_card>* {
     margin: 1rem;
-    flex-basis: 325px;
+    flex-basis: 20.3125rem;
 }
 
 .select_mem .field {
-    border-radius: 5px;
-    padding: 10px;
-    box-shadow: 0px 0px 6px 0px var(--shadow_color);
+    border-radius: 0.3125rem;
+    padding: 0.625rem;
+    box-shadow: 0.0rem 0.0rem 0.375rem 0.0rem var(--shadow_color);
     align-items: center;
     display: flex;
     margin-bottom: 1rem;
@@ -2787,11 +2827,11 @@ footer .contact p {
 }
 
 .select_mem #prof {
-    margin-right: 5px;
+    margin-right: 0.3125rem;
     display: flex;
     fill: rgb(175, 175, 175);
-    width: 50px;
-    height: 50px;
+    width: 3.125rem;
+    height: 3.125rem;
     border-radius: 50%;
 }
 
@@ -2832,13 +2872,13 @@ footer .contact p {
 }
 
 .select_mem #plus svg {
-    width: 23px;
-    height: 23px;
+    width: 1.4375rem;
+    height: 1.4375rem;
 }
 
 .select_mem #plus svg:hover {
-    width: 25px;
-    height: 25px;
+    width: 1.5625rem;
+    height: 1.5625rem;
 }
 
 .select_mem #plus svg:active {
@@ -2893,16 +2933,16 @@ footer .contact p {
     align-items: center;
     display: flex;
     background-color: var(--gradient_start);
-    border: 1.5px solid var(--shadow_color);
-    border-radius: 5px;
+    border: 0.09375rem solid var(--shadow_color);
+    border-radius: 0.3125rem;
     padding: 1rem;
     color: darkcyan;
     text-align: center;
 }
 
 .page_error .error_card svg {
-    width: 30px;
-    height: 30px;
+    width: 1.875rem;
+    height: 1.875rem;
     fill: var(--default_color);
 }
 
