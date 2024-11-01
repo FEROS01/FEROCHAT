@@ -13,7 +13,9 @@
 
 ## Introduction
 <a name="introduction"></a>
-Welcome to the FEROCHAT Messenger App! This is a Django-based messaging application that allows users to send text, images, audio, videos, and various other types of files. It is designed to facilitate communication between individuals, helping them make friends, create chat groups, and stay connected.
+Checkout the live version <a href='https://feros.pythonanywhere.com'>here</a>
+
+Welcome to the FEROCHAT Messenger App! This is a Django-based messaging web application that allows users to send text, images, audio, videos, and various other types of files. It is designed to facilitate communication between individuals, helping them make friends, create chat groups, and stay connected.
 #### It should be noted that this project is still a work in progress and contributions are welcomed. Check [Contibuting](#contributing) for more infos :)
 
 ## Features
